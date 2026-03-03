@@ -20,18 +20,17 @@
 
                     <form method="POST">
                         {% csrf_token %}
-                            <!-- MESSAGE BLOCK START -->
-    {% if messages %}
-        {% for message in messages %}
+                          <!-- MESSAGE BLOCK START -->
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags != "success" %}
             {% if message.tags == "error" %}
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
             {% else %}
                 <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
             {% endif %}
 
-                {% if message.tags == "success" %}
-                    <i class="fas fa-check-circle me-2"></i>
-                {% elif message.tags == "error" %}
+                {% if message.tags == "error" %}
                     <i class="fas fa-times-circle me-2"></i>
                 {% elif message.tags == "warning" %}
                     <i class="fas fa-exclamation-triangle me-2"></i>
@@ -43,9 +42,10 @@
 
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
-        {% endfor %}
-    {% endif %}
-    <!-- MESSAGE BLOCK END -->
+        {% endif %}
+    {% endfor %}
+{% endif %}
+<!-- MESSAGE BLOCK END -->
                         <div class="auth-form-field">
                             <label class="form-label">Enrollment Number / Student ID</label>
                             <div class="input-group auth-input-group">

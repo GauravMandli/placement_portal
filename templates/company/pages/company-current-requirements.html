@@ -1,0 +1,99 @@
+{% extends "company/company_base.html" %}
+ {% load static %}
+ {% block content %}
+        <div>
+          <button class="mobile-menu-toggle" type="button" aria-label="Toggle menu">
+            <i class="fas fa-bars"></i>
+          </button>
+          <h1 class="d-inline ms-3 mb-0 fs-4 fw-bold">Current Requirements</h1>
+        </div>
+        <div class="user-profile">
+          <div class="text-end">
+            <strong>Tech Corp</strong><br>
+            <small class="text-muted">IT Services</small>
+          </div>
+          <div class="user-avatar">TC</div>
+        </div>
+      </div>
+
+      <div class="container-fluid py-4">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="mb-0"><i class="fas fa-briefcase me-2"></i>Current Requirements (Active)</h5>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover align-middle">
+                <thead>
+                  <tr>
+                    <th>Job Title</th>
+                    <th>Job Type</th>
+                    <th>Posted Date</th>
+                    <th>Applications</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Software Engineer</td>
+                    <td>Full Time</td>
+                    <td>15 Jan 2024</td>
+                    <td>15</td>
+                    <td><span class="badge bg-success">Active</span></td>
+                    <td>
+                      <button class="btn btn-sm btn-primary view-applied-students btn-hover-ripple"
+                              data-job-id="4" data-job-title="Software Engineer">
+                        View Applied Students
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Frontend Developer</td>
+                    <td>Full Time</td>
+                    <td>20 Jan 2024</td>
+                    <td>8</td>
+                    <td><span class="badge bg-success">Active</span></td>
+                    <td>
+                      <button class="btn btn-sm btn-primary view-applied-students btn-hover-ripple"
+                              data-job-id="5" data-job-title="Frontend Developer">
+                        View Applied Students
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Backend Developer</td>
+                    <td>Full Time</td>
+                    <td>18 Jan 2024</td>
+                    <td>12</td>
+                    <td><span class="badge bg-success">Active</span></td>
+                    <td>
+                      <button class="btn btn-sm btn-primary view-applied-students btn-hover-ripple"
+                              data-job-id="6" data-job-title="Backend Developer">
+                        View Applied Students
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Python Developer</td>
+                    <td>Full Time</td>
+                    <td>22 Jan 2024</td>
+                    <td>10</td>
+                    <td><span class="badge bg-success">Active</span></td>
+                    <td>
+                      <button class="btn btn-sm btn-primary view-applied-students btn-hover-ripple"
+                              data-job-id="7" data-job-title="Python Developer">
+                        View Applied Students
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+{% endblock %}

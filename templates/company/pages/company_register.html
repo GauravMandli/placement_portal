@@ -71,10 +71,10 @@
                                     <label class="form-label">Industry <span class="text-danger">*</span></label>
                                     <select name="industry" class="form-select" required>
                                         <option value="">Select industry</option>
-                                        <option value="IT" {% if old_data.industry == "IT" %}selected{% endif %}> >IT</option>
-                                        <option value="Software" {% if old_data.industry == "Software" %}selected{% endif %}> >Software</option>
-                                        <option value="Finance" {% if old_data.industry == "Finance" %}selected{% endif %}> >Finance</option>
-                                        <option value="Manufacturing" {% if old_data.industry == "Manufacturing" %}selected{% endif %}> >Manufacturing</option>
+                                        <option value="IT" {% if old_data.industry == "IT" %}selected{% endif %}> IT</option>
+                                        <option value="Software" {% if old_data.industry == "Software" %}selected{% endif %}> Software</option>
+                                        <option value="Finance" {% if old_data.industry == "Finance" %}selected{% endif %}> Finance</option>
+                                        <option value="Manufacturing" {% if old_data.industry == "Manufacturing" %}selected{% endif %}> Manufacturing</option>
                                     </select>
                                 </div>
 
@@ -106,11 +106,14 @@
                                 </div>
 
                                 <!-- MOVED HERE -->
+                                 
                                 <div class="mb-3">
                                     <label class="form-label">Address</label>
                                     <textarea name="address" value=" {{ old_data.address|default:'' }}" class="form-control" rows="3"></textarea>
                                 </div>
                             </div>
+
+                            
 
                             <!-- RIGHT SIDE -->
 
@@ -151,15 +154,38 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label class="form-label">Password <span class="text-danger">*</span></label>
-                                    <input type="password" name="password" class="form-control" required>
-                                </div>
+    <label class="form-label">
+        Password <span class="text-danger">*</span>
+    </label>
+
+    <div class="input-group">
+        <input type="password"
+               name="password"
+               class="form-control password-field"
+               required>
+
+        <span class="input-group-text password-toggle">
+            <i class="fa-solid fa-eye"></i>
+        </span>
+    </div>
+</div>
 
                                 <div class="mb-3">
-                                    <label class="form-label">Confirm Password <span
-                                            class="text-danger">*</span></label>
-                                    <input type="password" name="confirm_password" class="form-control" required>
-                                </div>
+    <label class="form-label">
+        Confirm Password <span class="text-danger">*</span>
+    </label>
+
+    <div class="input-group">
+        <input type="password"
+               name="confirm_password"
+               class="form-control password-field"
+               required>
+
+        <span class="input-group-text password-toggle">
+            <i class="fa-solid fa-eye"></i>
+        </span>
+    </div>
+</div>
                             </div>
 
 
@@ -189,15 +215,7 @@
 </div>
 
 
-    // document.getElementById('companyRegisterForm').addEventListener('submit', function (e) {
-    //     e.preventDefault();
-    //     if (validateForm('companyRegisterForm')) {
-    //         showToast('Registration submitted successfully! The placement cell will review your application.', 'success');
-    //         setTimeout(() => {
-    //             window.location.href = 'company-login.html';
-    //         }, 2000);
-    //     }
-    // });
+
 
 {% endblock %}
 

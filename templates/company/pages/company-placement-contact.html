@@ -1,0 +1,142 @@
+{% extends "company/company_base.html" %}
+ {% load static %}
+ {% block content %}
+        <div>
+          <button class="mobile-menu-toggle" type="button" aria-label="Toggle menu">
+            <i class="fas fa-bars"></i>
+          </button>
+          <h1 class="d-inline ms-3 mb-0 fs-4 fw-bold">Placement Cell Contact</h1>
+        </div>
+        <div class="user-profile">
+          <div class="text-end">
+            <strong>Tech Corp</strong><br>
+            <small class="text-muted">IT Services</small>
+          </div>
+          <div class="user-avatar">TC</div>
+        </div>
+      </div>
+
+      <div class="container-fluid py-4">
+        <div class="card mb-4">
+          <div class="card-header">
+            <h5 class="mb-0">
+              <i class="fas fa-address-card me-2"></i>Placement Cell Contact
+            </h5>
+          </div>
+          <div class="card-body">
+
+            <div class="row">
+              <div class="col-md-6 mb-4">
+                <h6 class="text-primary mb-3">
+                  <i class="fas fa-map-marker-alt me-2"></i>Address
+                </h6>
+                <p class="mb-0">
+                  Placement Cell Office<br>
+                  College Campus<br>
+                  City, State - 123456<br>
+                  India
+                </p>
+              </div>
+
+              <div class="col-md-6 mb-4">
+                <h6 class="text-primary mb-3">
+                  <i class="fas fa-phone me-2"></i>Phone
+                </h6>
+                <p class="mb-0">
+                  <strong>Office:</strong> +91 123 456 7890<br>
+                  <strong>Mobile:</strong> +91 98765 43210
+                </p>
+              </div>
+
+              <div class="col-md-6 mb-4">
+                <h6 class="text-primary mb-3">
+                  <i class="fas fa-envelope me-2"></i>Email
+                </h6>
+                <p class="mb-0">
+                  <strong>General:</strong> placement@college.edu<br>
+                  <strong>Students:</strong> students@placement.college.edu
+                </p>
+              </div>
+
+              <div class="col-md-6 mb-4">
+                <h6 class="text-primary mb-3">
+                  <i class="fas fa-clock me-2"></i>Office Hours
+                </h6>
+                <p class="mb-0">
+                  Monday – Friday: 9:00 AM – 5:00 PM<br>
+                  Saturday: 9:00 AM – 1:00 PM
+                </p>
+              </div>
+            </div>
+
+            <div class="row mt-4">
+              <div class="col-lg-8">
+                <div class="card">
+                  <div class="card-header">
+                    <h5 class="mb-0">
+                      <i class="fas fa-paper-plane me-2"></i>Send Message to Placement Cell
+                    </h5>
+                  </div>
+                  <div class="card-body">
+                    <form id="placementContactForm">
+                      <div class="row">
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">
+                            Your Name <span class="text-danger">*</span>
+                          </label>
+                          <input type="text" class="form-control" placeholder="Enter your name" required>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">
+                            Email Address <span class="text-danger">*</span>
+                          </label>
+                          <input type="email" class="form-control" placeholder="Enter your email" required>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">Phone Number</label>
+                          <input type="tel" class="form-control" placeholder="Enter your phone number">
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">
+                            Subject <span class="text-danger">*</span>
+                          </label>
+                          <select class="form-select" required>
+                            <option value="">Select subject</option>
+                            <option>Placement Query</option>
+                            <option>Interview Issue</option>
+                            <option>Company Related</option>
+                            <option>General Query</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">
+                          Message <span class="text-danger">*</span>
+                        </label>
+                        <textarea class="form-control" rows="4"
+                                  placeholder="Write your message..." required></textarea>
+                      </div>
+
+                      <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane me-2"></i>Send Message
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+{% endblock content %}
+

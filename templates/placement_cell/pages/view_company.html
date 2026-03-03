@@ -5,72 +5,103 @@
             <div id="page-view-companies" class="dashboard-page">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0"><i class="fas fa-building me-2"></i>View Companies</h5>
+                         <h5 class="mb-0"><i class="fas fa-user-graduate me-2"></i>View Companies</h5>
+                        
+                        <form method="GET" class="d-flex align-items-center gap-2">
+                                    <!-- 🔎 Search -->
                         <div class="input-group" style="width: 300px;">
-                            <input type="text" class="form-control form-control-sm" placeholder="Search companies..." id="companySearch">
-                            <button class="btn btn-outline-secondary btn-sm" type="button">
+                            
+                            <input type="text"
+                                name="search"
+                                value="{{ search_query }}"
+                                class="form-control form-control-sm"
+                                placeholder="Search Companies...">
+
+                            <button class="btn btn-outline-secondary btn-sm" type="submit">
                                 <i class="fas fa-search"></i>
                             </button>
                         </div>
                     </div>
+
+<form method="GET">
+<div class="filter-bar">
+    <div class="row align-items-center g-2">
+
+     <!--  Industry Filter -->
+    <div class="col-md-3">
+        <label class="form-label mb-1">Filter by Industry</label>
+        <select name="industry"
+                class="form-select form-select-sm"
+                onchange="this.form.submit()">
+
+            <option value="">All Industry</option>
+
+            <option value="IT" {% if selected_industry == "IT" %}selected{% endif %}>IT</option>
+            <option value="Software" {% if selected_industry == "Software" %}selected{% endif %}>Software</option>
+            <option value="Finance" {% if selected_industry == "Finance" %}selected{% endif %}>Finance</option>
+            <option value="Manufacturing" {% if selected_industry == "Manufacturing" %}selected{% endif %}>Manufacturing</option>
+
+        </select>
+    </div>
+
+        <!-- 🔹 Search Button -->
+        <div class="col-md-2 d-grid align-self-end">
+            <button type="submit"
+                    class="btn btn-sm fw-semibold px-4"
+                    style="background: #1e293b; color: white; border-radius: 8px;">
+                <i class="fas fa-search me-2"></i> Search & Filter
+            </button>
+        </div>
+        <div class="col-md-4 text-end align-self-end">
+    <a href="{% url 'placement_cell:download_company_certificates' %}?industry={{ selected_industry|default:'' }}&search={{ search_query|default:'' }}"
+       class="btn btn-sm btn-primary">
+        <i class="fas fa-download me-1"></i>
+        Download Company Certificates
+    </a>
+</div>
+
+    </div>
+</div>
+</form>
+
+
+
                     <div class="card-body">
                         <div class="row">
+                            {% for company in companies %}
+
                             <div class="col-md-6 mb-4">
                                 <div class="card h-100">
                                     <div class="card-body">
-                                        <h5 class="card-title">Tech Corp</h5>
-                                        <p class="text-muted mb-2"><strong>Industry:</strong> Information Technology</p>
-                                        <p class="text-muted mb-2"><strong>Location:</strong> Bangalore, Karnataka</p>
-                                        <p class="text-muted mb-2"><strong>Email:</strong> hr@techcorp.com</p>
-                                        <p class="text-muted mb-3"><strong>Status:</strong> <span class="badge bg-success">Active</span></p>
-                                        <button class="btn btn-sm btn-primary view-company-details" data-company="Tech Corp">
+                                        <h5 class="card-title">{{ company.company_name }}</h5>
+                                        <p class="text-muted mb-2"><strong>Industry:</strong>  {{ company.industry }}</p>
+                                        <p class="text-muted mb-2"><strong>Address:</strong>{{ company.address }}</p>
+                                        <p class="text-muted mb-2"><strong>Email:</strong> {{ company.company_email }}</p>
+                                        <p class="text-muted mb-2"><strong>Designation:</strong> {{ company.designation }}</p>
+                                        <p class="text-muted mb-2"><strong>Contact Person Name:</strong> {{ company.cp_name }}</p>
+
+                                        <p class="text-muted mb-3"><strong>Status:</strong> 
+                                            {% if company.status == "approved" %}
+                                                <span class="badge bg-success">Approved</span>
+
+                                            {% elif company.status == "pending" %}
+                                                <span class="badge bg-warning text-dark">Pending</span>
+
+                                            {% else %}
+                                                <span class="badge bg-danger">Rejected</span>
+                                            {% endif %}
+                                        </p>
+                                        <button class="btn btn-sm btn-primary view-company-details" data-slug="{{ company.slug }}">
                                             View Details
                                         </button>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-4">
-                                <div class="card h-100">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Innovate Ltd</h5>
-                                        <p class="text-muted mb-2"><strong>Industry:</strong> Software Development</p>
-                                        <p class="text-muted mb-2"><strong>Location:</strong> Mumbai, Maharashtra</p>
-                                        <p class="text-muted mb-2"><strong>Email:</strong> careers@innovate.com</p>
-                                        <p class="text-muted mb-3"><strong>Status:</strong> <span class="badge bg-success">Active</span></p>
-                                        <button class="btn btn-sm btn-primary view-company-details" data-company="Innovate Ltd">
-                                            View Details
-                                        </button>
-                                    </div>
-                                </div>
+                            {% empty %}
+                             <div class="col-12 text-center text-muted">
+                                No companies available.
                             </div>
-                            <div class="col-md-6 mb-4">
-                                <div class="card h-100">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Cloud Solutions</h5>
-                                        <p class="text-muted mb-2"><strong>Industry:</strong> Cloud Services</p>
-                                        <p class="text-muted mb-2"><strong>Location:</strong> Hyderabad, Telangana</p>
-                                        <p class="text-muted mb-2"><strong>Email:</strong> hr@cloudsolutions.com</p>
-                                        <p class="text-muted mb-3"><strong>Status:</strong> <span class="badge bg-success">Active</span></p>
-                                        <button class="btn btn-sm btn-primary view-company-details" data-company="Cloud Solutions">
-                                            View Details
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-4">
-                                <div class="card h-100">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Digital Innovations</h5>
-                                        <p class="text-muted mb-2"><strong>Industry:</strong> Digital Marketing</p>
-                                        <p class="text-muted mb-2"><strong>Location:</strong> Pune, Maharashtra</p>
-                                        <p class="text-muted mb-2"><strong>Email:</strong> contact@digitalinnovations.com</p>
-                                        <p class="text-muted mb-3"><strong>Status:</strong> <span class="badge bg-success">Active</span></p>
-                                        <button class="btn btn-sm btn-primary view-company-details" data-company="Digital Innovations">
-                                            View Details
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>

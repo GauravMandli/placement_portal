@@ -1,0 +1,92 @@
+{% extends "company/company_base.html" %}
+ {% load static %}
+ {% block content %}
+      <div class="topbar">
+        <div>
+          <button class="mobile-menu-toggle" type="button" aria-label="Toggle menu">
+            <i class="fas fa-bars"></i>
+          </button>
+          <h1 class="d-inline ms-3 mb-0 fs-4 fw-bold">Add New Requirement</h1>
+        </div>
+        <div class="user-profile">
+          <div class="text-end">
+            <strong>Tech Corp</strong><br>
+            <small class="text-muted">IT Services</small>
+          </div>
+          <div class="user-avatar">TC</div>
+        </div>
+      </div>
+
+      <div class="container-fluid py-4">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="mb-0"><i class="fas fa-plus-circle me-2"></i>Add New Requirement</h5>
+          </div>
+          <div class="card-body">
+            <form id="addRequirementForm">
+              <div class="form-section">
+                <h6 class="form-section-title"><i class="fas fa-briefcase"></i> Job Details</h6>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group-floating input-with-icon">
+                      <i class="fas fa-briefcase input-icon" aria-hidden="true"></i>
+                      <input type="text" class="form-control" id="jobTitle" name="jobTitle"
+                             placeholder=" " required>
+                      <label class="form-floating-label" for="jobTitle">Job Title <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group-floating input-with-icon">
+                      <i class="fas fa-clock input-icon" aria-hidden="true"></i>
+                      <select class="form-select" id="jobType" name="jobType" required>
+                        <option value="">Select job type</option>
+                        <option value="full-time">Full Time</option>
+                        <option value="part-time">Part Time</option>
+                        <option value="internship">Internship</option>
+                        <option value="contract">Contract</option>
+                      </select>
+                      <label class="form-floating-label" for="jobType">Job Type <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group-floating input-with-icon">
+                  <i class="fas fa-code input-icon" aria-hidden="true"></i>
+                  <input type="text" class="form-control" id="reqSkills" name="skills" placeholder=" " required>
+                  <label class="form-floating-label" for="reqSkills">
+                    Required Skills (comma-separated) <span class="text-danger">*</span>
+                  </label>
+                </div>
+
+                <div class="form-group-floating input-with-icon">
+                  <i class="fas fa-check-circle input-icon" aria-hidden="true"></i>
+                  <textarea class="form-control" id="eligibility" name="eligibility" rows="3"
+                            placeholder=" " required></textarea>
+                  <label class="form-floating-label" for="eligibility">
+                    Eligibility Criteria <span class="text-danger">*</span>
+                  </label>
+                </div>
+
+                <div class="form-group-floating input-with-icon">
+                  <i class="fas fa-rupee-sign input-icon" aria-hidden="true"></i>
+                  <input type="text" class="form-control" id="salaryPackage" name="salary"
+                         placeholder=" " required>
+                  <label class="form-floating-label" for="salaryPackage">
+                    Salary Package (e.g. 8-12 LPA) <span class="text-danger">*</span>
+                  </label>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-success btn-hover-ripple">
+                <i class="fas fa-paper-plane me-2"></i>Submit Requirement
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+
+{% endblock content %}

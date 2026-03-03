@@ -60,33 +60,49 @@ def student_login(request):
 # ==================================
 def company_login(request):
     if request.method == "POST":
-        company_email = request.POST.get("email")
+        company_email = request.POST.get("email").lower()
         password = request.POST.get("password")
 
         user = authenticate(request, username=company_email, password=password)
 
-        # Invalid credentials
+        #  Invalid credentials
         if user is None:
             messages.error(request, "Invalid email or password.")
             return redirect("company_login")
 
-        # Role check
+        #  Role check
         if user.role != "company":
-            messages.error(request, "Access denied. Not a company account.")
+            messages.error(request, "Access denied.")
             return redirect("company_login")
 
-        # Profile check
-        try:
-            profile = CompanyProfile.objects.get(user=user)
-        except CompanyProfile.DoesNotExist:
-            messages.error(request, "Company profile not found.")
+        # 🔹 Get Profile
+        profile = user.company_profile
+
+        #  If Rejected
+        if profile.status == CompanyProfile.Status.REJECTED:
+            messages.error(
+                request,
+                "Your company registration has been rejected by the Placement Cell. Please contact the administrator."
+            )
             return redirect("company_login")
 
-        # Approval check
-        if not profile.is_approved:
-            messages.error(request, "Your account is not approved yet.")
+        #  If Pending
+        if profile.status == CompanyProfile.Status.PENDING:
+            messages.warning(
+                request,
+                "Your account is still under review. Please wait for approval."
+            )
             return redirect("company_login")
 
+        #  If Deactivated
+        if not profile.is_active:
+            messages.error(
+                request,
+                "Your account has been deactivated. Please contact the administrator."
+            )
+            return redirect("company_login")
+
+        #  Login success
         login(request, user)
         messages.success(request, "Login successful.")
         return redirect("company_dashboard")
@@ -120,12 +136,12 @@ def pc_login(request):
             messages.error(request, "Invalid username/email or password.")
             return redirect("pc_login")
         
-        if user.role != "admin":
-            messages.error(request, "Access denied. Not an admin account.")
+        if user.role != "placement_cell":
+            messages.error(request, "Access denied. Not an Placement Officer account.")
             return redirect("pc_login")
         
         login(request,user)
-        messages.success(request,"Admin login successful.")
+        messages.success(request,"login successful.")
         return redirect("placement_cell:pc_dashboard")
     
     return render(request,"placement_cell/pages/pc_login.html")

@@ -56,12 +56,20 @@
                             <label class="form-label">Password</label>
                             <div class="input-group auth-input-group">
                                 <span class="input-group-text">
-                                    <i class="fas fa-lock" aria-hidden="true"></i>
+                                    <i class="fas fa-lock"></i>
                                 </span>
-                                <input type="password" class="form-control" name="password"
-                                    placeholder="Enter your password" required>
-                            </div>
+
+                            <input type="password"
+                                class="form-control password-field"
+                                name="password"
+                                placeholder="Enter your password"
+                                required>
+
+                            <span class="input-group-text password-toggle">
+                                <i class="fa-solid fa-eye"></i>
+                            </span>
                         </div>
+                    </div>
                         <div class="auth-form-field d-flex justify-content-between align-items-center">
                             <div class="form-check">
                                 <input type="checkbox" class="form-check-input" id="rememberMe">

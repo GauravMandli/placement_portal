@@ -2586,3 +2586,51 @@ footer.bg-dark .text-center p {
 .alert {
     border-radius: 10px;
 }
+
+
+
+
+/* ====================================
+   Student Profile Modal Enhancement
+==================================== */
+
+.student-profile-header {
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.student-profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--accent-light);
+    box-shadow: var(--shadow-md);
+}
+
+.profile-info-card {
+    background: var(--bg-page);
+    padding: 1.25rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--border-light);
+    box-shadow: var(--shadow-xs);
+}
+
+.profile-info-card p {
+    margin-bottom: 0.6rem;
+    font-size: 0.9rem;
+}
+
+.profile-info-card strong {
+    color: var(--primary);
+}
+
+.profile-info-card a {
+    color: var(--accent);
+    text-decoration: none;
+    word-break: break-word;
+}
+
+.profile-info-card a:hover {
+    text-decoration: underline;
+}

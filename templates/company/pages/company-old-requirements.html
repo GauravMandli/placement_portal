@@ -1,0 +1,86 @@
+{% extends "company/company_base.html" %}
+ {% load static %}
+ {% block content %}
+        <div>
+          <button class="mobile-menu-toggle" type="button" aria-label="Toggle menu">
+            <i class="fas fa-bars"></i>
+          </button>
+          <h1 class="d-inline ms-3 mb-0 fs-4 fw-bold">Old Requirements</h1>
+        </div>
+        <div class="user-profile">
+          <div class="text-end">
+            <strong>Tech Corp</strong><br>
+            <small class="text-muted">IT Services</small>
+          </div>
+          <div class="user-avatar">TC</div>
+        </div>
+      </div>
+
+      <div class="container-fluid py-4">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="mb-0"><i class="fas fa-history me-2"></i>Old Requirements (Closed)</h5>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover align-middle">
+                <thead>
+                  <tr>
+                    <th>Job Title</th>
+                    <th>Job Type</th>
+                    <th>Posted Date</th>
+                    <th>Applications</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>DevOps Engineer</td>
+                    <td>Full Time</td>
+                    <td>15 Dec 2023</td>
+                    <td>10</td>
+                    <td><span class="badge bg-secondary">Closed</span></td>
+                    <td>
+                      <button class="btn btn-sm btn-primary view-applied-students btn-hover-ripple"
+                              data-job-id="1" data-job-title="DevOps Engineer">
+                        View Applied Students
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>QA Engineer</td>
+                    <td>Full Time</td>
+                    <td>20 Nov 2023</td>
+                    <td>8</td>
+                    <td><span class="badge bg-secondary">Closed</span></td>
+                    <td>
+                      <button class="btn btn-sm btn-primary view-applied-students btn-hover-ripple"
+                              data-job-id="2" data-job-title="QA Engineer">
+                        View Applied Students
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Data Analyst</td>
+                    <td>Internship</td>
+                    <td>10 Oct 2023</td>
+                    <td>15</td>
+                    <td><span class="badge bg-secondary">Closed</span></td>
+                    <td>
+                      <button class="btn btn-sm btn-primary view-applied-students btn-hover-ripple"
+                              data-job-id="3" data-job-title="Data Analyst">
+                        View Applied Students
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+{% endblock content %}

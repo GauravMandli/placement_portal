@@ -9,6 +9,7 @@ from django.views.decorators.cache import never_cache
 
 
 
+
 # Create your views here.
 
 User = get_user_model()
@@ -34,9 +35,9 @@ def company_register(request):
         # Password length check
         if len(password) < 6:
             messages.error(request, "Password must be at least 6 characters.")
-        return render(request, "company/pages/company_register.html", {
-            "old_data": request.POST
-        })
+            return render(request, "company/pages/company_register.html", {
+                "old_data": request.POST
+            })
     
         # Duplicate email check
         if User.objects.filter(username=company_email).exists():
@@ -93,6 +94,8 @@ def company_register(request):
 @login_required(login_url="company_login")
 @never_cache
 def company_dashboard(request):
+    
+    profile = CompanyProfile.objects.get(user=request.user)
 
     # 🔹 Role check
     if request.user.role != "company":
@@ -107,13 +110,16 @@ def company_dashboard(request):
         return redirect("company_login")
 
     # 🔹 Approval check
-    if not profile.is_approved:
+    if profile.status != CompanyProfile.Status.APPROVED:
         messages.warning(request, "Your account is not approved yet.")
         logout(request)
         return redirect("company_login")
 
     context = {
-        "profile": profile
+        "profile": profile,
+        "company": profile,
     }
 
     return render(request, "company/pages/company_dashboard.html", context)
+
+

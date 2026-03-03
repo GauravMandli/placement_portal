@@ -1,57 +1,9 @@
 
 (function () {
-    // Sample data
-    const companyDetails = {
-        'Tech Corp': {
-            name: 'Tech Corp',
-            industry: 'Information Technology',
-            location: 'Bangalore, Karnataka',
-            email: 'hr@techcorp.com',
-            phone: '+91 80 1234 5678',
-            website: 'www.techcorp.com',
-            description: 'Leading IT services company specializing in software development and cloud solutions.',
-            hrName: 'Sarah Johnson',
-            founded: '2010',
-            employees: '500+'
-        },
-        'Innovate Ltd': {
-            name: 'Innovate Ltd',
-            industry: 'Software Development',
-            location: 'Mumbai, Maharashtra',
-            email: 'careers@innovate.com',
-            phone: '+91 22 2345 6789',
-            website: 'www.innovate.com',
-            description: 'Innovative software solutions provider focused on cutting-edge technology.',
-            hrName: 'Rajesh Kumar',
-            founded: '2015',
-            employees: '200+'
-        },
-        'Cloud Solutions': {
-            name: 'Cloud Solutions',
-            industry: 'Cloud Services',
-            location: 'Hyderabad, Telangana',
-            email: 'hr@cloudsolutions.com',
-            phone: '+91 40 3456 7890',
-            website: 'www.cloudsolutions.com',
-            description: 'Premier cloud infrastructure and services provider.',
-            hrName: 'Priya Sharma',
-            founded: '2012',
-            employees: '300+'
-        },
-        'Digital Innovations': {
-            name: 'Digital Innovations',
-            industry: 'Digital Marketing',
-            location: 'Pune, Maharashtra',
-            email: 'contact@digitalinnovations.com',
-            phone: '+91 20 4567 8901',
-            website: 'www.digitalinnovations.com',
-            description: 'Digital transformation and marketing solutions company.',
-            hrName: 'Amit Verma',
-            founded: '2018',
-            employees: '150+'
-        }
-    };
 
+
+
+    // Sample data
     const appliedStudentsAdminData = {
         1: [
             { name: 'John Doe', branch: 'CS', cgpa: '8.5', resume: 'john_doe_resume.pdf', appliedDate: '16 Jan 2024' },
@@ -108,53 +60,156 @@
     //     });
     // });
 
-    // View Company Details
-    document.querySelectorAll('.view-company-details').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-            var companyName = this.getAttribute('data-company');
-            var details = companyDetails[companyName];
-            if (details) {
-                var content = `
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <strong>Company Name:</strong> ${details.name}
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <strong>Industry:</strong> ${details.industry}
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <strong>Location:</strong> ${details.location}
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <strong>Founded:</strong> ${details.founded}
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <strong>Email:</strong> ${details.email}
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <strong>Phone:</strong> ${details.phone}
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <strong>Website:</strong> <a href="https://${details.website}" target="_blank">${details.website}</a>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <strong>HR Name:</strong> ${details.hrName}
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <strong>Employees:</strong> ${details.employees}
-                                </div>
-                                <div class="col-12 mb-3">
-                                    <strong>Description:</strong><br>
-                                    <p class="text-muted">${details.description}</p>
-                                </div>
-                            </div>
-                        `;
-                document.getElementById('companyDetailsContent').innerHTML = content;
-                var modal = new bootstrap.Modal(document.getElementById('companyDetailsModal'));
-                modal.show();
-            }
+    // ===============================
+    // View Company Details (AJAX)
+    // ===============================
+    document.querySelectorAll(".view-company-details").forEach(function (button) {
+
+        button.addEventListener("click", function () {
+
+            const slug = this.dataset.slug;
+
+            fetch(`/placement_cell/company-detail/${slug}/`)
+                .then(response => response.json())
+                .then(response => {
+
+                    if (!response.success) return;
+
+                    const data = response.data;
+
+                    // Store current company globally
+                    window.currentCompanyId = data.id;
+                    window.currentCompanyName = data.company_name;
+
+                    // Show / Hide Approve / Reject buttons
+                    const approveBtn = document.getElementById("openApproveConfirm");
+                    const rejectBtn = document.getElementById("openRejectConfirm");
+
+                    approveBtn.style.display = "none";
+                    rejectBtn.style.display = "none";
+
+                    if (data.status === "Pending") {
+                        approveBtn.style.display = "inline-block";
+                        rejectBtn.style.display = "inline-block";
+                    } else if (data.status === "Approved") {
+                        rejectBtn.style.display = "inline-block";
+                    } else if (data.status === "Rejected") {
+                        approveBtn.style.display = "inline-block";
+                    }
+
+                    let statusBadge = "";
+
+                    if (data.status === "Approved") {
+                        statusBadge = '<span class="badge bg-success">Approved</span>';
+                    } else if (data.status === "Pending") {
+                        statusBadge = '<span class="badge bg-warning text-dark">Pending</span>';
+                    } else {
+                        statusBadge = '<span class="badge bg-danger">Rejected</span>';
+                    }
+
+                    document.getElementById("companyDetailsContent").innerHTML = `
+                        <h5>${data.company_name}</h5>
+                        <p><strong>Status:</strong> ${statusBadge}</p>
+                        <hr>
+                        <p><strong>Industry:</strong> ${data.industry}</p>
+                        <p><strong>Email:</strong> ${data.company_email}</p>
+                        <p><strong>Phone:</strong> ${data.phone}</p>
+                        <p><strong>Website:</strong> <a href="${data.website}" target="_blank">${data.website}</a></p>
+                        <p><strong>Contact Person Name:</strong> ${data.contact_person_name}</p>
+                        <p><strong>Designation:</strong> ${data.designation}</p>
+                        <p><strong>Contact Person Email:</strong> ${data.contact_email}</p>
+                        <p><strong>Contact Person Phone:</strong> ${data.contact_phone}</p>
+                        <p><strong>GST:</strong> ${data.gst_number || "N/A"}</p>
+                        <p><strong>Company Size:</strong> ${data.company_size || "N/A"}</p>
+                        <p><strong>Registered On:</strong> ${data.created_at}</p>
+                        <p><strong>Description:</strong><br>${data.description}</p>
+                        <p><strong>Address:</strong><br>${data.address}</p>
+                        <a href="${data.certificate_url}" class="btn btn-outline-secondary mt-2" target="_blank">
+                            View Registration Certificate
+                        </a>
+                    `;
+
+                    new bootstrap.Modal(document.getElementById("companyDetailsModal")).show();
+                });
         });
+
     });
+
+
+    // ===============================
+    // Open Confirmation Modals
+    // ===============================
+    document.getElementById("openApproveConfirm").addEventListener("click", function () {
+        document.getElementById("confirmApproveCompanyName").innerText = window.currentCompanyName;
+        new bootstrap.Modal(document.getElementById("approveCompanyModal")).show();
+    });
+
+    document.getElementById("openRejectConfirm").addEventListener("click", function () {
+        document.getElementById("confirmRejectCompanyName").innerText = window.currentCompanyName;
+        new bootstrap.Modal(document.getElementById("rejectCompanyModal")).show();
+    });
+
+
+    // ===============================
+    // Company Action (Approve / Reject)
+    // ===============================
+ function getCSRFToken() {
+    let cookieValue = null;
+    const name = 'csrftoken';
+
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(
+                    cookie.substring(name.length + 1)
+                );
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+    document.getElementById("confirmApproveBtn").addEventListener("click", function () {
+
+        fetch(`/placement_cell/approve-company/${window.currentCompanyId}/`,
+            {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": getCSRFToken(),
+                }
+            }).then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert("Approval failed!");
+                }
+            });
+    });
+
+    document.getElementById("confirmRejectCompanyBtn").addEventListener("click", function () {
+
+        fetch(`/placement_cell/reject-company/${window.currentCompanyId}/`,
+            {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": getCSRFToken(),
+                }
+            }).then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert("Approval failed!");
+                }
+            });
+    });
+
 
     // View Applied Students (Admin)
     document.querySelectorAll('.view-applied-students-admin').forEach(function (btn) {
@@ -217,49 +272,8 @@
         });
     });
 
-    // Confirm Approve Company
-    document.getElementById('confirmApproveBtn').addEventListener('click', function () {
-        var companyId = this.getAttribute('data-company-id');
-        var companyName = this.getAttribute('data-company-name');
-        var row = document.querySelector('[data-company-id="' + companyId + '"]').closest('tr');
-        row.remove();
-        updatePendingCount();
-        if (typeof showToast === 'function') {
-            showToast(companyName + ' approved successfully.', 'success');
-        } else {
-            alert(companyName + ' approved successfully.');
-        }
-        bootstrap.Modal.getInstance(document.getElementById('approveCompanyModal')).hide();
-    });
 
-    // Confirm Reject Company
-    document.getElementById('confirmRejectCompanyBtn').addEventListener('click', function () {
-        var companyId = this.getAttribute('data-company-id');
-        var companyName = this.getAttribute('data-company-name');
-        var row = document.querySelector('[data-company-id="' + companyId + '"]').closest('tr');
-        row.remove();
-        updatePendingCount();
-        if (typeof showToast === 'function') {
-            showToast(companyName + ' rejected.', 'danger');
-        } else {
-            alert(companyName + ' rejected.');
-        }
-        bootstrap.Modal.getInstance(document.getElementById('rejectCompanyModal')).hide();
-    });
 
-    function updatePendingCount() {
-        var pendingRows = document.querySelectorAll('#page-approve-companies tbody tr');
-        var count = pendingRows.length;
-        var badge = document.getElementById('pending-count');
-        if (badge) {
-            badge.textContent = count;
-            if (count === 0) {
-                badge.classList.add('d-none');
-            } else {
-                badge.classList.remove('d-none');
-            }
-        }
-    }
 
     // View Requirement Details
     document.querySelectorAll('.view-requirement-details').forEach(function (btn) {
@@ -295,12 +309,24 @@
     // View Student Profile (Admin)
     // ===============================
 
-    document.querySelectorAll(".view-studentdetails-btn").forEach(function (btn) {
+    document.querySelectorAll(".view-student-details-btn").forEach(function (btn) {
         btn.addEventListener("click", function () {
 
             // Basic Info
+            document.getElementById("profileStudentId").innerText =
+                this.dataset.id || "N/A";
+
             document.getElementById("profileStudentName").innerText =
                 this.dataset.name || "N/A";
+
+            document.getElementById("profileStudentGender").innerText =
+                this.dataset.gender || "N/A";
+
+            document.getElementById("profileStudentDob").innerText =
+                this.dataset.dob || "N/A";
+
+            document.getElementById("profileStudentEnrollNumber").innerText =
+                this.dataset.enrollno || "N/A";
 
             document.getElementById("profileStudentEmail").innerText =
                 this.dataset.email || "N/A";
@@ -313,6 +339,9 @@
 
             document.getElementById("profileStudentBranch").innerText =
                 this.dataset.branch || "N/A";
+
+            document.getElementById("profileStudentYear").innerText =
+                this.dataset.year || "N/A";
 
             document.getElementById("profileStudentSkills").innerText =
                 this.dataset.skills || "N/A";
@@ -378,21 +407,23 @@
 
         });
     });
-    // ===============================
-    // delete Student Profile (Admin)
-    // ===============================
-    document.querySelectorAll(".delete-student").forEach(function (btn) {
-        btn.addEventListener("click", function () {
+    // // ===============================
+    // // delete Student Profile (Admin)
+    // // ===============================
+    // document.querySelectorAll(".delete-student").forEach(function (btn) {
+    //     btn.addEventListener("click", function () {
 
-            var studentId = this.dataset.studentId;
-            var studentName = this.dataset.studentName;
+    //         var studentId = this.dataset.studentId;
+    //         var studentName = this.dataset.studentName;
 
-            if (confirm("Delete " + studentName + " ?")) {
-                window.location.href = "/placement_cell/delete-student/" + studentId + "/";
-            }
+    //         if (confirm("Delete " + studentName + " ?")) {
+    //             window.location.href = "/placement_cell/delete-student/" + studentId + "/";
+    //         }
 
-        });
-    });
+    //     });
+    // });
+
+
     // Resume functions
     window.viewResume = function (filename) {
         alert('Opening resume: ' + filename + '\n\n(In a real application, this would open the PDF in a new tab or viewer.)');
@@ -402,3 +433,6 @@
         alert('Downloading resume: ' + filename + '\n\n(In a real application, this would trigger a file download.)');
     };
 })();
+
+
+

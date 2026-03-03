@@ -1,0 +1,66 @@
+{% extends "company/company_base.html" %}
+ {% load static %}
+ {% block content %}
+        <div>
+          <button class="mobile-menu-toggle" type="button" aria-label="Toggle menu">
+            <i class="fas fa-bars"></i>
+          </button>
+          <h1 class="d-inline ms-3 mb-0 fs-4 fw-bold">Applied Students</h1>
+        </div>
+        <div class="user-profile">
+          <div class="text-end">
+            <strong>Tech Corp</strong><br>
+            <small class="text-muted">IT Services</small>
+          </div>
+          <div class="user-avatar">TC</div>
+        </div>
+      </div>
+
+      <div class="container-fluid py-4">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+          <div>
+            <h4 class="mb-1 fw-semibold">
+              Applied Students – <span id="appliedStudentsJobTitle">Job Title</span>
+            </h4>
+            <p class="text-muted mb-0">
+              Applied Position: <span id="appliedStudentsPosition">Job Title</span>
+            </p>
+          </div>
+          <span class="badge badge-info" id="appliedStudentsCountBadge">
+            <i class="fas fa-users"></i> 0 Applicants
+          </span>
+        </div>
+
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">
+              <i class="fas fa-user-check me-2 text-primary"></i>Applied Students List
+            </h5>
+            <span class="badge badge-pending">
+              <i class="fas fa-clock"></i> Under Review
+            </span>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover align-middle">
+                <thead>
+                  <tr>
+                    <th>Student Name</th>
+                    <th>Branch</th>
+                    <th>CGPA</th>
+                    <th>Resume</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="appliedStudentsTableBody">
+                  <!-- Filled by JS (main.js) -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+{% endblock content %}

@@ -6,8 +6,8 @@ from django.db import models
 
 class User(AbstractUser):
     ROLE_CHOICES = (
+        ('placement_cell', 'Placement Cell'),
         ('student', 'Student'),
         ('company', 'Company'),
-        ('admin', 'Admin'),
     )
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)

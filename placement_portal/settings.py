@@ -11,8 +11,6 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
-import os
-import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,9 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-r$%*lul&)mgp9dz#@w2tfw_s4@x0rl(prna2c&gy)l23i)psi6'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['placement-portal-rv5l.onrender.com']
+ALLOWED_HOSTS = []
+
 
 # Application definition
 
@@ -73,6 +72,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                "placement_cell.context_processors.pending_companies_count",
             ],
         },
     },
@@ -85,9 +85,14 @@ WSGI_APPLICATION = 'placement_portal.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL')
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'placement_db',
+        'USER': 'gaurav',   # or postgres
+        'PASSWORD': '2247',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
 }
 
 

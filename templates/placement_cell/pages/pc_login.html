@@ -19,32 +19,32 @@
                     <form method="POST">
                         {% csrf_token %}
 
-                    <!-- MESSAGE BLOCK START -->
-                    {% if messages %}
-                    {% for message in messages %}
-                    {% if message.tags == "error" %}
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        {% else %}
-                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                            {% endif %}
+      <!-- MESSAGE BLOCK START -->
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags != "success" %}
+            {% if message.tags == "error" %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {% else %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {% endif %}
 
-                            {% if message.tags == "success" %}
-                            <i class="fas fa-check-circle me-2"></i>
-                            {% elif message.tags == "error" %}
-                            <i class="fas fa-times-circle me-2"></i>
-                            {% elif message.tags == "warning" %}
-                            <i class="fas fa-exclamation-triangle me-2"></i>
-                            {% elif message.tags == "info" %}
-                            <i class="fas fa-info-circle me-2"></i>
-                            {% endif %}
+                {% if message.tags == "error" %}
+                    <i class="fas fa-times-circle me-2"></i>
+                {% elif message.tags == "warning" %}
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                {% elif message.tags == "info" %}
+                    <i class="fas fa-info-circle me-2"></i>
+                {% endif %}
 
-                            {{ message }}
+                {{ message }}
 
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                        </div>
-                        {% endfor %}
-                        {% endif %}
-                        <!-- MESSAGE BLOCK END -->
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+<!-- MESSAGE BLOCK END -->
 
                         <div class="auth-form-field">
                             <label class="form-label">Admin Username</label>
@@ -55,15 +55,29 @@
                                 <input type="text" class="form-control" name="username" placeholder="Enter admin username or email" required>
                             </div>
                         </div>
-                        <div class="auth-form-field">
-                            <label class="form-label">Password</label>
-                            <div class="input-group auth-input-group">
-                                <span class="input-group-text">
-                                    <i class="fas fa-lock" aria-hidden="true"></i>
-                                </span>
-                                <input type="password" class="form-control" name="password" placeholder="Enter password" required>
-                            </div>
-                        </div>
+                       <div class="auth-form-field">
+    <label class="form-label">Password</label>
+    <div class="input-group auth-input-group">
+        
+        <!-- Lock Icon -->
+        <span class="input-group-text">
+            <i class="fas fa-lock"></i>
+        </span>
+
+        <!-- Password Input -->
+        <input type="password"
+               class="form-control password-field"
+               name="password"
+               placeholder="Enter password"
+               required>
+
+        <!-- Eye Toggle Icon -->
+        <span class="input-group-text password-toggle" style="cursor: pointer;">
+            <i class="fa-solid fa-eye"></i>
+        </span>
+
+    </div>
+</div>
                         <div class="mb-3 form-check">
                             <input type="checkbox" class="form-check-input" id="rememberMe">
                             <label class="form-check-label" for="rememberMe">Remember me</label>

@@ -14,7 +14,8 @@
                                 <thead>
                                     <tr>
                                         <th>Company Name</th>
-                                        <th>HR Name</th>
+                                        <th>Contact Person Name </th>
+                                        <th> Designation </th>
                                         <th>Email</th>
                                         <th>Industry</th>
                                         <th>Registration Date</th>
@@ -22,51 +23,45 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {% for company in companies %}
                                     <tr>
-                                        <td>StartupXYZ</td>
-                                        <td>Rajesh Patel</td>
-                                        <td>hr@startupxyz.com</td>
-                                        <td>Software</td>
-                                        <td>25 Jan 2024</td>
+                                        <td>{{ company.company_name }}</td>
+                                        <td>{{ company.cp_name }} </td>
+                                        <td>{{ company.designation  }}</td>
+                                        <td>{{ company.company_email }}</td>
+                                        <td>{{ company.industry }}</td>
+                                        <td>{{ company.created_at|date:"d M Y" }}</td>
+
+
                                         <td>
-                                            <button class="btn btn-sm btn-success me-1 approve-company" data-company-id="1" data-company-name="StartupXYZ">
-                                                <i class="fas fa-check me-1"></i>Approve
+                                            <button class="btn btn-sm btn-primary view-company-details" data-slug="{{ company.slug }}">
+                                            View Details
+                                        </button>
+        
+                                            <!-- Approve -->  
+                                         <form method="POST" action="{% url 'placement_cell:approve_company' company.pk %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-sm btn-success me-1 approvecompany" data-company-id="1" data-company-name="StartupXYZ">
+                                                <i class="fas fa-check me-1"></i> Approve
                                             </button>
-                                            <button class="btn btn-sm btn-danger reject-company" data-company-id="1" data-company-name="StartupXYZ">
-                                                <i class="fas fa-times me-1"></i>Reject
+                                        </form>
+
+                                                <!-- Reject -->
+                                     <form method="POST" action="{% url 'placement_cell:reject_company' company.pk %}">
+                                                        {% csrf_token %}
+                                            <button type="submit" class="btn btn-sm btn-danger reject-company" data-company-id="1" data-company-name="StartupXYZ">
+                                                <i class="fas fa-times me-1"></i> Reject
                                             </button>
+                                        </form>
                                         </td>
                                     </tr>
+                                    {% empty %}
                                     <tr>
-                                        <td>FinanceHub</td>
-                                        <td>Priya Sharma</td>
-                                        <td>careers@financehub.com</td>
-                                        <td>Finance</td>
-                                        <td>26 Jan 2024</td>
-                                        <td>
-                                            <button class="btn btn-sm btn-success me-1 approve-company" data-company-id="2" data-company-name="FinanceHub">
-                                                <i class="fas fa-check me-1"></i>Approve
-                                            </button>
-                                            <button class="btn btn-sm btn-danger reject-company" data-company-id="2" data-company-name="FinanceHub">
-                                                <i class="fas fa-times me-1"></i>Reject
-                                            </button>
+                                        <td colspan="6" class="text-center text-muted">
+                                            No pending companies found.
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>TechStart Inc</td>
-                                        <td>Amit Verma</td>
-                                        <td>hr@techstart.com</td>
-                                        <td>IT Services</td>
-                                        <td>27 Jan 2024</td>
-                                        <td>
-                                            <button class="btn btn-sm btn-success me-1 approve-company" data-company-id="3" data-company-name="TechStart Inc">
-                                                <i class="fas fa-check me-1"></i>Approve
-                                            </button>
-                                            <button class="btn btn-sm btn-danger reject-company" data-company-id="3" data-company-name="TechStart Inc">
-                                                <i class="fas fa-times me-1"></i>Reject
-                                            </button>
-                                        </td>
-                                    </tr>
+                                    {% endfor %}                       
                                 </tbody>
                             </table>
                         </div>

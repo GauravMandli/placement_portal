@@ -1,0 +1,130 @@
+{% extends "company/company_base.html" %}
+ {% load static %}
+ {% block content %}
+         <!-- ========== DASHBOARD PAGE ========== -->
+            <div id="page-dashboard" class="dashboard-page active">
+                <div class="mb-4">
+                    <h1 class="dashboard-greeting">Welcome, {{ company.company_name|upper }}</h1>
+                    <p class="dashboard-greeting-sub">Manage your job postings, review applications, and connect with
+                        talented students.</p>
+                </div>
+
+                <!-- Stats: Total Jobs Posted, Active Jobs, Total Applicants -->
+                <div class="row mb-4">
+                    <div class="col-md-4 mb-4">
+                        <div class="stat-card">
+                            <i class="fas fa-briefcase fa-2x mb-2"></i>
+                            <h3>24</h3>
+                            <p>Total Jobs Posted</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="stat-card warning">
+                            <i class="fas fa-clipboard-list fa-2x mb-2"></i>
+                            <h3>5</h3>
+                            <p>Active Jobs</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="stat-card success">
+                            <i class="fas fa-users fa-2x mb-2"></i>
+                            <h3>45</h3>
+                            <p>Total Applicants</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6 mb-4">
+                        <div class="card company-profile-card h-100">
+                            <div class="card-header">
+                                <h5 class="mb-0 fw-semibold"><i class="fas fa-building me-2 text-success"></i>Company
+                                    Summary</h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="mb-2"><strong>Company:</strong> Tech Corp</p>
+                                <p class="mb-2"><strong>Industry:</strong> Information Technology</p>
+                                <p class="mb-2"><strong>Location:</strong> Bangalore, Karnataka</p>
+                                <p class="mb-3"><strong>Status:</strong> <span class="badge bg-success">Active</span>
+                                </p>
+                                <a href="#" class="nav-link-dashboard btn btn-success w-100"
+                                    data-page="page-company-profile">Update Profile</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0 fw-semibold"><i class="fas fa-file-alt me-2"></i>Recent Applications
+                                </h5>
+                                <a href="#" class="nav-link-dashboard btn btn-sm btn-outline-primary"
+                                    data-page="page-current-requirements">View all</a>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="recent-app-item px-3">
+                                    <div>
+                                        <strong class="d-block">John Doe</strong>
+                                        <small class="text-muted">Software Engineer — 16 Jan</small>
+                                    </div>
+                                    <span class="badge badge-applied"><i class="fas fa-paper-plane"></i> Applied</span>
+                                </div>
+                                <div class="recent-app-item px-3">
+                                    <div>
+                                        <strong class="d-block">Sarah Williams</strong>
+                                        <small class="text-muted">Software Engineer — 17 Jan</small>
+                                    </div>
+                                    <span class="badge badge-pending"><i class="fas fa-clock"></i> Under Review</span>
+                                </div>
+                                <div class="recent-app-item px-3">
+                                    <div>
+                                        <strong class="d-block">Mike Johnson</strong>
+                                        <small class="text-muted">Backend Developer — 19 Jan</small>
+                                    </div>
+                                    <span class="badge badge-pending"><i class="fas fa-search"></i> Under Review</span>
+                                </div>
+                                <div class="recent-app-item px-3">
+                                    <div>
+                                        <strong class="d-block">Jane Smith</strong>
+                                        <small class="text-muted">Frontend Developer — 21 Jan</small>
+                                    </div>
+                                    <span class="badge badge-selected"><i class="fas fa-check-circle"></i>
+                                        Selected</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0 fw-semibold"><i class="fas fa-bolt me-2"></i>Quick Actions</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row g-2">
+                                    <div class="col-md-4">
+                                        <a href="#" class="nav-link-dashboard btn btn-primary w-100"
+                                            data-page="page-add-requirement">
+                                            <i class="fas fa-plus me-2"></i>Post New Requirement
+                                        </a>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a href="#" class="nav-link-dashboard btn btn-outline-primary w-100"
+                                            data-page="page-current-requirements">
+                                            <i class="fas fa-briefcase me-2"></i>View Current Requirements
+                                        </a>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a href="#" class="nav-link-dashboard btn btn-outline-primary w-100"
+                                            data-page="page-old-requirements">
+                                            <i class="fas fa-history me-2"></i>View Old Requirements
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+{% endblock content %}

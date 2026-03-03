@@ -1,0 +1,202 @@
+{% load static %}
+<!-- Interview Scheduling Modal -->
+    <div class="modal fade" id="interviewScheduleModal" tabindex="-1" aria-labelledby="interviewScheduleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="interviewScheduleModalLabel">
+                        <i class="fas fa-calendar-check me-2"></i>Schedule Interview
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <p class="mb-1"><strong>Student:</strong> <span id="scheduleStudentName">—</span></p>
+                        <p class="mb-0 text-muted"><strong>Job:</strong> <span id="scheduleJobTitle">—</span></p>
+                    </div>
+
+                    <form id="interviewScheduleForm">
+                        <input type="hidden" id="scheduleStudentId">
+                        <input type="hidden" id="scheduleJobId">
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Interview Date <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control" id="interviewDate" required>
+                                <div class="invalid-feedback">Please select a date.</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Interview Time <span class="text-danger">*</span></label>
+                                <input type="time" class="form-control" id="interviewTime" required>
+                                <div class="invalid-feedback">Please select a time.</div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Interview Mode <span class="text-danger">*</span></label>
+                            <select class="form-select" id="interviewMode" required>
+                                <option value="">Select mode</option>
+                                <option value="online">Online</option>
+                                <option value="offline">Offline</option>
+                            </select>
+                            <div class="invalid-feedback">Please choose a mode.</div>
+                        </div>
+
+                        <div class="mb-3" id="meetingLinkGroup">
+                            <label class="form-label">Meeting Link <span class="text-danger">*</span></label>
+                            <input type="url" class="form-control" id="meetingLink" placeholder="https://">
+                            <div class="invalid-feedback">Please enter a meeting link.</div>
+                        </div>
+
+                        <div class="mb-3 d-none" id="interviewAddressGroup">
+                            <label class="form-label">Interview Address <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="interviewAddress" placeholder="Office / Campus Address">
+                            <div class="invalid-feedback">Please enter an interview address.</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Remarks / Notes</label>
+                            <textarea class="form-control" id="interviewRemarks" rows="3"
+                                placeholder="Optional remarks for the interview"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-success btn-hover-ripple" id="confirmScheduleBtn">
+                        <i class="fas fa-calendar-check me-1"></i>Schedule Interview
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Student Profile Modal -->
+    <div class="modal fade" id="studentProfileModal" tabindex="-1" aria-labelledby="studentProfileModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="studentProfileModalLabel"><i
+                            class="fas fa-user-graduate me-2"></i>Student Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p><strong><i class="fas fa-user me-2 text-primary"></i>Name:</strong> <span
+                                    id="profileStudentName"></span></p>
+                            <p><strong><i class="fas fa-envelope me-2 text-primary"></i>Email:</strong> <span
+                                    id="profileStudentEmail"></span></p>
+                            <p><strong><i class="fas fa-phone me-2 text-primary"></i>Phone:</strong> <span
+                                    id="profileStudentPhone"></span></p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong><i class="fas fa-chart-line me-2 text-primary"></i>CGPA:</strong> <span
+                                    id="profileStudentCgpa"></span></p>
+                            <p><strong><i class="fas fa-graduation-cap me-2 text-primary"></i>Branch:</strong> <span
+                                    id="profileStudentBranch"></span></p>
+                            <p><strong><i class="fas fa-code me-2 text-primary"></i>Skills:</strong> <span
+                                    id="profileStudentSkills"></span></p>
+                        </div>
+                    </div>
+                    <div class="mb-0">
+                        <strong><i class="fas fa-file-pdf me-2 text-primary"></i>Resume:</strong>
+                        <a href="#" id="profileStudentResumeLink"
+                            class="btn btn-sm btn-outline-primary ms-2 btn-hover-ripple"><i
+                                class="fas fa-download me-1"></i>Download Resume</a>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Select Student Confirmation Modal -->
+    <div class="modal fade confirmation-modal" id="selectStudentModal" tabindex="-1"
+        aria-labelledby="selectStudentModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="selectStudentModalLabel"><i class="fas fa-check-circle me-2"></i>Confirm
+                        Selection</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to select <strong id="confirmSelectStudentName"></strong>?</p>
+                    <p class="text-muted small">This action will notify the student and mark them as selected for this
+                        position.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-success btn-hover-ripple" id="confirmSelectBtn">Confirm
+                        Selection</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reject Student Confirmation Modal -->
+    <div class="modal fade confirmation-modal" id="rejectStudentModal" tabindex="-1"
+        aria-labelledby="rejectStudentModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="rejectStudentModalLabel"><i class="fas fa-times-circle me-2"></i>Confirm
+                        Rejection</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to reject <strong id="confirmRejectStudentName"></strong>?</p>
+                    <p class="text-muted small">This action will notify the student and mark their application as
+                        rejected.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger btn-hover-ripple" id="confirmRejectBtn">Confirm
+                        Rejection</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- Student Details Modal -->
+<div class="modal fade" id="studentDetailsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+  
+        <div class="modal-header">
+          <h5 class="modal-title">
+            <i class="fas fa-user me-2"></i>Student Details
+          </h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+  
+        <div class="modal-body">
+          <p><strong>Name:</strong> <span id="sdName"></span></p>
+          <p><strong>Email:</strong> <span id="sdEmail"></span></p>
+          <p><strong>Phone:</strong> <span id="sdPhone"></span></p>
+          <p><strong>CGPA:</strong> <span id="sdCgpa"></span></p>
+          <p><strong>Skills:</strong> <span id="sdSkills"></span></p>
+  
+          <hr>
+  
+          <a href="resume/sample.pdf" target="_blank"
+             class="btn btn-primary me-2">
+            <i class="fas fa-eye"></i> View Resume
+          </a>
+  
+          <a href="resume/sample.pdf" download
+             class="btn btn-outline-secondary">
+            <i class="fas fa-download"></i> Download Resume
+          </a>
+        </div>
+  
+      </div>
+    </div>
+  </div>

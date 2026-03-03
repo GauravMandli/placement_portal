@@ -1,0 +1,17 @@
+{% load static %}
+<!-- Topbar -->
+            <div class="topbar">
+                <div>
+                    <button class="mobile-menu-toggle" type="button" aria-label="Toggle menu">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 class="d-inline ms-3 mb-0 fs-4 fw-bold" id="page-title">Dashboard</h1>
+                </div>
+                <div class="user-profile">
+                    <div class="text-end">
+                        <strong>{{ company.company_name|upper }}</strong><br>
+                        <small class="text-muted">{{ company.industry }}</small>
+                    </div>
+                    <div class="user-avatar">{{ company.company_name|slice:":2" }}</div>
+                </div>
+            </div>
