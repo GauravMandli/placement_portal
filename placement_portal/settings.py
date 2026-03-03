@@ -93,7 +93,7 @@ WSGI_APPLICATION = 'placement_portal.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.parse(
-        os.environ.get("DATABASE_URL")
+        os.environ.get("postgresql://postgres:XtTRPLjPbrMgrmtYhNeEzDiMtjuEVMXd@postgres.railway.internal:5432/railway")
     )
 }
 
