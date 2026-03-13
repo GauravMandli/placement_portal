@@ -1,19 +1,16 @@
 from django.shortcuts import render,redirect  #html page show and url par moklva mate
 from django.contrib import messages #sucess /errer message 
-from accounts.models import User #custom user model
-from .models import StudentProfile #extra student model for 
+from django.db import transaction #db safe option
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
-from .models import StudentProfile
 from django.http import HttpResponseForbidden
-from django.utils import timezone
-from .models import StudentProfile
 from django.contrib.auth import update_session_auth_hash
-from django.db import transaction #db safe option
 from django.core.exceptions import ValidationError
+from django.utils import timezone
 
-
-
+from accounts.models import User #custom user model
+from .models import StudentProfile #extra student model for 
+from .forms import StudentRegisterForm
 
 # Create your views here.
 
@@ -23,109 +20,51 @@ def student_register(request):
    # print("view hit")
     if request.method == "POST":
 
+        #===============================
         # GET FORM DATA
         # ===============================
+        form = StudentRegisterForm(request.POST, request.FILES)
 
-        first_name = request.POST.get("first_name")
-        last_name = request.POST.get("last_name")
-        email = request.POST.get("email")
-        phone = request.POST.get("phone")or None
-        dob = request.POST.get("dob")
-        gender = request.POST.get("gender")
+        if form.is_valid():
 
-        course = request.POST.get("course")
-        year = request.POST.get("year")
-        enroll_number = request.POST.get("enroll_number")
-        cgpa = request.POST.get("cgpa")
-        skills = request.POST.get("skills")
+            try:
+                #  DATABASE TRANSACTION
+                with transaction.atomic():
+                    
+                    enroll_number = form.cleaned_data.get("enroll_number")
+                    email = form.cleaned_data.get("email")
+                    password = form.cleaned_data.get("password")
 
-        passport_photo = request.FILES.get("passport_photo")
-        linkedin = request.POST.get("linkedin") or None
-        github = request.POST.get("github") or None
-        portfolio = request.POST.get("portfolio") or None
+                    #create user
+                    user = User.objects.create_user(
+                        username=enroll_number,
+                        email=email,
+                        password=password,
+                        first_name=form.cleaned_data.get("first_name"),
+                        last_name=form.cleaned_data.get("last_name"),
+                        role="student"
+                    )
 
-
-
-        password = request.POST.get("password").strip()
-        confirm_password = request.POST.get("confirm_password").strip()
-
-
-        resume = request.FILES.get("resume")
-
-        # ===============================
-        # VALIDATIONS
-
-        # Required fields check
-        if not all([first_name, last_name, email, enroll_number,course,cgpa,skills, password, confirm_password]):
-            messages.error(request, "Please fill all required fields.")
-            return redirect("student_register")
-
-        # password metch check
-        if password != confirm_password:
-            messages.error(request,"Passwords do not match")
-            return redirect("student_register")
-        
-        # Duplicate enrollment check
-        if User.objects.filter(username=enroll_number).exists():
-            messages.error(request,"Enrollment Number already registered")
-            return redirect("student_register")
-                
-        # Duplicate email check
-        if User.objects.filter(email=email).exists():
-            messages.error(request, "Email already registered.")
-            return redirect("student_register")
-        
-        # CGPA validation
-        try:
-            cgpa = float(cgpa)
-        except (TypeError, ValueError):
-            messages.error(request, "Invalid CGPA format.")
-            return redirect("student_register")
-        
-        
-
-        try:
-            #  DATABASE TRANSACTION
-
-            with transaction.atomic():
-                
-                #create user
-                user = User.objects.create_user(
-                    username=enroll_number,
-                    email=email,
-                    password=password,
-                    first_name=first_name,
-                    last_name=last_name,
-                    role="student"
-                )
-
-                #create student profile
-                StudentProfile.objects.create(
-                    user=user,
-                    phone=phone,
-                    dob=dob,
-                    gender=gender,
-                    course=course,
-                    year=year,
-                    enroll_number=enroll_number,
-                    cgpa=cgpa,
-                    skills=skills,
-                    passport_photo=passport_photo,
-                    linkedin=linkedin,
-                    github=github,
-                    portfolio=portfolio,
-                    resume=resume
-                )
-
-            messages.success(request, "Registration successful! Please login.")
-            return redirect("student_login")
-        
-        except Exception as e:
-            print("REGISTER ERROR:", e)
-            messages.error(request,"Something went wrong. Please try again.")
-            return redirect("student_register")
+                    #create student profile
+                    student = form.save(commit=False)
+                    student.user = user #user link karvu
+                    student.save()#student profile db save thase
+            
+                messages.success(request, "Registration successful! Please login.")
+                return redirect("student_login")
+            
+            except Exception as e:
+                print("REGISTER ERROR:", e)
+                messages.error(request,"Something went wrong. Please try again.")
+                return redirect("student_register")
+            
+    else:
+        form = StudentRegisterForm()
     
-    return render(request, "student/pages/student_register.html")
+    context={"form": form
+             }
+        
+    return render(request, "student/pages/student_register.html",context)
 
 
 
@@ -252,7 +191,8 @@ def update_details(request):
             profile.resume = request.FILES["resume"]
 
         from django.core.exceptions import ValidationError
-
+        
+        # save
         try:
             profile.full_clean()   # model validation trigger kare
             profile.save()
@@ -311,8 +251,7 @@ def applied_jobs(request):
 
         # Send data to template
     context ={
-                "profile": profile,
-
+        "profile": profile,
         "active_page": "applied",
         "page_title": "Applied Jobs"
     }
@@ -329,10 +268,9 @@ def shortlisted_company(request):
 
         # Send data to template
     context ={
-                "profile": profile,
-
-          "active_page": "shortlisted",
-          "page_title": "Shortlisted Companies"
+            "profile": profile,
+            "active_page": "shortlisted",
+            "page_title": "Shortlisted Companies"
     }
     return render(request,"student/pages/shortlisted_company.html",context)
 
@@ -348,11 +286,8 @@ def selected_company(request):
         # Send data to template
     context ={
                 "profile": profile,
-
                 "active_page": "selected",
-                "page_title": "Selected Companies"
-
-
+                "page_title": "Selected Companies",
     }
     return render(request,"student/pages/selected_company.html",context)
 
@@ -368,11 +303,8 @@ def placement_contact(request):
         # Send data to template
     context ={
                 "profile": profile,
-
                 "active_page": "contact",
-                "page_title": "Placement Cell Contact"
-
-
+                "page_title": "Placement Cell Contact",
     }
     return render(request,"student/pages/placement_contact.html",context)
 

@@ -1,18 +1,29 @@
-from django.shortcuts import render,redirect #html page show and url pass
+from django.shortcuts import render,redirect,get_object_or_404 #html page show and url pass
 from django.contrib import messages #sucess error mesage show  for
 from django.contrib.auth import get_user_model,login,logout
 from django.db import transaction
 from .models import CompanyProfile
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
-
-
+from accounts.decorators import company_required
+from django.contrib.auth import update_session_auth_hash
+from django.core.exceptions import ValidationError
 
 
 
 # Create your views here.
-
 User = get_user_model()
+
+#========================
+# helper function
+#========================
+
+def get_company(request):
+    return get_object_or_404(CompanyProfile, user=request.user)
+#==========================
+
+
+
 
 
 # ===============================
@@ -89,37 +100,230 @@ def company_register(request):
             return redirect("company_register")
 
     return render(request, "company/pages/company_register.html")
-
+#========================
 # dashboard view
+#========================
 @login_required(login_url="company_login")
+@company_required
 @never_cache
 def company_dashboard(request):
     
-    profile = CompanyProfile.objects.get(user=request.user)
-
-    # 🔹 Role check
-    if request.user.role != "company":
-        messages.error(request, "Access denied.")
-        return redirect("company_login")
-
-    try:
-        profile = CompanyProfile.objects.get(user=request.user)
-    except CompanyProfile.DoesNotExist:
-        messages.error(request, "Company profile not found.")
-        logout(request)
-        return redirect("company_login")
+    # Get company profile safely
+    company = get_company(request)
 
     # 🔹 Approval check
-    if profile.status != CompanyProfile.Status.APPROVED:
+    if company.status != CompanyProfile.Status.APPROVED:
         messages.warning(request, "Your account is not approved yet.")
         logout(request)
         return redirect("company_login")
 
+
     context = {
-        "profile": profile,
-        "company": profile,
+        "company": company,
+        "user": request.user,
+        "page_title": "Dashboard",
+        "active_page": "dashboard"
     }
 
     return render(request, "company/pages/company_dashboard.html", context)
+
+#========================
+#update detils   
+#========================
+@login_required(login_url="company_login")
+@company_required
+@never_cache
+def cmp_update_details(request):
+    
+    company = get_company(request) #calll compny profile 
+
+    if request.method == "POST":
+
+
+        # PASSWORD UPDATE
+        new_password = request.POST.get("new_password")
+        confirm_password = request.POST.get("confirm_password")
+        current_password = request.POST.get("current_password")
+
+        if new_password or confirm_password:
+
+            # current password check
+            if not request.user.check_password(current_password):
+                messages.error(request, "Current password is incorrect.")
+                return redirect("cmp_update_details")
+
+            # password match
+            if new_password != confirm_password:
+                messages.error(request, "Passwords do not match.")
+                return redirect("cmp_update_details")
+
+            # length check
+            if len(new_password) < 6:
+                messages.error(request, "Password must be at least 6 characters.")
+                return redirect("cmp_update_details")
+
+            # set new password
+            request.user.set_password(new_password)
+            request.user.save()
+
+            # keep session active
+            update_session_auth_hash(request, request.user)
+
+            messages.success(request, "Password updated successfully!")
+
+            if request.POST.get("redirect_dashboard"):
+                return redirect("company_dashboard")
+            else:
+                return redirect("cmp_update_details")
+
+        
+        # =========================
+        # COMPANY BASIC DETAILS
+        # =========================
+        company.company_name = request.POST.get("company_name", "")
+        company.company_email = request.POST.get("company_email", "")
+        company.phone = request.POST.get("phone", "")
+        company.gst_number = request.POST.get("gst_number", "")
+        company.industry = request.POST.get("industry", "")
+        company.company_size = request.POST.get("company_size", "")
+        company.website = request.POST.get("website", "")
+
+        company.description = request.POST.get("description", "")
+        company.address = request.POST.get("address", "")
+
+        # =========================
+        # CONTACT PERSON DETAILS
+        # =========================
+        company.cp_name = request.POST.get("cp_name", "")
+        company.cp_email = request.POST.get("cp_email", "")
+        company.cp_phone = request.POST.get("cp_phone", "")
+        company.designation = request.POST.get("designation", "")
+
+        # =========================
+        # FILE UPLOAD
+        # =========================
+        if "reg_certificate" in request.FILES:
+            company.reg_certificate = request.FILES["reg_certificate"]
+
+        # =========================
+        # SAVE
+        # =========================
+        try:
+            company.full_clean()
+            company.save()
+
+            messages.success(request, "Company details updated successfully!")
+        except ValidationError as e:
+            for field, errors in e.message_dict.items():
+                for error in errors:
+                    messages.error(request, error)
+            
+            return redirect("cmp_update_details")
+        except Exception:
+            messages.error(request, "Something went wrong. Please try again.")
+            return redirect("cmp_update_details")
+
+    context = {
+        "company": company,
+        "page_title": "Update Company Profile",
+        "active_page": "cmp_update_details"
+    }
+    return render(request,"company/pages/cmp_update_details.html",context)
+
+#========================
+#add requerment   
+#========================
+@login_required(login_url="company_login")
+@never_cache
+def add_requirements(request):
+
+    company = get_company(request)
+
+    context = {
+        "company": company,
+        "page_title": "Add New Requirement",
+        "active_page": "add_req"
+    }
+    return render(request,"company/pages/add_requirements.html",context)
+
+#========================
+# current_requirement
+#========================
+@login_required(login_url="company_login")
+@never_cache
+def current_requirements(request):
+
+    company = get_company(request)
+
+    context = {
+        "company": company,
+        "page_title": "Current Requirements",
+        "active_page": "current_req"
+    }
+    return render(request,"company/pages/current_requirements.html",context)
+
+#========================
+#shortlisted_student
+#========================
+@login_required(login_url="company_login")
+@never_cache
+def shortlisted_students(request):
+
+    company = get_company(request)
+
+    context = {
+        "company": company,
+        "page_title": "Shortlisted Students",
+        "active_page": "shortlisted"
+    }
+    return render(request,"company/pages/shortlisted_students.html",context)
+
+#========================
+#selected student 
+#========================
+@login_required(login_url="company_login")
+@never_cache
+def selected_students(request):
+
+    company = get_company(request)
+
+    context = {
+        "company": company,
+        "page_title": "Selected Students",
+        "active_page": "selected"
+    }
+    return render(request,"company/pages/selected_students.html",context)
+
+#========================
+#old requirement 
+#========================
+@login_required(login_url="company_login")
+@never_cache
+def old_requirements(request):
+
+    company = get_company(request)
+
+    context = {
+        "company": company,
+        "page_title": "Old Requirements",
+        "active_page": "old_req"
+    }
+    return render(request,"company/pages/old_requirements.html",context)
+
+#========================
+#old requirement 
+#========================
+@login_required(login_url="company_login")
+@never_cache
+def pc_contact(request):
+
+    company = get_company(request)
+
+    context = {
+        "company": company,
+        "page_title": "Placement Cell Contact",
+        "active_page": "pc_contact"
+    }
+    return render(request,"company/pages/pc_contact.html",context)
 
 

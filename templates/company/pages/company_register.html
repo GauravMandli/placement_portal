@@ -82,10 +82,10 @@
                                     <label class="form-label">Company Size</label>
                                     <select name="company_size" class="form-select">
                                         <option value="">Select size</option>
-                                        <option>1–50</option>
-                                        <option>51–200</option>
-                                        <option>201–500</option>
-                                        <option>500+</option>
+                                        <option value="1-50">1-50 Employees</option>
+                                        <option value="51-200">51-200 Employees</option>
+                                        <option value="201-500">201-500 Employees</option>
+                                        <option value="500+">500+ Employees</option>
                                     </select>
                                 </div>
 
@@ -102,7 +102,7 @@
                                 <div class="mb-3">
                                     <label class="form-label">Company Description <span
                                             class="text-danger">*</span></label>
-                                    <textarea name="description" value=" {{ old_data.description|default:'' }}" class="form-control" rows="3" required></textarea>
+                                    <textarea name="description" class="form-control" rows="3" required>{{ old_data.description|default:'' }}</textarea>
                                 </div>
 
                                 <!-- MOVED HERE -->

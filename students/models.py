@@ -29,7 +29,7 @@ class StudentProfile(models.Model):
     skills = models.TextField()
 
     #passport photo
-    passport_photo = models.FileField(upload_to='passport_photo')
+    passport_photo = models.FileField(upload_to='passport_photo/')
 
     #Social Links
     linkedin = models.URLField(blank=True, null=True)

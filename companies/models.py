@@ -10,7 +10,8 @@ class CompanyProfile(models.Model):
         settings.AUTH_USER_MODEL, 
         on_delete=models.CASCADE,
         related_name="company_profile"
-)
+    )
+
     class Status(models.TextChoices):
         PENDING = "pending", "Pending"
         APPROVED = "approved", "Approved"
@@ -31,7 +32,14 @@ class CompanyProfile(models.Model):
 
     gst_number = models.CharField(max_length=20, null=True, blank=True)
     industry = models.CharField(max_length=100)
-    company_size = models.CharField(max_length=50)
+
+    COMPANY_SIZE_CHOICES = [
+        ("1-50", "1-50 Employees"),
+        ("51-200", "51-200 Employees"),
+        ("201-500", "201-500 Employees"),
+        ("500+", "500+ Employees"),
+    ]
+    company_size = models.CharField(max_length=50,choices=COMPANY_SIZE_CHOICES)
     website = models.URLField()
 
     address = models.TextField()
@@ -42,7 +50,7 @@ class CompanyProfile(models.Model):
     cp_phone = models.CharField(max_length=15)
     designation = models.CharField(max_length=150)
 
-    reg_certificate = models.FileField(upload_to='copmpany_certificates/')
+    reg_certificate = models.FileField(upload_to='company_certificates/')
 
     is_active = models.BooleanField(default=True)
 

@@ -42,13 +42,41 @@
                                     Summary</h5>
                             </div>
                             <div class="card-body">
-                                <p class="mb-2"><strong>Company:</strong> Tech Corp</p>
-                                <p class="mb-2"><strong>Industry:</strong> Information Technology</p>
-                                <p class="mb-2"><strong>Location:</strong> Bangalore, Karnataka</p>
-                                <p class="mb-3"><strong>Status:</strong> <span class="badge bg-success">Active</span>
+                                <p class="mb-2"><strong>Company Name:</strong> {{ company.company_name|upper}}</p>
+                                <p class="mb-2"><strong>Phone:</strong> {{ company.phone }}</p>
+                                <p class="mb-2"><strong>GST Number:</strong> {{ company.gst_number }}</p>                                            
+                                <p class="mb-2"><strong>Industry:</strong> {{ company.industry }}</p>
+                                <p class="mb-2"><strong>Company Size:</strong> {{ company.company_size }}</p>
+
+                                <p class="mb-2"><strong>Website:</strong> 
+                                    <a href="{{ company.website }}" target="_blank">{{ company.website }}</a>
                                 </p>
-                                <a href="#" class="nav-link-dashboard btn btn-success w-100"
-                                    data-page="page-company-profile">Update Profile</a>
+                                <p class="mb-2"><strong>Contact Person:</strong> {{ company.cp_name }}</p>
+                                <p class="mb-2"><strong>Contact Email:</strong> {{ company.cp_email }}</p>
+                                <p class="mb-2"><strong>Contact Phone:</strong> {{ company.cp_phone }}</p>
+                                <p class="mb-2"><strong>Designation:</strong> {{ company.designation }}</p>
+                                <p class="mb-2"><strong>Address:</strong> {{ company.address }}</p>
+                                <p class="mb-2"><strong>Description:</strong> {{ company.description  }}</p>
+                                <p class="mb-3"><strong>Status:</strong> <span class="badge
+                                   {% if company.status == 'approved' %}bg-success
+                                    {% elif company.status == 'pending' %}bg-warning
+                                    {% elif company.status == 'rejected' %}bg-danger
+                                    {% endif %}
+                                    ">
+                                 {{ company.get_status_display }}
+                            </span>
+                                </p>
+                                {% if company.reg_certificate %}
+
+                                <p class="mb-2"><strong>Registration Certificate:</strong> 
+                            
+                                <a href="{{ company.reg_certificate.url }}" 
+                                class="btn btn-sm btn-outline-primary ms-2" 
+                                target="_blank">  
+                                <i class="fas fa-file-pdf me-1"></i> View Certificate
+                            </a>
+                        </p>                              
+                                {% endif %}
                             </div>
                         </div>
                     </div>

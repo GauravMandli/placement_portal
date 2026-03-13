@@ -1,0 +1,241 @@
+  {% extends "company/company_base.html" %}
+  {% load static %}
+
+          {% block content %}
+ <!-- ========== DASHBOARD PAGE ========== -->
+        <div class="container-fluid py-4">
+          <div class="card">
+            <div class="card-header">
+              <h5 class="mb-0"><i class="fas fa-building me-2"></i>Update Company Profile</h5>
+            </div>
+            <div class="card-body">
+              <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-section">
+                  <h6 class="form-section-title"><i class="fas fa-building"></i> Company Details</h6>
+
+                  <div class="form-group-floating filled input-with-icon">
+                    <i class="fas fa-building input-icon" aria-hidden="true"></i>
+                    <input type="text" class="form-control" id="companyName" name="company_name"
+                          value="{{ company.company_name }}" placeholder=" " required>
+                    <label class="form-floating-label" for="companyName">
+                      Company Name <span class="text-danger">*</span>
+                    </label>
+                  </div>
+                  
+                  <div class="form-group-floating filled input-with-icon">
+                    <i class="fas fa-envelope input-icon"></i>
+                    <input type="email" class="form-control" name="company_email"
+                    value="{{ company.company_email }}" placeholder=" " required>
+                    <label class="form-floating-label">Company Email *</label>
+                  </div>
+
+                  <div class="form-group-floating filled input-with-icon">
+                    <i class="fas fa-phone input-icon"></i>
+                    <input type="tel" class="form-control" name="phone"
+                    value="{{ company.phone }}" placeholder=" " required>
+                    <label class="form-floating-label">Phone *</label>
+                  </div>
+
+                  <div class="form-group-floating filled input-with-icon">
+                    <i class="fas fa-file-invoice input-icon"></i>
+                    <input type="text" class="form-control" name="gst_number"
+                    value="{{ company.gst_number }}" placeholder=" " required>
+                    <label class="form-floating-label">GST Number *</label>
+                  </div>
+
+                  <div class="form-group-floating filled input-with-icon">
+                    <i class="fas fa-industry input-icon"></i>        
+                      <select name="industry" class="form-control">
+                        <option value="">Select Industry</option>
+                        <option value="IT" {% if company.industry == "IT" %}selected{% endif %}>IT</option>
+                        <option value="Software" {% if company.industry == "Software" %}selected{% endif %}>Software</option>
+                        <option value="Finance" {% if company.industry == "Finance" %}selected{% endif %}>Finance</option>
+                        <option value="Manufacturing" {% if company.industry == "Manufacturing" %}selected{% endif %}>Manufacturing</option>
+                      </select>
+                      <label class="form-floating-label">Industry</label>
+                  </div>
+
+
+                <div class="form-group-floating filled input-with-icon">
+                  <i class="fas fa-users input-icon"></i>
+                    <select name="company_size" class="form-control">
+                      <option value="">Select Company Size</option>
+                      <option value="1-50" {% if company.company_size == "1-50" %}selected{% endif %}>1-50</option>
+                      <option value="51-200" {% if company.company_size == "51-200" %}selected{% endif %}>51-200</option>
+                      <option value="201-500" {% if company.company_size == "201-500" %}selected{% endif %}>201-500</option>
+                      <option value="500+" {% if company.company_size == "500+" %}selected{% endif %}>500+</option>
+                    </select>
+                  <label class="form-floating-label">Company Size</label>
+                </div>
+
+                <div class="form-group-floating filled input-with-icon">
+                  <i class="fas fa-globe input-icon"></i>
+                  <input type="url" class="form-control" name="website"
+                    value="{{ company.website }}" placeholder=" ">
+                  <label class="form-floating-label">Website</label>
+                </div>
+
+
+                <div class="form-group-floating filled input-with-icon">
+                  <i class="fas fa-align-left input-icon"></i>
+                  <textarea class="form-control" name="description" rows="3"
+                    placeholder=" ">{{ company.description }}</textarea>
+                  <label class="form-floating-label">Company Description</label>
+                </div>
+
+
+                <div class="form-group-floating filled input-with-icon">
+                  <i class="fas fa-map-marker-alt input-icon"></i>
+                  <textarea class="form-control" name="address" rows="3"
+                   placeholder=" ">{{ company.address }}</textarea>
+                  <label class="form-floating-label">Address</label>
+                </div>
+
+
+                <h6 class="form-section-title"><i class="fas fa-user"></i> Contact Person</h6>
+                  
+                <div class="form-group-floating filled input-with-icon">
+                  <i class="fas fa-user input-icon"></i>
+                  <input type="text" class="form-control" name="cp_name"
+                    value="{{ company.cp_name }}" placeholder=" " required>
+                  <label class="form-floating-label">Contact Person Name *</label>
+                </div>
+
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group-floating filled input-with-icon">
+                      <i class="fas fa-envelope input-icon"></i>
+                      <input type="email" class="form-control" name="cp_email"
+                        value="{{ company.cp_email }}" placeholder=" " required>
+                      <label class="form-floating-label">Contact Person Email *</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group-floating filled input-with-icon">
+                      <i class="fas fa-phone input-icon"></i>
+                      <input type="tel" class="form-control" name="cp_phone"
+                        value="{{ company.cp_phone }}" placeholder=" " required>
+                      <label class="form-floating-label">Contact Person Phone *</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group-floating filled input-with-icon">
+                  <i class="fas fa-id-badge input-icon"></i>
+                  <input type="text" class="form-control" name="designation"
+                  value="{{ company.designation }}" placeholder=" " required>
+                  <label class="form-floating-label">Designation *</label>
+                </div>
+
+                <!-- Registration Certificate -->
+<div class="form-section">
+    <h6 class="form-section-title">
+        <i class="fas fa-file-pdf"></i> Registration Certificate
+    </h6>
+
+    {% comment %} <!-- Current File -->
+    {% if company.reg_certificate %}
+    <div class="mb-2">
+        <small class="text-muted">Current Certificate:</small><br>
+
+        <a href="{{ company.reg_certificate.url }}" target="_blank" class="text-decoration-none">
+            <i class="fas fa-file-pdf text-danger"></i>
+            {{ company.reg_certificate.name|cut:"company_certificate/" }}
+        </a>
+    </div>
+    {% endif %} {% endcomment %}
+
+    <!-- Upload New File -->
+    <div class="file-drop-zone" id="companyCertDrop">
+
+    <input type="file"
+           id="companyCertificate"
+           class="file-drop-input"
+           name="reg_certificate"
+           accept=".pdf,.doc,.docx,.jpg,.png">
+
+    <i class="fas fa-cloud-upload-alt file-drop-icon"></i>
+
+    <span class="file-drop-text">
+        Drop your certificate here or click to upload
+    </span>
+
+    <span class="file-drop-hint">
+        PDF, DOC, DOCX, JPG, PNG (Max 5MB)
+    </span>
+
+    <!-- file name show here -->
+    <span class="file-name" id="companyCertName"></span>
+
+</div>
+    <small class="text-muted">
+        Upload new file only if you want to replace the current certificate.
+    </small>
+
+</div>
+          
+              <!-- Password Change Section -->
+              <div class="form-section">
+                  <h6 class="form-section-title">
+                      <i class="fas fa-lock"></i> Change Password
+                  </h6>
+
+                  <p class="text-muted small mb-2">
+                      Leave blank to keep current password.
+                  </p>
+
+                  <div class="form-group-floating input-with-icon">
+                      <i class="fas fa-lock input-icon"></i>
+                      <input type="password"
+                            class="form-control"
+                            id="currentPassword"
+                            name="current_password"
+                            placeholder=" ">
+                      <label class="form-floating-label" for="currentPassword">
+                          Current Password
+                      </label>
+                  </div>
+
+                  <div class="form-group-floating input-with-icon">
+                      <i class="fas fa-lock input-icon"></i>
+                      <input type="password"
+                            class="form-control"
+                            id="newPassword"
+                            name="new_password"
+                            placeholder=" ">
+                      <label class="form-floating-label" for="newPassword">
+                          New Password
+                      </label>
+                  </div>
+
+                  <div class="form-group-floating input-with-icon">
+                      <i class="fas fa-lock input-icon"></i>
+                      <input type="password"
+                            class="form-control"
+                            id="confirmPassword"
+                            name="confirm_password"
+                            placeholder=" ">
+                      <label class="form-floating-label" for="confirmPassword">
+                          Confirm New Password
+                      </label>
+                  </div>
+              </div>
+          </div>
+        
+                <button type="submit" class="btn btn-success btn-hover-ripple">
+                  <i class="fas fa-save me-2"></i>Save Changes
+                </button>
+                <button type="submit" class="btn btn-success btn-hover-ripple">
+                  <i class="fas fa-save me-2"></i>Save & Go to Dashboard
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    {% endblock content %}

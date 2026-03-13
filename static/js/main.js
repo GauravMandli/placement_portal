@@ -858,61 +858,52 @@ const companyProfileForm = document.getElementById('companyProfileForm');
             this.reset();
         });
     }
-});
 
 
 // Company Certificate Upload Preview + Validation
-const certInput = document.getElementById('companyCertificate');
-const certDrop = document.getElementById('companyCertDrop');
-const certName = document.getElementById('companyCertName');
+ const certInput = document.getElementById('companyCertificate');
+    const certDrop = document.getElementById('companyCertDrop');
+    const certName = document.getElementById('companyCertName');
 
-if (certInput) {
-    certInput.addEventListener('change', function () {
-        const file = this.files[0];
-        if (!file) return;
+    if (certInput) {
+        certInput.addEventListener('change', function () {
 
-        const allowedTypes = [
-            'application/pdf',
-            'application/msword',
-            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            'image/jpeg',
-            'image/png'
-        ];
+            const file = this.files[0];
 
-        const maxSize = 5 * 1024 * 1024; // 5MB
+            if (!file) {
+                certName.textContent = '';
+                return;
+            }
 
-        if (!allowedTypes.includes(file.type)) {
-            showToast('Invalid file type. Upload PDF, DOC, DOCX, JPG or PNG only.', 'danger');
-            this.value = '';
-            certDrop.classList.add('is-invalid');
-            return;
-        }
+            const allowedTypes = [
+                'application/pdf',
+                'application/msword',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'image/jpeg',
+                'image/png'
+            ];
 
-        if (file.size > maxSize) {
-            showToast('File size must be less than 5MB.', 'danger');
-            this.value = '';
-            certDrop.classList.add('is-invalid');
-            return;
-        }
+            const maxSize = 5 * 1024 * 1024; // 5MB
 
-        certDrop.classList.remove('is-invalid');
-        certDrop.classList.add('has-file');
-        certName.textContent = `Selected: ${file.name}`;
-    });
-}
+            if (!allowedTypes.includes(file.type)) {
+                showToast('Invalid file type. Upload PDF, DOC, DOCX, JPG or PNG only.', 'danger');
+                this.value = '';
+                certDrop.classList.add('is-invalid');
+                return;
+            }
 
+            if (file.size > maxSize) {
+                showToast('File size must be less than 5MB.', 'danger');
+                this.value = '';
+                certDrop.classList.add('is-invalid');
+                return;
+            }
 
+            certDrop.classList.remove('is-invalid');
+            certDrop.classList.add('has-file');
 
+            certName.textContent = "Selected: " + file.name;
 
-
-// hide js 467,637
-
-
-
-
-
-
-
-
-
-
+        });
+    }
+});

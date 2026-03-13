@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import CompanyProfile
+from django.utils.html import format_html
 # Register your models here.
 
 @admin.register(CompanyProfile)

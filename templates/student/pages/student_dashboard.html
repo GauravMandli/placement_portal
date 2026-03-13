@@ -20,21 +20,50 @@
                                 <p class="mb-2"><strong>Name:</strong> <span id="profileCardName">{{ user.first_name }} {{ user.last_name }}</span></p>
                                 <p class="mb-2"><strong>Email:</strong> <span id="profileCardEmail">{{ user.email }}</span></p>
                                 <p class="mb-2"><strong>Phone Number:</strong> <span id="profileCardPhone">+91 {{ profile.phone }}</span></p>
-                                <p class="mb-2"><strong>DOB:</strong> <span id="profileCardDob">{{ profile.dob }}</span></p>
+                                <p class="mb-2"><strong>DOB:</strong> <span id="profileCardDob">{{ profile.dob|date:"d M Y" }}</span></p>
                                 <p class="mb-2"><strong>Gender:</strong> <span id="profileCardGender">{{ profile.gender }}</span></p>
                                 <p class="mb-2"><strong>Course:</strong> <span id="profileCardCourse">{{ profile.course }}</span></p>
                                 <p class="mb-2"><strong>Year:</strong> <span id="profileCardYear">{{ profile.year }}</span></p>
                                 <p class="mb-2"><strong>Roll No:</strong> <span id="profileCardStudentId">{{ profile.enroll_number }}</span></p>
                                 <p class="mb-2"><strong>CGPA:</strong> <span id="profileCardCgpa">{{ profile.cgpa }}</span> / 10</p>
-                                <p class="mb-2"><strong>Skills:</strong> <span id="profileCardSkills">{{ profile.skills }}</span></p>
-                                <p class="mb-2"><strong>LinkedIn:</strong> <span id="profileCardLinkedin">{{ profile.linkedin }}</span></p>
-                                <p class="mb-2"><strong>GitHub:</strong> <span id="profileCardGithub">{{ profile.github }}</span></p>
-                                <p class="mb-2"><strong>Portfolio:</strong> <span id="profileCardPortfolio">{{profile.portfolio }}</span></p>
+                                <p class="mb-2"><strong>Skills:</strong> <span id="profileCardSkills">{{ profile.skills|title }}</span></p>
+                                
+                                <p class="mb-2"><strong>LinkedIn:</strong> 
+                                    <span id="profileCardLinkedin">
+                                        {% if profile.linkedin %}
+                                            <a href="{{ profile.linkedin }}" target="_blank">{{ profile.linkedin }}</a>
+                                        {% else %}
+                                        <span class="text-muted">Not Provided</span>
+                                        {% endif %}
+                                    </span>
+                                </p>
+                                <p class="mb-2">
+                                    <strong>GitHub:</strong> 
+                                        <span id="profileCardGithub">
+                                            {% if profile.github %}
+                                                <a href="{{ profile.github }}" target="_blank">{{ profile.github }}</a>
+                                            {% else %}
+                                        <span class="text-muted">Not Provided</span>
+                                        {% endif %}
+                                    </span>
+                                </p>
+                                <p class="mb-2">
+                                    <strong>Portfolio:</strong> 
+                                    <span id="profileCardPortfolio">
+                                        {% if profile.portfolio %}
+                                            <a href="{{ profile.portfolio }}" target="_blank">{{ profile.portfolio }}</a>
+                                        {% else %}
+                                    <span class="text-muted">Not Provided</span>
+                                    {% endif %}
+                                </span>
+                            </p>
                                 <!-- <p class="mb-3"><strong>Resume:</strong> <span id="profileCardResume">{{profile.resume }}</span></p> -->
                         
-                                <a href="{{ profile.resume.url }}" class="btn btn-primary w-100" id="profileResumeBtn">
+                                {% if profile.resume %}
+                                <a href="{{ profile.resume.url }}" class="btn btn-primary w-100">
                                     <i class="fas fa-file-pdf me-2"></i>Resume View
                                 </a>
+                                {% endif %}
                                
             
                             </div>

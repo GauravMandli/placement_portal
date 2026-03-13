@@ -111,41 +111,46 @@ def company_login(request):
 
 
 # ==================================
-# ADMIN LOGIN
+# Placement cell  LOGIN
 # ==================================
 def pc_login(request):
     if request.method == "POST":
-        username_or_email = request.POST.get("username")
-        password = request.POST.get("password")
+
+        username_or_email = request.POST.get("username","").strip()
+        password = request.POST.get("password","").strip()
 
         # first try username login
         user = authenticate(request, username=username_or_email, password=password)
 
-        # if failed,try email login
+        # if failed, try email login
         if user is None:
             try:
                 user_obj = User.objects.get(email__iexact=username_or_email)
                 user = authenticate(request, username=user_obj.username, password=password)
             except User.DoesNotExist:
                 user = None
+
+        # Invalid credentials check FIRST
+        if user is None:
+            messages.error(request, "Invalid username/email or password.")
+            return redirect("pc_login")
+
+        #  Account active check
         if not user.is_active:
             messages.error(request, "Account is disabled.")
             return redirect("pc_login")
 
-        if user is None:
-            messages.error(request, "Invalid username/email or password.")
-            return redirect("pc_login")
-        
+        #  Role check
         if user.role != "placement_cell":
-            messages.error(request, "Access denied. Not an Placement Officer account.")
+            messages.error(request, "Access denied. Not a Placement Officer account.")
             return redirect("pc_login")
-        
-        login(request,user)
-        messages.success(request,"login successful.")
-        return redirect("placement_cell:pc_dashboard")
-    
-    return render(request,"placement_cell/pages/pc_login.html")
 
+        #  Login success
+        login(request, user)
+        messages.success(request, "Login successful.")
+        return redirect("placement_cell:pc_dashboard")
+
+    return render(request, "placement_cell/pages/pc_login.html")
 
 # ==================================
 # LOGOUT
