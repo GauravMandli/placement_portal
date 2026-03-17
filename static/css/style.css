@@ -2634,3 +2634,81 @@ footer.bg-dark .text-center p {
 .profile-info-card a:hover {
     text-decoration: underline;
 }
+
+/* ============================================
+   Additional responsive refinements
+   ============================================ */
+
+/* Small phones (≤ 576px): make header search/filter inputs fluid */
+@media (max-width: 576px) {
+    /* Search bars with fixed inline width in admin headers */
+    .card-header .input-group,
+    .filter-bar .input-group {
+        width: 100% !important;
+    }
+
+    .card-header form.d-flex {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--space-2);
+    }
+
+    .filter-bar .row.align-items-center {
+        row-gap: var(--space-3);
+    }
+
+    /* Auth container: tighten side padding on very small screens */
+    .auth-container {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+}
+
+/* Tablets and small laptops (≤ 992px): slightly reduce dashboard padding */
+@media (max-width: 992px) {
+    .main-content {
+        padding: var(--space-6) var(--space-6) var(--space-10);
+    }
+}
+
+
+#pdfUploadContainer span{
+    font-size:14px;
+}
+
+#pdfUploadContainer button:hover{
+    transform:scale(1.2);
+}
+
+.alert{
+    animation: fadeOut 4s forwards;
+}
+
+@keyframes fadeOut {
+    0% {opacity:1;}
+    80% {opacity:1;}
+    100% {opacity:0; display:none;}
+}
+
+.job-actions .btn {
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    .job-actions .btn {
+        font-size: 13px;
+        padding: 8px 10px;
+    }
+}
+
+.card p {
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+.hover-card {
+    transition: all 0.2s ease;
+}
+.hover-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}

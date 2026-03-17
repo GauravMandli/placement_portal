@@ -105,7 +105,7 @@ def company_login(request):
         #  Login success
         login(request, user)
         messages.success(request, "Login successful.")
-        return redirect("company_dashboard")
+        return redirect("companies:company_dashboard")
 
     return render(request, "company/pages/company_login.html")
 

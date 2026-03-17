@@ -193,6 +193,161 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             });
 
+            
+document.querySelectorAll(".view-company-details").forEach(function (button) {
+
+    button.addEventListener("click", function () {
+
+        const slug = this.dataset.slug;
+
+        fetch(`/placement_cell/company-detail/${slug}/`)
+            .then(res => res.json())
+            .then(response => {
+
+                if (!response.success) {
+                    alert(response.error);
+                    return;
+                }
+
+                const data = response.data;
+
+                // status badge
+                let statusBadge = "";
+                if (data.status === "Approved") {
+                    statusBadge = '<span class="badge bg-success">Approved</span>';
+                } else if (data.status === "Pending") {
+                    statusBadge = '<span class="badge bg-warning text-dark">Pending</span>';
+                } else {
+                    statusBadge = '<span class="badge bg-danger">Rejected</span>';
+                }
+
+                function val(v) {
+    return v ? v : '<span class="text-muted">N/A</span>';
+}
+
+document.getElementById("companyDetailsContent").innerHTML = `
+<div class="container-fluid">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-start mb-3">
+        <div>
+            <h5 class="fw-bold mb-1">${data.company_name}</h5>
+            ${statusBadge}
+        </div>
+        <a href="${data.certificate_url || '#'}"
+           class="btn btn-outline-primary btn-sm"
+           target="_blank">
+           <i class="fas fa-file-alt me-1"></i> Certificate
+        </a>
+    </div>
+
+    <hr class="my-3">
+
+    <div class="row g-4">
+
+        <!-- Company Info -->
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 h-100 hover-card">
+                <div class="card-body">
+                    <h6 class="fw-semibold text-primary mb-3">
+                        <i class="fas fa-building me-2"></i>Company Info
+                    </h6>
+                    <p><strong>Industry:</strong> ${val(data.industry)}</p>
+                    <p><strong>Website:</strong> 
+                        <a href="${data.website || '#'}" target="_blank">
+                            ${val(data.website)}
+                        </a>
+                    </p>
+                    <p><strong>Company Size:</strong> ${val(data.company_size)}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Info -->
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 h-100 hover-card">
+                <div class="card-body">
+                    <h6 class="fw-semibold text-primary mb-3">
+                        <i class="fas fa-user me-2"></i>Contact Info
+                    </h6>
+                    <p><strong>Email:</strong> 
+                        <a href="mailto:${data.company_email}">
+                            ${val(data.company_email)}
+                        </a>
+                    </p>
+                    <p><strong>Phone:</strong> 
+                        <a href="tel:${data.phone}">
+                            ${val(data.phone)}
+                        </a>
+                    </p>
+                    <p><strong>Contact Person:</strong> ${val(data.contact_person_name)}</p>
+                    <p><strong>Designation:</strong> ${val(data.designation)}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Extra Info -->
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 h-100 hover-card">
+                <div class="card-body">
+                    <h6 class="fw-semibold text-primary mb-3">
+                        <i class="fas fa-info-circle me-2"></i>Additional Info
+                    </h6>
+                    <p><strong>GST Number:</strong> ${val(data.gst_number)}</p>
+                    <p><strong>Registered On:</strong> ${new Date(data.created_at).toLocaleDateString()}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Extra -->
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 h-100 hover-card">
+                <div class="card-body">
+                    <h6 class="fw-semibold text-primary mb-3">
+                        <i class="fas fa-address-book me-2"></i>Contact Details
+                    </h6>
+                    <p><strong>Email:</strong> ${val(data.contact_email)}</p>
+                    <p><strong>Phone:</strong> ${val(data.contact_phone)}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Description -->
+        <div class="col-12">
+            <div class="card border-0 bg-light shadow-sm">
+                <div class="card-body">
+                    <h6 class="fw-semibold text-primary mb-2">
+                        <i class="fas fa-align-left me-2"></i>Description
+                    </h6>
+                    <p class="mb-0 small">${val(data.description)}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Address -->
+        <div class="col-12">
+            <div class="card border-0 bg-light shadow-sm">
+                <div class="card-body">
+                    <h6 class="fw-semibold text-primary mb-2">
+                        <i class="fas fa-map-marker-alt me-2"></i>Address
+                    </h6>
+                    <p class="mb-0 small">${val(data.address)}</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+`;
+
+                new bootstrap.Modal(
+                    document.getElementById("companyDetailsModal")
+                ).show();
+            });
+
+    });
+
+});
 
 });
                   
@@ -202,4 +357,5 @@ document.addEventListener('DOMContentLoaded', function () {
             alert.classList.remove('show');
         });
     }, 3000);
+
 

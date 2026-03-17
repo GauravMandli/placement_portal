@@ -907,3 +907,70 @@ const companyProfileForm = document.getElementById('companyProfileForm');
         });
     }
 });
+
+/* ===== Job PDF Upload ===== */
+
+function addNewFileInput(input){
+
+    if(input.files.length > 0){
+
+        const list = document.getElementById("pdfFileList");
+
+        const row = document.createElement("div");
+
+        row.style.display = "flex";
+        row.style.alignItems = "center";
+        row.style.marginBottom = "5px";
+
+        const name = document.createElement("span");
+        name.innerHTML = "📄 " + input.files[0].name;
+        name.style.background = "#f3f4f6";
+        name.style.padding = "5px 10px";
+        name.style.borderRadius = "5px";
+
+        const remove = document.createElement("button");
+        remove.innerHTML = "❌";
+        remove.type = "button";
+        remove.style.marginLeft = "8px";
+        remove.style.border = "none";
+        remove.style.background = "transparent";
+        remove.style.cursor = "pointer";
+
+        remove.onclick = function(){
+            row.remove();
+        };
+
+        row.appendChild(name);
+        row.appendChild(remove);
+
+        list.appendChild(row);
+    }
+}
+
+function addInputField(){
+
+    const container = document.getElementById("pdfUploadContainer");
+
+    const input = document.createElement("input");
+
+    input.type = "file";
+    input.name = "job_pdfs";
+    input.accept = ".pdf";
+    input.className = "form-control form-control-sm mt-2";
+    input.style.maxWidth = "500px";
+
+    input.onchange = function(){
+        addNewFileInput(this);
+    };
+
+    container.appendChild(input);
+}
+
+setTimeout(function () {
+    let alerts = document.querySelectorAll(".auto-dismiss");
+    alerts.forEach(function(alert) {
+        alert.classList.remove("show");
+        alert.classList.add("fade");
+        setTimeout(() => alert.remove(), 500);
+    });
+}, 3000); 

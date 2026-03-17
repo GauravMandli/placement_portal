@@ -1,29 +1,41 @@
 
-   <!-- Company Details Modal -->
-    <div class="modal fade" id="companyDetailsModal" tabindex="-1" aria-labelledby="companyDetailsModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+   <!-- Approve Company Confirmation Modal -->
+    <div class="modal fade confirmation-modal" id="approveCompanyModal" tabindex="-1" aria-labelledby="approveCompanyModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="companyDetailsModalLabel">Company Details</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="approveCompanyModalLabel"><i class="fas fa-check-circle me-2"></i>Confirm Approval</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-         
-                <div class="modal-body" id="companyDetailsContent">
-                    <!-- Company details will be populated here -->
+                <div class="modal-body">
+                    <p>Are you sure you want to approve <strong id="confirmApproveCompanyName"></strong>?</p>
+                    <p class="text-muted small">This will activate their account and allow them to post job requirements.</p>
                 </div>
                 <div class="modal-footer">
-<!-- Approve button -->
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-success" id="confirmApproveBtn"   data-company-id="{{ company.pk }}"
+        data-company-name="{{ company.company_name }}">Confirm Approval</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        <button type="button" class="btn btn-success btn-sm" id="openApproveConfirm">
-            <i class="fas fa-check me-1"></i> Approve
-        </button>
-
-    <!-- Reject button -->
-
-        <button type="button" class="btn btn-danger btn-sm" id="openRejectConfirm">
-            <i class="fas fa-times me-1"></i> Reject
-        </button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+    <!-- Reject Company Confirmation Modal -->
+    <div class="modal fade confirmation-modal" id="rejectCompanyModal" tabindex="-1" aria-labelledby="rejectCompanyModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="rejectCompanyModalLabel"><i class="fas fa-times-circle me-2"></i>Confirm Rejection</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to reject <strong id="confirmRejectCompanyName"></strong>?</p>
+                    <p class="text-muted small">This action cannot be undone. The company will be notified of the rejection.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmRejectCompanyBtn" data-company-id="{{ company.pk }}"
+        data-company-name="{{ company.company_name }}" >Confirm Rejection</button>
                 </div>
             </div>
         </div>
@@ -93,47 +105,7 @@
             </div>
         </div>
     </div>
- <!-- Approve Company Confirmation Modal -->
-    <div class="modal fade confirmation-modal" id="approveCompanyModal" tabindex="-1" aria-labelledby="approveCompanyModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header bg-success text-white">
-                    <h5 class="modal-title" id="approveCompanyModalLabel"><i class="fas fa-check-circle me-2"></i>Confirm Approval</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to approve <strong id="confirmApproveCompanyName"></strong>?</p>
-                    <p class="text-muted small">This will activate their account and allow them to post job requirements.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-success" id="confirmApproveBtn"   data-company-id="{{ company.pk }}"
-        data-company-name="{{ company.company_name }}">Confirm Approval</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Reject Company Confirmation Modal -->
-    <div class="modal fade confirmation-modal" id="rejectCompanyModal" tabindex="-1" aria-labelledby="rejectCompanyModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header bg-danger text-white">
-                    <h5 class="modal-title" id="rejectCompanyModalLabel"><i class="fas fa-times-circle me-2"></i>Confirm Rejection</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to reject <strong id="confirmRejectCompanyName"></strong>?</p>
-                    <p class="text-muted small">This action cannot be undone. The company will be notified of the rejection.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger" id="confirmRejectCompanyBtn" data-company-id="{{ company.pk }}"
-        data-company-name="{{ company.company_name }}" >Confirm Rejection</button>
-                </div>
-            </div>
-        </div>
-    </div>
+ 
    <!-- View Student Profile Modal -->
     <div class="modal fade" id="studentProfileModal" tabindex="-1" aria-labelledby="studentProfileModalLabel"
         aria-hidden="true">

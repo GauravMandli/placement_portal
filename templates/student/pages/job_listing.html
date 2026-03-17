@@ -20,84 +20,56 @@
                     </div>
                 </div>
                 <div class="row" id="jobListingsContainer">
+                    {% for job in jobs %}
                     <div class="col-md-6 col-lg-4 mb-4 job-card-item" data-role="python">
                         <div class="card job-card h-100">
                             <div class="card-body">
-                                <h6 class="text-primary mb-2">Tech Corp</h6>
-                                <h5 class="card-title mb-2">Python Developer</h5>
-                                <p class="text-muted small mb-3"><strong>Eligibility:</strong> CGPA ≥ 7.5, Python, SQL</p>
-                                <div class="d-flex gap-2">
-                                    <button class="btn btn-sm btn-outline-primary flex-grow-1 view-job-details btn-hover-ripple" data-job-id="1" data-job-title="Python Developer" data-company="Tech Corp">View Details</button>
-                                    <a href="#" class="btn btn-sm btn-primary flex-grow-1 apply-job-btn btn-hover-ripple" data-job-id="1" data-job-title="Python Developer">Apply</a>
-                                </div>
+
+                                <!--COmpany name -->
+                                <h6 class="text-primary mb-2">{{ job.company.company_name|title }}</h6>
+
+                                <!-- job title -->
+                                <h5 class="card-title mb-2">{{ job.job_title }}</h5>
+
+                                <!-- Eligibility-->
+                                <p class="text-muted small mb-3"><strong>Eligibility:</strong> {{ job.eligibility }}</p>
+                                                                
+                                <!--date last-->
+                                <p class="text-muted small mb-3"><strong>Last Date:</strong> 
+                                    <span class="text-dark">
+                                        {{ job.last_date|date:"d M Y" }}
+                                    </span>
+                                </p>
+
+                                <!-- job ststus-->
+                                <p class="text-muted mb-2"><strong>Status:</strong> 
+                                            {% if job.status == "OPEN" %}
+                                                <span class="badge bg-success">Open</span>
+
+                                            {% elif job.status == "CLOSED" %}
+                                                <span class="badge bg-danger text-dark">Closed</span>
+
+                                            {% else %}
+                                                <span class="badge bg-warning">Rejected</span>
+                                            {% endif %}
+                                </p>
+
+
+                                <div class="job-actions">
+                                    <div class="d-flex gap-1">
+                                        <button class="btn btn-sm btn-outline-primary flex-grow-1 view-company-details btn-hover-ripple" data-slug="{{ job.company.slug }}">View Company Details</button>
+                                        <button class="btn btn-sm btn-outline-dark flex-fill-1 view-job-details btn-hover-ripple" data-job-id="1" data-job-title="Python Developer" data-company="Tech Corp">View Job Details</button>
+
+                                        <a href="#" class="btn btn-sm btn-primary flex-grow-1 apply-job-btn btn-hover-ripple" data-job-id="1" data-job-title="Python Developer">Apply</a>
+                                    </div>
+                                </div>    
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-4 mb-4 job-card-item" data-role="java">
-                        <div class="card job-card h-100">
-                            <div class="card-body">
-                                <h6 class="text-primary mb-2">Innovate Ltd</h6>
-                                <h5 class="card-title mb-2">Java Backend Developer</h5>
-                                <p class="text-muted small mb-3"><strong>Eligibility:</strong> CGPA ≥ 7.0, Java, Spring</p>
-                                <div class="d-flex gap-2">
-                                    <button class="btn btn-sm btn-outline-primary flex-grow-1 view-job-details btn-hover-ripple" data-job-id="1" data-job-title="Python Developer" data-company="Tech Corp">View Details</button>
-                                    <a href="#" class="btn btn-sm btn-primary flex-grow-1 apply-job-btn btn-hover-ripple" data-job-id="1" data-job-title="Python Developer">Apply</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4 mb-4 job-card-item" data-role="web">
-                        <div class="card job-card h-100">
-                            <div class="card-body">
-                                <h6 class="text-primary mb-2">Cloud Solutions</h6>
-                                <h5 class="card-title mb-2">Web Developer (React)</h5>
-                                <p class="text-muted small mb-3"><strong>Eligibility:</strong> CGPA ≥ 7.0, HTML/CSS, JavaScript, React</p>
-                                <div class="d-flex gap-2">
-                                    <button class="btn btn-sm btn-outline-primary flex-grow-1 view-job-details btn-hover-ripple" data-job-id="1" data-job-title="Python Developer" data-company="Tech Corp">View Details</button>
-                                    <a href="#" class="btn btn-sm btn-primary flex-grow-1 apply-job-btn btn-hover-ripple" data-job-id="1" data-job-title="Python Developer">Apply</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4 mb-4 job-card-item" data-role="python">
-                        <div class="card job-card h-100">
-                            <div class="card-body">
-                                <h6 class="text-primary mb-2">Data Labs</h6>
-                                <h5 class="card-title mb-2">Python / Data Engineer</h5>
-                                <p class="text-muted small mb-3"><strong>Eligibility:</strong> CGPA ≥ 7.5, Python, SQL, Pandas</p>
-                                <div class="d-flex gap-2">
-                                    <button class="btn btn-sm btn-outline-primary flex-grow-1 view-job-details btn-hover-ripple" data-job-id="1" data-job-title="Python Developer" data-company="Tech Corp">View Details</button>
-                                    <a href="#" class="btn btn-sm btn-primary flex-grow-1 apply-job-btn btn-hover-ripple" data-job-id="1" data-job-title="Python Developer">Apply</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4 mb-4 job-card-item" data-role="java">
-                        <div class="card job-card h-100">
-                            <div class="card-body">
-                                <h6 class="text-primary mb-2">Finance Corp</h6>
-                                <h5 class="card-title mb-2">Java Full Stack</h5>
-                                <p class="text-muted small mb-3"><strong>Eligibility:</strong> CGPA ≥ 7.0, Java, Angular/React</p>
-                                <div class="d-flex gap-2">
-                                    <button class="btn btn-sm btn-outline-primary flex-grow-1 view-job-details btn-hover-ripple" data-job-id="1" data-job-title="Python Developer" data-company="Tech Corp">View Details</button>
-                                    <a href="#" class="btn btn-sm btn-primary flex-grow-1 apply-job-btn btn-hover-ripple" data-job-id="1" data-job-title="Python Developer">Apply</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4 mb-4 job-card-item" data-role="web">
-                        <div class="card job-card h-100">
-                            <div class="card-body">
-                                <h6 class="text-primary mb-2">Digital Innovations</h6>
-                                <h5 class="card-title mb-2">Frontend Developer</h5>
-                                <p class="text-muted small mb-3"><strong>Eligibility:</strong> CGPA ≥ 6.5, HTML/CSS, JS, React/Vue</p>
-                                <div class="d-flex gap-2">
-                                    <button class="btn btn-sm btn-outline-primary flex-grow-1 view-job-details btn-hover-ripple" data-job-id="1" data-job-title="Python Developer" data-company="Tech Corp">View Details</button>
-                                    <a href="#" class="btn btn-sm btn-primary flex-grow-1 apply-job-btn btn-hover-ripple" data-job-id="1" data-job-title="Python Developer">Apply</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {% empty %}
+                        <p> No jobs availabel</p>
+                    {% endfor %}             
+                    
                 </div>
             </div>
 {% endblock %}

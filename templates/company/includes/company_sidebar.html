@@ -6,44 +6,44 @@
             <nav class="sidebar-nav">
                 <ul class="sidebar-menu">
                     <li>
-                        <a href="{% url 'company_dashboard' %}" class="nav-link-dashboard {% if active_page == 'dashboard' %}active{% endif %}" >
+                        <a href="{% url 'companies:company_dashboard' %}" class="nav-link-dashboard {% if active_page == 'dashboard' %}active{% endif %}" >
                             <i class="fas fa-home"></i>Dashboard
                         </a>
                     </li>
                     <li>
-                        <a href="{% url 'cmp_update_details' %}" class="nav-link-dashboard {% if active_page == 'cmp_update_details' %}active{% endif %}" >
+                        <a href="{% url 'companies:cmp_update_details' %}" class="nav-link-dashboard {% if active_page == 'cmp_update_details' %}active{% endif %}" >
                             <i class="fas fa-building"></i>Update Company Profile
                         </a>
                     </li>
                     <li>
-                        <a href="{% url 'add_requirements' %}" class="nav-link-dashboard {% if active_page == 'add_req' %}active{% endif %}" >
+                        <a href="{% url 'companies:add_requirements' %}" class="nav-link-dashboard {% if active_page == 'add_req' %}active{% endif %}" >
                             <i class="fas fa-plus-circle"></i>Add New Requirement
                         </a>
                     </li>
 
                     <li>
-                        <a href="{% url 'current_requirements' %}" class="nav-link-dashboard {% if active_page == 'current_req' %}active{% endif %}" >
+                        <a href="{% url 'companies:current_requirements' %}" class="nav-link-dashboard {% if active_page == 'current_req' %}active{% endif %}" >
                             <i class="fas fa-briefcase"></i>Current Requirements
                         </a>
                     </li>
                     <li>
-                        <a href="{% url 'shortlisted_students' %}" class="nav-link-dashboard {% if active_page == 'shortlisted' %}active{% endif %}" >
+                        <a href="{% url 'companies:shortlisted_students' %}" class="nav-link-dashboard {% if active_page == 'shortlisted' %}active{% endif %}" >
                             <i class="fas fa-users"></i>Shortlisted Students
                         </a>
                     </li>
                     <li>
-                        <a href="{% url "selected_students" %}" class="nav-link-dashboard {% if active_page == 'selected' %}active{% endif %}" >
+                        <a href="{% url 'companies:selected_students' %}" class="nav-link-dashboard {% if active_page == 'selected' %}active{% endif %}" >
                           <i class="fas fa-user-check"></i>Selected Students
                         </a>
                       </li>
                       
                     <li>
-                        <a href="{% url 'old_requirements' %}" class="nav-link-dashboard {% if active_page == 'old_req' %}active{% endif %}" >
+                        <a href="{% url 'companies:old_requirements' %}" class="nav-link-dashboard {% if active_page == 'old_req' %}active{% endif %}" >
                             <i class="fas fa-history"></i>Old Requirements
                         </a>
                     </li>
                     <li>
-                        <a href="{% url 'pc_contact' %}" class="nav-link-dashboard {% if active_page == 'pc_contact' %}active{% endif %}" >
+                        <a href="{% url 'companies:pc_contact' %}" class="nav-link-dashboard {% if active_page == 'pc_contact' %}active{% endif %}" >
                             <i class="fas fa-address-card "></i>Placement Cell Contact
                         </a>
                     </li>

@@ -15,7 +15,7 @@ import zipfile
 import os
 from io import BytesIO
 from django.http import HttpResponse
-
+from .services import get_company_data
 from django.http import JsonResponse # browser ma json  formet ma data mokle
 from django.views.decorators.http import require_GET #view GET request thi j call thay
 
@@ -24,8 +24,6 @@ from django.views.decorators.http import require_GET #view GET request thi j cal
 #=================================
 # Create your views here.
 #=================================
-
-
 @login_required
 @admin_required
 def pc_dashboard(request):
@@ -36,7 +34,6 @@ def pc_dashboard(request):
         "active_page" : "dashboard",
         "page_title" : "Dashboard",
     }
-    
     return render(request, "placement_cell/pages/pc_dashboard.html",context)
 
 #=================================
@@ -84,9 +81,9 @@ def view_students(request):
     }
     return render(request, "placement_cell/pages/view_students.html",context)
 
-#=================================
-#view company
-#=================================
+#=======================================
+#view company   json formet thi data jaay 
+#=========================================
 @login_required
 @admin_required
 def view_company(request):
@@ -123,7 +120,6 @@ def view_company(request):
 #=================================
 @require_GET
 @login_required
-@admin_required
 def company_detail_ajax(request, slug):
 
     company = get_object_or_404(
@@ -131,26 +127,16 @@ def company_detail_ajax(request, slug):
         slug=slug,
         is_active=True
     )
-    data = {
-        "id": company.id,
-        "company_name": company.company_name,
-        "industry": company.industry,
-        "company_email": company.company_email,
-        "phone": company.phone,
-        "website": company.website,
-        "description": company.description,
-        "address": company.address,
-        "company_size": company.company_size,
-        "gst_number": company.gst_number,
+
+     # 🔐 Only restrict for students
+    if request.user.role == "student":
+        if company.status != CompanyProfile.Status.APPROVED:
+            return JsonResponse({
+                "success": False,
+                "error": "Company not approved"
+            })
         
-        "contact_person_name": company.cp_name,
-        "contact_email": company.cp_email,
-        "contact_phone": company.cp_phone,
-        "designation": company.designation,
-        "status": company.get_status_display(),
-        "certificate_url": company.reg_certificate.url if company.reg_certificate else "",
-        "created_at": company.created_at.strftime("%d %b %Y"),
-    }
+    data = get_company_data(company)
 
     return JsonResponse({
         "success": True,
@@ -192,7 +178,7 @@ def approve_companies(request):
         "companies": companies_page,
         "search_query": search_query,
         "active_page": "approve_companies",
-        "page_title": "Approve Companies",
+        "page_title": "Pending Approvals Companies",
     }
 
     return render(request, "placement_cell/pages/approve_company.html", context)

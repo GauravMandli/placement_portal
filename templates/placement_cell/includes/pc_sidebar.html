@@ -22,7 +22,7 @@
                     </li>
                     <li>
                         <a href="{% url 'placement_cell:approve_companies' %}" class="nav-link-dashboard {% if active_page == 'approve_companies' %} active {% endif %}">
-                            <i class="fas fa-check-circle"></i>Approve Companies
+                            <i class="fas fa-check-circle"></i>Pending Approvals Companies
                             {% if pending_companies_count > 0 %}
                             <span class="badge bg-danger pending-badge ms-2" id="pending-count">{{ pending_companies_count }}</span>
                             {% endif %}

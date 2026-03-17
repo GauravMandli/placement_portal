@@ -11,6 +11,4 @@ urlpatterns = [
     path("selected-company/", views.selected_company, name="selected_company"),
     path("contact-us/",views.placement_contact,name="placement_contact")
 
-
-
 ]

@@ -107,27 +107,117 @@
                         statusBadge = '<span class="badge bg-danger">Rejected</span>';
                     }
 
-                    document.getElementById("companyDetailsContent").innerHTML = `
-                        <h5>${data.company_name}</h5>
-                        <p><strong>Status:</strong> ${statusBadge}</p>
-                        <hr>
-                        <p><strong>Industry:</strong> ${data.industry}</p>
-                        <p><strong>Email:</strong> ${data.company_email}</p>
-                        <p><strong>Phone:</strong> ${data.phone}</p>
-                        <p><strong>Website:</strong> <a href="${data.website}" target="_blank">${data.website}</a></p>
-                        <p><strong>Contact Person Name:</strong> ${data.contact_person_name}</p>
-                        <p><strong>Designation:</strong> ${data.designation}</p>
-                        <p><strong>Contact Person Email:</strong> ${data.contact_email}</p>
-                        <p><strong>Contact Person Phone:</strong> ${data.contact_phone}</p>
-                        <p><strong>GST:</strong> ${data.gst_number || "N/A"}</p>
-                        <p><strong>Company Size:</strong> ${data.company_size || "N/A"}</p>
-                        <p><strong>Registered On:</strong> ${data.created_at}</p>
-                        <p><strong>Description:</strong><br>${data.description}</p>
-                        <p><strong>Address:</strong><br>${data.address}</p>
-                        <a href="${data.certificate_url}" class="btn btn-outline-secondary mt-2" target="_blank">
-                            View Registration Certificate
+                    const val = (v) => v ? v : "N/A";
+document.getElementById("companyDetailsContent").innerHTML = `
+<div class="container-fluid">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-start mb-3">
+        <div>
+            <h5 class="fw-bold mb-1">${data.company_name}</h5>
+            ${statusBadge}
+        </div>
+        <a href="${data.certificate_url || '#'}"
+           class="btn btn-outline-primary btn-sm"
+           target="_blank">
+           <i class="fas fa-file-alt me-1"></i> Certificate
+        </a>
+    </div>
+
+    <hr class="my-3">
+
+    <div class="row g-4">
+
+        <!-- Company Info -->
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h6 class="fw-semibold text-primary mb-3">
+                        <i class="fas fa-building me-2"></i>Company Info
+                    </h6>
+                    <p><strong>Industry:</strong> ${val(data.industry)}</p>
+                    <p><strong>Website:</strong> 
+                        <a href="${data.website || '#'}" target="_blank">
+                            ${val(data.website)}
                         </a>
-                    `;
+                    </p>
+                    <p><strong>Company Size:</strong> ${val(data.company_size)}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Info -->
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h6 class="fw-semibold text-primary mb-3">
+                        <i class="fas fa-user me-2"></i>Contact Info
+                    </h6>
+                    <p><strong>Company Email:</strong> ${val(data.company_email)}</p>
+                    <p><strong>Phone:</strong> ${val(data.phone)}</p>
+                    <p><strong>Contact Person:</strong> ${val(data.contact_person_name)}</p>
+                    <p><strong>Designation:</strong> ${val(data.designation)}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Extra Info -->
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h6 class="fw-semibold text-primary mb-3">
+                        <i class="fas fa-info-circle me-2"></i>Additional Info
+                    </h6>
+                    <p><strong>GST Number:</strong> ${val(data.gst_number)}</p>
+                    <p><strong>Created At:</strong> ${val(data.created_at)}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Extra -->
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h6 class="fw-semibold text-primary mb-3">
+                        <i class="fas fa-address-book me-2"></i>Contact Details
+                    </h6>
+                    <p><strong>Contact Email:</strong> ${val(data.contact_email)}</p>
+                    <p><strong>Contact Phone:</strong> ${val(data.contact_phone)}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Description -->
+        <div class="col-12">
+            <div class="card border-0 bg-light shadow-sm">
+                <div class="card-body">
+                    <h6 class="fw-semibold text-primary mb-2">
+                        <i class="fas fa-align-left me-2"></i>Description
+                    </h6>
+                    <p class="mb-0 small">
+                        <strong>Description:</strong> ${val(data.description)}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Address -->
+        <div class="col-12">
+            <div class="card border-0 bg-light shadow-sm">
+                <div class="card-body">
+                    <h6 class="fw-semibold text-primary mb-2">
+                        <i class="fas fa-map-marker-alt me-2"></i>Address
+                    </h6>
+                    <p class="mb-0 small">
+                        <strong>Address:</strong> ${val(data.address)}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+`;
 
                     new bootstrap.Modal(document.getElementById("companyDetailsModal")).show();
                 });
@@ -139,40 +229,72 @@
     // ===============================
     // Open Confirmation Modals
     // ===============================
+    // document.getElementById("openApproveConfirm").addEventListener("click", function () {
+    //     document.getElementById("confirmApproveCompanyName").innerText = window.currentCompanyName;
+    //     new bootstrap.Modal(document.getElementById("approveCompanyModal")).show();
+    // });
+
+    // document.getElementById("openRejectConfirm").addEventListener("click", function () {
+    //     document.getElementById("confirmRejectCompanyName").innerText = window.currentCompanyName;
+    //     new bootstrap.Modal(document.getElementById("rejectCompanyModal")).show();
+    // });
     document.getElementById("openApproveConfirm").addEventListener("click", function () {
-        document.getElementById("confirmApproveCompanyName").innerText = window.currentCompanyName;
-        new bootstrap.Modal(document.getElementById("approveCompanyModal")).show();
+
+        const companyModal = bootstrap.Modal.getInstance(
+            document.getElementById("companyDetailsModal")
+        );
+        if (companyModal) companyModal.hide();
+
+        document.getElementById("confirmApproveCompanyName").innerText =
+            window.currentCompanyName;
+
+        setTimeout(() => {
+            new bootstrap.Modal(
+                document.getElementById("approveCompanyModal")
+            ).show();
+        }, 300);
     });
 
     document.getElementById("openRejectConfirm").addEventListener("click", function () {
-        document.getElementById("confirmRejectCompanyName").innerText = window.currentCompanyName;
-        new bootstrap.Modal(document.getElementById("rejectCompanyModal")).show();
-    });
 
+        const companyModal = bootstrap.Modal.getInstance(
+            document.getElementById("companyDetailsModal")
+        );
+        if (companyModal) companyModal.hide();
+
+        document.getElementById("confirmRejectCompanyName").innerText =
+            window.currentCompanyName;
+
+        setTimeout(() => {
+            new bootstrap.Modal(
+                document.getElementById("rejectCompanyModal")
+            ).show();
+        }, 300);
+    });
 
     // ===============================
     // Company Action (Approve / Reject)
     // ===============================
- function getCSRFToken() {
-    let cookieValue = null;
-    const name = 'csrftoken';
+    function getCSRFToken() {
+        let cookieValue = null;
+        const name = 'csrftoken';
 
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
 
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
 
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(
-                    cookie.substring(name.length + 1)
-                );
-                break;
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(
+                        cookie.substring(name.length + 1)
+                    );
+                    break;
+                }
             }
         }
+        return cookieValue;
     }
-    return cookieValue;
-}
 
     document.getElementById("confirmApproveBtn").addEventListener("click", function () {
 

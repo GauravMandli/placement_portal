@@ -23,9 +23,6 @@ def get_company(request):
 #==========================
 
 
-
-
-
 # ===============================
 # COMPANY REGISTRATION
 # ===============================
@@ -139,8 +136,9 @@ def cmp_update_details(request):
 
     if request.method == "POST":
 
-
-        # PASSWORD UPDATE
+        #=============================
+        # PASSWORD UPDATE section
+        #=============================
         new_password = request.POST.get("new_password")
         confirm_password = request.POST.get("confirm_password")
         current_password = request.POST.get("current_password")
@@ -150,17 +148,17 @@ def cmp_update_details(request):
             # current password check
             if not request.user.check_password(current_password):
                 messages.error(request, "Current password is incorrect.")
-                return redirect("cmp_update_details")
+                return redirect("companies:cmp_update_details")
 
             # password match
             if new_password != confirm_password:
                 messages.error(request, "Passwords do not match.")
-                return redirect("cmp_update_details")
+                return redirect("companies:cmp_update_details")
 
             # length check
             if len(new_password) < 6:
                 messages.error(request, "Password must be at least 6 characters.")
-                return redirect("cmp_update_details")
+                return redirect("companies:cmp_update_details")
 
             # set new password
             request.user.set_password(new_password)
@@ -172,9 +170,9 @@ def cmp_update_details(request):
             messages.success(request, "Password updated successfully!")
 
             if request.POST.get("redirect_dashboard"):
-                return redirect("company_dashboard")
+                return redirect("companies:company_dashboard")
             else:
-                return redirect("cmp_update_details")
+                return redirect("companies:cmp_update_details")
 
         
         # =========================
@@ -211,17 +209,21 @@ def cmp_update_details(request):
         try:
             company.full_clean()
             company.save()
-
             messages.success(request, "Company details updated successfully!")
+        
+            if request.POST.get("redirect_cmp_dashboard"):
+                    return redirect("companies:company_dashboard")
+            else:
+                    return redirect("companies:cmp_update_details")
+        
         except ValidationError as e:
             for field, errors in e.message_dict.items():
                 for error in errors:
                     messages.error(request, error)
             
-            return redirect("cmp_update_details")
         except Exception:
             messages.error(request, "Something went wrong. Please try again.")
-            return redirect("cmp_update_details")
+            return redirect("companies:cmp_update_details")
 
     context = {
         "company": company,

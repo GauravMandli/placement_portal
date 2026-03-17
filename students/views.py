@@ -10,12 +10,14 @@ from django.utils import timezone
 
 from accounts.models import User #custom user model
 from .models import StudentProfile #extra student model for 
+from jobs.models import JobRequirement
 from .forms import StudentRegisterForm
 
 # Create your views here.
 
+#===================
 #register view
-
+#===================
 def student_register(request):
    # print("view hit")
     if request.method == "POST":
@@ -69,8 +71,9 @@ def student_register(request):
 
 
 
-
+#=======================
 #dasbord view 
+#=====================
 @login_required(login_url="student_login")
 @never_cache
 def student_dashboard(request):
@@ -106,8 +109,9 @@ def student_dashboard(request):
 
     return render(request, "student/pages/student_dashboard.html", context)
 
-
+#=============================
 #update personal detil  page
+#==============================
 @login_required(login_url="student_login")
 @never_cache
 def update_details(request):
@@ -116,10 +120,8 @@ def update_details(request):
     # if request.user.role != "student":
     #     return HttpResponseForbidden("Unauthorized")
     
-    # Safe profile fetch or create
-    profile, created = StudentProfile.objects.get_or_create(
-        user=request.user
-    )
+    # Safe profile fetch 
+    profile = StudentProfile.objects.filter(user=request.user).first()
 
     if request.method == "POST":
         print("POST DATA:", request.POST)  
@@ -197,13 +199,17 @@ def update_details(request):
             profile.full_clean()   # model validation trigger kare
             profile.save()
             messages.success(request, "Profile updated successfully!")
+        
+            if request.POST.get("redirect_dashboard"):
+                return redirect("student_dashboard")
+            else:
+                return redirect("update_details")
+        
 
         except ValidationError as e:
             for field, errors in e.message_dict.items():
                 for error in errors:
                     messages.error(request, error)
-
-            return redirect("update_details")
 
         except Exception:
             messages.error(request, "Something went wrong. Please try again.")
@@ -225,18 +231,31 @@ def update_details(request):
 @login_required(login_url="student_login")
 @never_cache
 def job_listing(request):
-            # Safe profile fetch or create
-    profile, created = StudentProfile.objects.get_or_create(
-        user=request.user
-    )
+    
+    """
+    Display all open job listings for students.
+    """
 
-        # Send data to template
-    context ={
+    # Safe profile fetch 
+    profile = StudentProfile.objects.filter(user=request.user).first()
+
+    # Fetch only active (OPEN) jobs
+    jobs = JobRequirement.objects.filter(
+        status=JobRequirement.JobStatus.OPEN
+    ).select_related("company").order_by("-id")
+
+    context = {
         "profile": profile,
+        "jobs": jobs,
         "active_page": "jobs",
-        "page_title": "New Job Listings"
+        "page_title": "New Job Listings",
     }
-    return render(request,"student/pages/job_listing.html",context)
+
+    return render(
+        request,
+        "student/pages/job_listing.html",
+        context
+    )
 
 #applied job pages
 @login_required(login_url="student_login")

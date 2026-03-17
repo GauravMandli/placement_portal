@@ -46,6 +46,24 @@
         <main class="main-content">
              <!-- #its a call topbar page -->
             {% include "company/includes/company_topbar.html" %}
+
+            <div class="container mt-3">
+                {% if messages %}
+    {% for message in messages %}
+        <div class="alert 
+            {% if message.tags == 'success' %}alert-success
+            {% elif message.tags == 'error' %}alert-danger
+            {% else %}alert-info{% endif %}
+            alert-dismissible fade show" role="alert">
+
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {% endfor %}
+{% endif %}
+            </div>
+
+
             
 
              <!-- body content mate -->
