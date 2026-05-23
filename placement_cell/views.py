@@ -4,7 +4,7 @@ from django.http import HttpResponseForbidden #unauthorized hoy to access block 
 from students.models import StudentProfile
 from companies.models import CompanyProfile
 from jobs.models import JobRequirement
-from accounts.decorators import admin_required #only admin access
+from accounts.decorators import placement_required #only admin access
 from django.shortcuts import get_object_or_404, redirect #db mathi object na male to 404 error
 from django.views.decorators.http import require_POST #post req thi j call thay get thi direct kare to work na akre
 from django.contrib import messages #message mate
@@ -18,18 +18,25 @@ from django.http import HttpResponse
 from .services import get_company_data
 from django.http import JsonResponse # browser ma json  formet ma data mokle
 from django.views.decorators.http import require_GET #view GET request thi j call thay
+from django.utils import timezone
+from .forms import ContactForm
+from .models import ContactMessage
+from companies.models import SelectionResult
 
+from students.models import JobApplication
+
+#Helper function
+# def get_company(pk):
+#     return get_object_or_404(CompanyProfile, pk=pk, is_active=True)
 
 
 #=================================
 # Create your views here.
 #=================================
 @login_required
-@admin_required
+@placement_required
 def pc_dashboard(request):
-    if request.user.role != "placement_cell":
-        return HttpResponseForbidden("Unauthorized Access")
-    
+       
     context ={
         "active_page" : "dashboard",
         "page_title" : "Dashboard",
@@ -40,8 +47,9 @@ def pc_dashboard(request):
 #view students
 #=================================
 @login_required
-@admin_required
+@placement_required
 def view_students(request):
+
     branch = request.GET.get("branch","").strip()
     search_query = request.GET.get("search", "").strip()
 
@@ -74,7 +82,7 @@ def view_students(request):
     context ={
         "active_page" : "view_students",
         "page_title" : "View Students",
-        "students": students,
+        # "students": students,
         "students": students_page,
         "selected_branch": branch,
         "search_query": search_query,
@@ -85,7 +93,7 @@ def view_students(request):
 #view company   json formet thi data jaay 
 #=========================================
 @login_required
-@admin_required
+@placement_required
 def view_company(request):
 
     search_query = request.GET.get("search", "").strip()
@@ -120,6 +128,7 @@ def view_company(request):
 #=================================
 @require_GET
 @login_required
+# @placement_required
 def company_detail_ajax(request, slug):
 
     company = get_object_or_404(
@@ -129,12 +138,16 @@ def company_detail_ajax(request, slug):
     )
 
      # 🔐 Only restrict for students
+    # 🔹 Only restrict for students
     if request.user.role == "student":
-        if company.status != CompanyProfile.Status.APPROVED:
+        if company.status not in [
+            CompanyProfile.Status.APPROVED,
+            CompanyProfile.Status.HOLD
+        ]:
             return JsonResponse({
                 "success": False,
-                "error": "Company not approved"
-            })
+                "error": "Company is not available for students."
+            }, status=403)
         
     data = get_company_data(company)
 
@@ -150,7 +163,7 @@ def company_detail_ajax(request, slug):
 # LIST approve PENDING COMPANIES
 #==================================
 @login_required
-@admin_required
+@placement_required
 def approve_companies(request):
 
     search_query = request.GET.get("search", "").strip()
@@ -188,7 +201,7 @@ def approve_companies(request):
 #===============================
 @require_POST
 @login_required
-@admin_required
+@placement_required
 def approve_company(request, pk):
 
     company = get_object_or_404(
@@ -218,7 +231,7 @@ def approve_company(request, pk):
 #================================
 @require_POST
 @login_required
-@admin_required
+@placement_required
 def reject_company(request, pk):
 
     company = get_object_or_404(
@@ -243,55 +256,145 @@ def reject_company(request, pk):
             status=500
         )
 
+#================================
+# hold ACTION 
+#================================
+@require_POST
+@login_required
+@placement_required
+def hold_company(request, pk):
+     # 🔹 Get company safely
+    company = get_object_or_404(CompanyProfile, pk=pk)
+
+    # 🔹 Prevent unnecessary update
+    if company.status == CompanyProfile.Status.HOLD:
+        return JsonResponse({
+            "success": False,
+            "error": "Company already on hold"
+        })
+
+    # 🔹 Update status
+    company.status = CompanyProfile.Status.HOLD
+    company.save(update_fields=["status"])
+
+    return JsonResponse({
+        "success": True,
+        "message": "Company moved to HOLD successfully"
+    })
 
 #=================================
 #view requirements
 #=================================
 @login_required
-@admin_required
+@placement_required
 def view_requirements(request):
+        
+    # 🔹 badha jobs fetch kar
+    jobs = JobRequirement.objects.select_related("company").order_by("-id")
+        
     context ={
+        "jobs": jobs,
         "active_page" : "view_requirements",
         "page_title" : "View Requirements",
     }
     return render(request, "placement_cell/pages/view_requirements.html",context)
+#applied student list 
+@login_required
+@placement_required
+def pc_view_applied_students(request, job_id):
+
+    job = get_object_or_404(JobRequirement, id=job_id)
+
+    applications = JobApplication.objects.filter(
+        job=job
+    ).select_related(
+        "student__user",
+        "job__company"
+    ).order_by("-applied_at")
+
+    context = {
+
+        "job": job,
+        "applications": applications,
+        "active_page" : "applied_students",
+        "page_title" : "View Applied Students",
+        "total_applications": applications.count(),
+    }
+
+    return render(
+        request,
+        "placement_cell/pages/pc_applied_students.html",
+        context
+    )
+
 
 #shortlisted students
 @login_required
-@admin_required
-def shortlisted_Students(request):
+@placement_required
+def view_shortlisted_students(request):
     context ={
         "active_page" : "shortlisted_students",
         "page_title" : "Shortlisted Students",
     }
-    return render(request, "placement_cell/pages/shortlisted_students.html",context)
+    return render(request, "placement_cell/pages/view_shortlisted_students.html",context)
 
 #selected students
+
 @login_required
-@admin_required
+@placement_required
 def selected_students(request):
-    context ={
-        "active_page" : "selected_students",
-        "page_title" : "Selected Students",
+
+    selected = SelectionResult.objects.select_related(
+        "application__student__user",
+        "application__job__company"
+    ).filter(
+        result=SelectionResult.ResultStatus.SELECTED
+    )
+
+    context = {
+        "selected_students": selected,
+        "active_page": "selected_students",
+        "page_title": "Selected Students",
     }
-    return render(request, "placement_cell/pages/selected_students.html",context)
+
+    return render(request, "placement_cell/pages/selected_students.html", context)
 
 #view contacts
 @login_required
-@admin_required
+@placement_required
 def view_contacts(request):
-    context ={
-        "active_page" : "view_contacts",
-        "page_title" : "View Contacts",
+    """
+    View to display contact messages categorized by user roles
+    for placement cell administrators.
+    """
+
+    # Fetch all messages in single query (optimized)
+    contacts = ContactMessage.objects.all().order_by("-created_at")
+
+    # Categorize messages
+    categorized_contacts = {
+        ContactMessage.Role.VISITOR: [],
+        ContactMessage.Role.STUDENT: [],
+        ContactMessage.Role.COMPANY: [],
     }
-    return render(request, "placement_cell/pages/view_contacts.html",context)
 
+    for contact in contacts:
+        categorized_contacts[contact.role].append(contact)
 
+    context = {
+        "visitors": categorized_contacts[ContactMessage.Role.VISITOR],
+        "students": categorized_contacts[ContactMessage.Role.STUDENT],
+        "companies": categorized_contacts[ContactMessage.Role.COMPANY],
+        "active_page": "view_contacts",
+        "page_title": "View Contacts",
+    }
+
+    return render(request, "placement_cell/pages/view_contacts.html", context)
 
 #delete student 
 @require_POST
 @login_required
-@admin_required
+@placement_required
 def delete_student(request, pk):
     student = get_object_or_404(
         StudentProfile.objects.select_related("user"),
@@ -312,7 +415,7 @@ def delete_student(request, pk):
 # branch wise resume downlode
 #============================
 @login_required
-@admin_required
+@placement_required
 def download_branch_resumes(request):
     
     branch = request.GET.get("branch", "").strip()
@@ -374,7 +477,7 @@ def download_branch_resumes(request):
 # industry wise certificate download
 #============================
 @login_required
-@admin_required
+@placement_required
 def download_company_certificates(request):
 
     industry = request.GET.get("industry", "").strip()

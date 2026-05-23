@@ -1,0 +1,81 @@
+{% comment %} Student forgot password modal {% endcomment %}
+<div class="modal fade" id="studentForgotPasswordModal" tabindex="-1" aria-labelledby="studentForgotPasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="studentForgotPasswordModalLabel">
+                    <i class="fas fa-key me-2"></i>Reset Password
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-muted small mb-3">Verify your enrollment number and date of birth.</p>
+                <form id="studentForgotPasswordForm">
+                    <div class="mb-3">
+                        <label for="forgotEnrollNo" class="form-label">Enrollment Number</label>
+                        <input type="text" class="form-control" id="forgotEnrollNo" placeholder="Enter enrollment number" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="forgotDob" class="form-label">Date of Birth</label>
+                        <input type="date" class="form-control" id="forgotDob" required>
+                    </div>
+                    <button type="button" class="btn btn-primary w-100 mb-3" id="verifyStudentDetailsBtn">Verify Details</button>
+
+                    <div id="studentPasswordFields" class="d-none">
+                        <div class="mb-3">
+                            <label for="studentNewPassword" class="form-label">New Password</label>
+                            <input type="password" class="form-control" id="studentNewPassword" placeholder="Enter new password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="studentConfirmPassword" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="studentConfirmPassword" placeholder="Confirm new password" required>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100 mb-2">Change Password</button>
+                    </div>
+                </form>
+                <p class="small text-center mb-0">Need help? Contact Placement Cell.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% comment %} Company forgot password modal {% endcomment %}
+<div class="modal fade" id="companyForgotPasswordModal" tabindex="-1" aria-labelledby="companyForgotPasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="companyForgotPasswordModalLabel">
+                    <i class="fas fa-key me-2"></i>Reset Company Password
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-muted small mb-3">Verify your company details to reset password.</p>
+                <form id="companyForgotPasswordAlternativeForm">
+                    <div class="mb-3">
+                        <label for="companyRecoveryEmail" class="form-label">Company Email</label>
+                        <input type="email" class="form-control" id="companyRecoveryEmail" placeholder="Enter company email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="companyContactPersonEmail" class="form-label">Contact Person Email</label>
+                        <input type="email" class="form-control" id="companyContactPersonEmail" placeholder="Enter contact person email" required>
+                    </div>
+                    <button type="button" class="btn btn-success w-100 mb-3" id="companyVerifyDetailsBtn">Verify Details</button>
+
+                    <div id="companyAlternativePasswordFields" class="d-none">
+                        <div class="mb-3">
+                            <label for="companyNewPasswordAlt" class="form-label">New Password</label>
+                            <input type="password" class="form-control" id="companyNewPasswordAlt" placeholder="Enter new password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="companyConfirmPasswordAlt" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="companyConfirmPasswordAlt" placeholder="Confirm new password" required>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100 mb-2">Change Password</button>
+                    </div>
+                </form>
+                <p class="small text-center mb-0">Need help? Contact Placement Cell.</p>
+            </div>
+        </div>
+    </div>
+</div>

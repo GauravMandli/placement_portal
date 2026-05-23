@@ -2,6 +2,10 @@
 {% load static %}
 
 {% block content %}
+
+<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+
             <!-- ========== NEW JOB LISTINGS PAGE ========== -->
             <div id="page-job-listings" class="dashboard-page">
                 <div class="filter-bar">
@@ -29,38 +33,53 @@
                                 <h6 class="text-primary mb-2">{{ job.company.company_name|title }}</h6>
 
                                 <!-- job title -->
-                                <h5 class="card-title mb-2">{{ job.job_title }}</h5>
+                                <h5 class="card-title mb-2">{{ job.job_title|title }}</h5>
 
                                 <!-- Eligibility-->
                                 <p class="text-muted small mb-3"><strong>Eligibility:</strong> {{ job.eligibility }}</p>
                                                                 
-                                <!--date last-->
+                                <!--date start-->
+                                <p class="text-muted small mb-3"><strong>Start Date:</strong> 
+                                    <span class="text-dark">
+                                        {{ job.start_date|date:"d M Y" }}
+                                    </span>
+                                </p>
+                             <!--date last-->
                                 <p class="text-muted small mb-3"><strong>Last Date:</strong> 
                                     <span class="text-dark">
                                         {{ job.last_date|date:"d M Y" }}
                                     </span>
                                 </p>
+                                
 
                                 <!-- job ststus-->
                                 <p class="text-muted mb-2"><strong>Status:</strong> 
-                                            {% if job.status == "OPEN" %}
-                                                <span class="badge bg-success">Open</span>
+                                            
+                                    {% if job.dynamic_status == "DRAFT" %}
+                                        <span class="badge bg-secondary">Draft</span>
 
-                                            {% elif job.status == "CLOSED" %}
-                                                <span class="badge bg-danger text-dark">Closed</span>
+                                    {% elif job.dynamic_status == "UPCOMING" %}
+                                        <span class="badge bg-warning text-dark">Upcoming</span>
 
-                                            {% else %}
-                                                <span class="badge bg-warning">Rejected</span>
-                                            {% endif %}
+                                    {% elif job.dynamic_status == "OPEN" %}
+                                        <span class="badge bg-success">Open</span>
+                                        {% else %}
+
+                                        <span class="badge bg-danger">Closed</span>
+                                    {% endif %}
+
                                 </p>
 
 
                                 <div class="job-actions">
-                                    <div class="d-flex gap-1">
+                                    <div class="d-flex gap-2 flex-wrap align-items-center"> 
                                         <button class="btn btn-sm btn-outline-primary flex-grow-1 view-company-details btn-hover-ripple" data-slug="{{ job.company.slug }}">View Company Details</button>
-                                        <button class="btn btn-sm btn-outline-dark flex-fill-1 view-job-details btn-hover-ripple" data-job-id="1" data-job-title="Python Developer" data-company="Tech Corp">View Job Details</button>
+                                        <button class="btn btn-sm btn-outline-dark flex-fill-1 view-job-details btn-hover-ripple" data-id="{{ job.id }}">View Job Details</button>
 
-                                        <a href="#" class="btn btn-sm btn-primary flex-grow-1 apply-job-btn btn-hover-ripple" data-job-id="1" data-job-title="Python Developer">Apply</a>
+                                        <a href="#" class="btn btn-sm btn-primary flex-grow-1 apply-job-btn btn-hover-ripple"  
+                                            data-id="{{ job.id }}"
+                                            data-job-title="{{ job.job_title }}" 
+                                            data-status="{{ job.dynamic_status }}">Apply</a>
                                     </div>
                                 </div>    
                             </div>

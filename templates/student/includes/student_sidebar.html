@@ -37,7 +37,14 @@
                 <a href="{% url 'shortlisted_company' %}" 
               class="nav-link-dashboard {% if active_page == 'shortlisted' %}active{% endif %}">
 
-                    <i class="fas fa-calendar-check"></i>Shortlisted Companies
+                    <i class="fas fa-building"></i>Shortlisted Companies
+                </a>
+            </li>
+
+         <li>
+                <a href="{% url 'interview_schedule' %}" 
+   class="nav-link-dashboard {% if active_page == 'interviews' %}active{% endif %}">
+                    <i class="fas fa-calendar-check"></i>Interview Schedule
                 </a>
             </li>
 
@@ -48,6 +55,13 @@
                 </a>
             </li>
             <li>
+
+                <li>
+                        <a href="{% url 'old_jobs' %}" class="nav-link-dashboard {% if active_page == 'past_jobs' %} active {% endif %}">
+                            <i class="fas fa-history"></i>Past Jobs / Old Companies
+                        </a>
+                    </li>
+
                 <a href="{% url 'placement_contact' %}" 
    class="nav-link-dashboard {% if active_page == 'contact' %}active{% endif %}">
                     <i class="fas fa-address-card"></i>Placement Cell Contact
@@ -58,7 +72,7 @@
     <div class="sidebar-footer">
         <ul class="sidebar-menu">
             <li>
-                <a href="{% url 'student_logout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
+                <a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
             </li>
         </ul>
     </div>

@@ -15,11 +15,13 @@ urlpatterns = [
     path("approve-companies/", views.approve_companies, name="approve_companies"),
     path("approve-company/<int:pk>/", views.approve_company, name="approve_company"),
     path("reject-company/<int:pk>/", views.reject_company, name="reject_company"),
-    
+    path("hold-company/<int:pk>/", views.hold_company, name="hold_company"),
+    path('applied-students/<int:job_id>/', views.pc_view_applied_students, name='pc_view_applied_students'),
     path("requirements/", views.view_requirements, name="view_requirements"),
-    path("shortlisted/", views.shortlisted_Students, name="shortlisted_students"),
+    path("shortlisted_students/", views.view_shortlisted_students, name="view_shortlisted_students"),
     path("selected/", views.selected_students, name="selected_students"),
-    path("contact/", views.view_contacts, name="view_contacts"),
+
+    path("View-Contacts/", views.view_contacts, name="view_contacts"),
 
     path("delete-student/<int:pk>/", views.delete_student, name="delete_student"),
     

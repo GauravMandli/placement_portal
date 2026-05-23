@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CompanyProfile
+from .models import CompanyProfile,ShortlistedStudent,Interview,SelectionResult
 from django.utils.html import format_html
 # Register your models here.
 
@@ -70,3 +70,33 @@ class CompanyProfileAdmin(admin.ModelAdmin):
         updated = queryset.update(is_active=False)
         self.message_user(request, f"{updated} companies deactivated.")
     deactivate_companies.short_description = "Deactivate selected companies"
+
+
+@admin.register(ShortlistedStudent)
+class ShortlistedAdmin(admin.ModelAdmin):
+    list_display = ("application", "shortlisted_at")
+    search_fields = (
+        "application__student__user__username",
+        "application__job__job_title"
+    )
+    list_filter = ("shortlisted_at",)
+
+
+@admin.register(Interview)
+class InterviewAdmin(admin.ModelAdmin):
+    list_display = ("application", "date", "time", "mode")
+    list_filter = ("mode", "date")
+    search_fields = (
+        "application__student__user__username",
+        "application__job__job_title"
+    )
+
+
+@admin.register(SelectionResult)
+class SelectionAdmin(admin.ModelAdmin):
+    list_display = ("application", "result", "declared_at")
+    list_filter = ("result",)
+    search_fields = (
+        "application__student__user__username",
+        "application__job__job_title"
+    )

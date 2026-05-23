@@ -1,6 +1,6 @@
 {% extends "company/company_base.html" %}
- {% load static %}
- {% block content %}
+{% load static %}
+{% block content %}
 
 
       <div class="container-fluid py-4">
@@ -22,45 +22,26 @@
                   </tr>
                 </thead>
                 <tbody>
+                  {% for job in jobs %}
                   <tr>
-                    <td>DevOps Engineer</td>
-                    <td>Full Time</td>
-                    <td>15 Dec 2023</td>
-                    <td>10</td>
+                     <td>{{ job.job_title }}</td>
+    <td>{{ job.job_type }}</td>
+    <td>{{ job.created_at|date:"d M Y" }}</td>
+    <td>{{ job.jobapplication_set.count }}</td>
                     <td><span class="badge bg-secondary">Closed</span></td>
                     <td>
-                      <button class="btn btn-sm btn-primary view-applied-students btn-hover-ripple"
-                              data-job-id="1" data-job-title="DevOps Engineer">
+                      <a href="{% url 'companies:applied_students' job.id %}" class="btn btn-sm btn-primary view-applied-students btn-hover-ripple">
                         View Applied Students
-                      </button>
+                      </a>
                     </td>
                   </tr>
-                  <tr>
-                    <td>QA Engineer</td>
-                    <td>Full Time</td>
-                    <td>20 Nov 2023</td>
-                    <td>8</td>
-                    <td><span class="badge bg-secondary">Closed</span></td>
-                    <td>
-                      <button class="btn btn-sm btn-primary view-applied-students btn-hover-ripple"
-                              data-job-id="2" data-job-title="QA Engineer">
-                        View Applied Students
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Data Analyst</td>
-                    <td>Internship</td>
-                    <td>10 Oct 2023</td>
-                    <td>15</td>
-                    <td><span class="badge bg-secondary">Closed</span></td>
-                    <td>
-                      <button class="btn btn-sm btn-primary view-applied-students btn-hover-ripple"
-                              data-job-id="3" data-job-title="Data Analyst">
-                        View Applied Students
-                      </button>
-                    </td>
-                  </tr>
+                    {% empty %}
+  <tr>
+    <td colspan="6" class="text-center text-muted">
+      No old requirements found
+    </td>
+  </tr>
+  {% endfor %}
                 </tbody>
               </table>
             </div>

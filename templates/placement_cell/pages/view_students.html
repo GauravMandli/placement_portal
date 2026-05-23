@@ -97,6 +97,7 @@
 
                                         <th>CGPA</th>
                                         <th>Resume</th>
+                                        <th>View Details</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -114,13 +115,11 @@
 
                                             {% if student.resume %}
 
-                                            <a href="{{ student.resume.url }}" target="_blank" class="btn btn-sm btn-info me-1">
-                                                <i class="fas fa-eye me-1"></i>View Resume
-                                            </a>
+                                            <a href="{{ student.resume.url }}" target="_blank" class="btn btn-sm btn-info me-1" data-bs-toggle="tooltip" data-bs-placement="top" title="View Resume">
+                                                <i class="fas fa-eye me-1"></i></a>
 
-                                            <a href="{{ student.resume.url }}" download class="btn btn-sm btn-primary">
-                                            <i class="fas fa-download me-1"></i>Download Resume
-                                            </a>
+                                            <a href="{{ student.resume.url }}" download class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Download Resume">
+                                            <i class="fas fa-download me-1"></i></a>
                                             {% else %}
                                             <span class="badge bg-danger">No Resume</span>
                                             {% endif %}
@@ -149,6 +148,8 @@
                                                 data-bs-target="#studentProfileModal">
                                                 View Details
                                             </button>
+                                        </td>
+                                        <td>
                                             <form method="POST" 
                                                     action="{% url 'placement_cell:delete_student' student.id %}" 
                                                     style="display:inline;">
@@ -164,7 +165,7 @@
                                     </tr>
                                     {% empty %}
                                         <tr>
-        <td colspan="6" class="text-center">No Students Found</td>
+        <td colspan="8" class="text-center">No Students Found</td>
     </tr>
     {% endfor %}
                                     

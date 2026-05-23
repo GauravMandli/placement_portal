@@ -86,11 +86,20 @@
 
                                             {% elif company.status == "pending" %}
                                                 <span class="badge bg-warning text-dark">Pending</span>
-
+                                            {% elif company.status == "hold" %}
+                                                <span class="badge bg-success">Approved</span>
+    
                                             {% else %}
                                                 <span class="badge bg-danger">Rejected</span>
                                             {% endif %}
                                         </p>
+                                        {% if company.status == "hold" %}
+                                            <p class="text-muted mb-3">
+                                                <span class="badge bg-warning text-dark">
+                                                    ⚠️ Job Vacancy On Hold
+                                                </span>
+                                            </p>
+                                            {% endif %}
                                         <button class="btn btn-sm btn-primary view-company-details" data-slug="{{ company.slug }}">
                                             View Details
                                         </button>

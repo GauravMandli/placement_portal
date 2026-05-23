@@ -1,4 +1,124 @@
 {% load static %}
+<!-- ========== APPLIED STUDENTS PAGE ========== -->
+            <div id="page-applied-students" class="dashboard-page">
+                <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+                    <div>
+                        <h4 class="mb-1 fw-semibold">
+                            Applied Students – <span id="appliedStudentsJobTitle">Job Title</span>
+                        </h4>
+                        <p class="text-muted mb-0">
+                            Applied Position: <span id="appliedStudentsPosition">Job Title</span>
+                        </p>
+                    </div>
+                    <span class="badge badge-info" id="appliedStudentsCountBadge">
+                        <i class="fas fa-users"></i> 0 Applicants
+                    </span>
+                </div>
+
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <i class="fas fa-user-check me-2 text-primary"></i>Applied Students List
+                        </h5>
+                        <span class="badge badge-pending">
+                            <i class="fas fa-clock"></i> Under Review
+                        </span>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>Student Name</th>
+                                        <th>Branch</th>
+                                        <th>CGPA</th>
+                                        <th>Resume</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="appliedStudentsTableBody">
+                                    <!-- Applied students will be injected here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- View Student Profile Modal -->
+    <div class="modal fade" id="studentProfileModal" tabindex="-1" aria-labelledby="studentProfileModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="studentProfileModalLabel"><i
+                            class="fas fa-user-graduate me-2"></i>Student Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                            <!-- Photo -->
+        <div class="text-center mb-4">
+          <img id="profileStudentPhoto"
+               src=""
+               class="rounded-circle border"
+               width="130"
+               height="130"
+               style="object-fit:cover; display:none;">
+        </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+
+                            <p><strong><i class="fas fa-user me-2 text-primary"></i>Name:</strong> <span
+                                    id="profileStudentName"></span></p>
+                                      <p><strong><i class="fas fa-venus-mars me-2 text-primary"></i>Gender:</strong> <span
+                                    id="profileStudentGender"></span></p>
+                                      <p><strong><i class="fas fa-calendar-days me-2 text-primary"></i>Date Of Birth:</strong> <span
+                                    id="profileStudentDob"></span></p>
+                            <p><strong><i class="fas fa-id-card me-2 text-primary"></i>Enrollment No :</strong> <span
+                                    id="profileStudentEnrollNumber"></span></p>
+                            <p><strong><i class="fas fa-envelope me-2 text-primary"></i>Email:</strong> <span
+                                    id="profileStudentEmail"></span></p>
+                            <p><strong><i class="fas fa-phone me-2 text-primary"></i>Phone:</strong> <span
+                                    id="profileStudentPhone"></span></p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong><i class="fas fa-chart-line me-2 text-primary"></i>CGPA:</strong> <span
+                                    id="profileStudentCgpa"></span></p>
+                            <p><strong><i class="fas fa-graduation-cap me-2 text-primary"></i>Branch:</strong> <span
+                                    id="profileStudentBranch"></span></p>
+                                      <p><strong><i class="fas fa-user-graduate me-2 text-primary"></i>Current Year:</strong> <span
+                                    id="profileStudentYear"></span></p>
+                            <p><strong><i class="fas fa-code me-2 text-primary"></i>Skills:</strong> <span
+                                    id="profileStudentSkills"></span></p>
+                                       <p><strong><i class="fas fa-chart-line me-2 text-primary"></i>Linkedin:</strong> <span
+                                    id="profileStudentLinkedin" target="_blank"></span></p>
+                            <p><strong><i class="fas fa-graduation-cap me-2 text-primary"></i>Github:</strong> <span
+                                    id="profileStudentGithub" target="_blank"></span></p>
+                            <p><strong><i class="fas fa-code me-2 text-primary"></i>Portfolio:</strong> <span
+                                    id="profileStudentPortfolio" target="_blank"></span></p>
+                        </div>
+                        <div class="col-md-6">
+                         
+                        </div>
+                    </div>
+                    <div class="mb-0">
+                        <strong><i class="fas fa-file-pdf me-2 text-primary"></i>Resume:</strong>
+                        <a href="#" id="profileStudentResumeLink"
+                            class="btn btn-sm btn-outline-primary ms-2 btn-hover-ripple" target="_blank"><i
+                                class="fas fa-download me-1"></i>Download Resume</a>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    
 <!-- Interview Scheduling Modal -->
     <div class="modal fade" id="interviewScheduleModal" tabindex="-1" aria-labelledby="interviewScheduleModalLabel"
         aria-hidden="true">
@@ -37,8 +157,8 @@
                             <label class="form-label">Interview Mode <span class="text-danger">*</span></label>
                             <select class="form-select" id="interviewMode" required>
                                 <option value="">Select mode</option>
-                                <option value="online">Online</option>
-                                <option value="offline">Offline</option>
+                                <option value="ONLINE">Online</option>
+                                <option value="OFFLINE">Offline</option>
                             </select>
                             <div class="invalid-feedback">Please choose a mode.</div>
                         </div>
@@ -72,48 +192,7 @@
         </div>
     </div>
 
-    <!-- View Student Profile Modal -->
-    <div class="modal fade" id="studentProfileModal" tabindex="-1" aria-labelledby="studentProfileModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="studentProfileModalLabel"><i
-                            class="fas fa-user-graduate me-2"></i>Student Profile</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <p><strong><i class="fas fa-user me-2 text-primary"></i>Name:</strong> <span
-                                    id="profileStudentName"></span></p>
-                            <p><strong><i class="fas fa-envelope me-2 text-primary"></i>Email:</strong> <span
-                                    id="profileStudentEmail"></span></p>
-                            <p><strong><i class="fas fa-phone me-2 text-primary"></i>Phone:</strong> <span
-                                    id="profileStudentPhone"></span></p>
-                        </div>
-                        <div class="col-md-6">
-                            <p><strong><i class="fas fa-chart-line me-2 text-primary"></i>CGPA:</strong> <span
-                                    id="profileStudentCgpa"></span></p>
-                            <p><strong><i class="fas fa-graduation-cap me-2 text-primary"></i>Branch:</strong> <span
-                                    id="profileStudentBranch"></span></p>
-                            <p><strong><i class="fas fa-code me-2 text-primary"></i>Skills:</strong> <span
-                                    id="profileStudentSkills"></span></p>
-                        </div>
-                    </div>
-                    <div class="mb-0">
-                        <strong><i class="fas fa-file-pdf me-2 text-primary"></i>Resume:</strong>
-                        <a href="#" id="profileStudentResumeLink"
-                            class="btn btn-sm btn-outline-primary ms-2 btn-hover-ripple"><i
-                                class="fas fa-download me-1"></i>Download Resume</a>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
+
 
     <!-- Select Student Confirmation Modal -->
     <div class="modal fade confirmation-modal" id="selectStudentModal" tabindex="-1"
@@ -130,6 +209,8 @@
                     <p>Are you sure you want to select <strong id="confirmSelectStudentName"></strong>?</p>
                     <p class="text-muted small">This action will notify the student and mark them as selected for this
                         position.</p>
+                        <textarea id="selectRemarks" class="form-control mt-2"
+placeholder="Enter remarks (optional)..."></textarea>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -155,7 +236,11 @@
                     <p>Are you sure you want to reject <strong id="confirmRejectStudentName"></strong>?</p>
                     <p class="text-muted small">This action will notify the student and mark their application as
                         rejected.</p>
+
+                        <textarea id="rejectRemarks" class="form-control mt-2"
+placeholder="Enter rejection reason (optional)..."></textarea>
                 </div>
+                
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-danger btn-hover-ripple" id="confirmRejectBtn">Confirm
@@ -165,38 +250,39 @@
         </div>
     </div>
 
-<!-- Student Details Modal -->
-<div class="modal fade" id="studentDetailsModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-  
-        <div class="modal-header">
-          <h5 class="modal-title">
-            <i class="fas fa-user me-2"></i>Student Details
-          </h5>
-          <button class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-  
-        <div class="modal-body">
-          <p><strong>Name:</strong> <span id="sdName"></span></p>
-          <p><strong>Email:</strong> <span id="sdEmail"></span></p>
-          <p><strong>Phone:</strong> <span id="sdPhone"></span></p>
-          <p><strong>CGPA:</strong> <span id="sdCgpa"></span></p>
-          <p><strong>Skills:</strong> <span id="sdSkills"></span></p>
-  
-          <hr>
-  
-          <a href="resume/sample.pdf" target="_blank"
-             class="btn btn-primary me-2">
-            <i class="fas fa-eye"></i> View Resume
-          </a>
-  
-          <a href="resume/sample.pdf" download
-             class="btn btn-outline-secondary">
-            <i class="fas fa-download"></i> Download Resume
-          </a>
-        </div>
-  
+
+
+<!-- Hold Student Confirmation Modal -->
+<div class="modal fade confirmation-modal" id="holdStudentModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      
+      <div class="modal-header bg-warning text-dark">
+        <h5 class="modal-title">
+          <i class="fas fa-pause-circle me-2"></i>Hold / Under Review
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
+
+      <div class="modal-body">
+        <p>
+          Put <strong id="confirmHoldStudentName"></strong> under review?
+        </p>
+
+        <!-- 🔥 REMARKS FIELD -->
+        <textarea 
+          id="holdRemarks" 
+          class="form-control mt-2" 
+          placeholder="Enter remarks (optional / reason)..."></textarea>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-warning" id="confirmHoldBtn">
+          Confirm Hold
+        </button>
+      </div>
+
     </div>
   </div>
+</div>

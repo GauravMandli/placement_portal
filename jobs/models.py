@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from companies.models import CompanyProfile   
+from django.utils import timezone
+
 
 
 User = get_user_model()
@@ -10,9 +12,11 @@ User = get_user_model()
 class JobRequirement(models.Model):
 
     class JobStatus(models.TextChoices):
+        UPCOMING = "UPCOMING", "Upcoming"
         OPEN = "OPEN", "Open"
-        CLOSED = "CLOSED", "Closed"
+        EXPIRED = "EXPIRED", "Expired"
         DRAFT = "DRAFT", "Draft"
+        
 
     company = models.ForeignKey(
         CompanyProfile,
@@ -35,6 +39,11 @@ class JobRequirement(models.Model):
     location = models.CharField(max_length=200)
 
     selection_process = models.TextField()
+
+    start_date = models.DateField(
+        default=timezone.now
+    )
+
 
     last_date = models.DateField()
 
@@ -59,4 +68,39 @@ class JobRequirement(models.Model):
         verbose_name_plural = "Job Requirements"
 
     def __str__(self):
-        return f"{self.job_title} - {self.company.username}"
+        return f"{self.job_title} - {self.company.company_name}"
+    
+    @property
+    def dynamic_status(self):
+        today = timezone.now().date()
+
+        # Draft
+        if self.status == self.JobStatus.DRAFT:
+            return "DRAFT"
+
+        # Upcoming
+        if self.start_date and today < self.start_date:
+            return "UPCOMING"
+
+        # Open
+        if self.last_date and today <= self.last_date:
+            return "OPEN"
+
+        # Closed
+        return "EXPIRED"
+
+
+class JobRequirementAttachment(models.Model):
+    job = models.ForeignKey(
+        JobRequirement,
+        on_delete=models.CASCADE,
+        related_name="attachments"
+    )
+    file = models.FileField(upload_to="job_pdfs/")
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["uploaded_at", "id"]
+
+    def __str__(self):
+        return f"{self.job.job_title} - {self.file.name}"

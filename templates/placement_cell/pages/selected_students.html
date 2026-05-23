@@ -25,20 +25,25 @@
             </thead>
   
             <tbody>
+              {% for s in selected_students  %}
               <tr>
-                <td>Data Labs</td>
-                <td>Python Developer</td>
-                <td>Neha Patel</td>
-                <td>CS2021-062</td>
-                <td>Computer Science</td>
+                 <td>{{ s.application.job.company.company_name }}</td>
+                  <td>{{ s.application.job.job_title }}</td>
+                  <td>{{ s.application.student.user.get_full_name }}</td>
+                  <td>{{ s.application.student.enroll_number }}</td>
+                  <td>{{ s.application.student.course }}</td>
                 <td>
                   <span class="badge badge-selected">
-                    <i class="fas fa-check-circle"></i> Selected
+                    <i class="fas fa-check-circle"></i> {{ s.result }}
                   </span>
                 </td>
               </tr>
-  
-            </tbody>
+                {% empty %}
+                <tr>
+                  <td colspan="6" class="text-center">No selected students</td>
+                </tr>
+                {% endfor %}         
+              </tbody>
           </table>
         </div>
       </div>

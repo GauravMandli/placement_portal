@@ -1,0 +1,203 @@
+{% extends "visitor/visitor_base.html" %}
+{% load static %}
+{% block content %}
+<div class="public-page contact-page">
+<!-- Toast Container -->
+<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+
+  {% for message in messages %}
+    <div class="toast align-items-center text-white 
+      {% if message.tags == 'success' %}bg-success
+      {% elif message.tags == 'error' %}bg-danger
+      {% elif message.tags == 'warning' %}bg-warning text-dark
+      {% else %}bg-info
+      {% endif %}
+      border-0 show mb-2" role="alert">
+
+      <div class="d-flex">
+        <div class="toast-body">
+          {{ message }}
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto"
+                data-bs-dismiss="toast"></button>
+      </div>
+    </div>
+  {% endfor %}
+
+</div>
+
+
+    <!-- Page Header -->
+    <section class="bg-primary text-white py-5">
+        <div class="container">
+            <h1 class="mb-0">Contact Us</h1>
+            <p class="mb-0 mt-2">Get in touch with the Placement Cell</p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="py-5">
+        <div class="container">
+            <!-- Contact Info Cards -->
+            <div class="row mb-5">
+                <div class="col-md-4 mb-4">
+                    <div class="card contact-info-card text-center p-4">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h5>Address</h5>
+                        <p class="text-muted mb-0">
+                            Placement Cell Office<br>
+                            College Campus<br>
+                            City, State - 123456<br>
+                            India
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card contact-info-card text-center p-4">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <h5>Phone</h5>
+                        <p class="text-muted mb-2">
+                            {% comment %} <strong>Office:</strong> +91 123 456 7890<br> {% endcomment %}
+                            <strong>Mobile:</strong> +91 77779 32591
+                        </p>
+                        <p class="text-muted mb-0">
+                            <small>Mon - Fri: 9:00 AM - 5:00 PM</small>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card contact-info-card text-center p-4">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h5>Email</h5>
+                        <p class="text-muted mb-2">
+                            <strong>General:</strong><br>
+                            <a href="mailto:placement@college.edu">placement@college.edu</a>
+                        </p>
+                        <p class="text-muted mb-0">
+                            <strong>Students:</strong><br>
+                            <a href="mailto:students@placement.college.edu">students@placement.college.edu</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+           <!-- Contact Form + Map -->
+<div class="row">
+    <!-- LEFT: CONTACT FORM -->
+    <div class="col-lg-6 mb-4">
+      <div class="card h-100">
+        <div class="card-header bg-primary text-white">
+          <h4 class="mb-0 contact-heading text-white">
+            <i class="fas fa-paper-plane me-2"></i>Send us a Message
+          </h4>
+        </div>
+        <div class="card-body">
+          <form method="POST" action="" id="contactForm">
+              {% csrf_token %}
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Your Name <span class="text-danger">*</span></label>
+                <input type="text" name="name" class="form-control" value="{{ form.data.name|default:'' }}"  placeholder="Enter your name" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Email Address <span class="text-danger">*</span></label>
+                <input type="email" name="email" class="form-control" value="{{ form.data.email|default:'' }}"  placeholder="Enter your email" required>
+              </div>
+            </div>
+  
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Phone Number</label>
+                <input type="tel" name="phone" class="form-control" value="{{ form.data.phone|default:'' }}"  placeholder="Enter your phone number">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Subject <span class="text-danger">*</span></label>
+                <select class="form-select" name="subject" required>
+                  <option value="">Select a subject</option>
+                  <option value="Student Query"{% if form.data.subject == "Student Query" %}selected{% endif %}>Student Query</option>
+                  <option value="Company Query"{% if form.data.subject == "Company Query" %}selected{% endif %}>Company Query</option>
+                  <option value="General Inquiry"{% if form.data.subject == "General Inquiry" %}selected{% endif %}>General Inquiry</option>
+                  <option value="Feedback"{% if form.data.subject == "Feedback" %}selected{% endif %}>Feedback</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>
+  
+            <div class="mb-3">
+              <label class="form-label">Message <span class="text-danger">*</span></label>
+              <textarea name="message" class="form-control" rows="5" placeholder="Enter your message" required>{{ form.data.message|default:'' }}</textarea>
+            </div>
+  
+            <div class="mb-3 form-check">
+              <input type="checkbox" name="agree" class="form-check-input" id="agreeContact" required>
+              <label class="form-check-label" for="agreeContact">
+                I agree to share my contact information for communication purposes.
+              </label>
+            </div>
+  
+            <button type="submit" class="btn btn-primary w-100">
+              <i class="fas fa-paper-plane me-2"></i>Send Message
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+  
+    <!-- RIGHT: MAP -->
+    <div class="col-lg-6 mb-4">
+      <div class="card h-100 map-card">
+        <div class="card-header bg-primary text-white map-header">
+            <h4 class="mb-0 text-white">
+              <i class="fas fa-map-marker-alt me-2"></i>Our Location
+            </h4>
+          </div>
+          
+        <div class="card-body p-0">
+          <iframe
+           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3670.378173073736!2d72.4932861109018!3d23.08324821397415!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e9d7f9269e3af%3A0x6f044ed8c2d7e3a0!2sSal%20institute%20of%20technology%20and%20engineering%20research!5e0!3m2!1sen!2sin!4v1777055103449!5m2!1sen!2sin"
+            width="100%"
+            height="100%"
+            style="border:0; min-height: 430px;"
+            allowfullscreen
+            loading="lazy">
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+    
+            <!-- Office Hours -->
+            <div class="row mt-5">
+                <div class="col-lg-8 mx-auto">
+                    <div class="card">
+                        <div class="card-header bg-info text-white">
+                            <h5 class="mb-0"><i class="fas fa-clock me-2"></i>Office Hours</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6>Working Days</h6>
+                                    <p class="mb-2"><strong>Monday - Friday:</strong> 9:00 AM - 5:00 PM</p>
+                                    <p class="mb-0"><strong>Saturday:</strong> 9:00 AM - 1:00 PM</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>Holidays</h6>
+                                    <p class="mb-0">Office remains closed on Sundays and public holidays.</p>
+                                    <p class="mb-0 mt-2"><small class="text-muted">For urgent queries, please email us.</small></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

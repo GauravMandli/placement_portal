@@ -20,44 +20,88 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {% for app in applications %}
                                     <tr>
-                                        <td>Software Engineer</td>
-                                        <td>Tech Corp</td>
-                                        <td>16 Jan 2024</td>
-                                        <td><span class="badge badge-applied"><i class="fas fa-paper-plane"></i> Applied</span></td>
-                                        <td><button class="btn btn-sm btn-outline-primary view-application-details btn-hover-ripple" data-job-title="Software Engineer" data-company="Tech Corp" data-status="Applied">View Details</button></td>
+                                        <td>{{ app.job.job_title }}</td>
+                                        <td>{{ app.job.company.company_name }}</td>
+                                        <td>{{ app.applied_at|date:"d M Y" }}</td>
+                                        <!--status-->
+                                        <td>
+
+                                            {% if app.status == "APPLIED" %}
+                                                <span class="badge badge-applied">
+                                                    <i class="fas fa-paper-plane"></i> Applied
+                                                </span>
+
+                                            {% elif app.status == "UNDER_REVIEW" %}
+                                                <span class="badge badge-pending">
+                                                    <i class="fas fa-clock"></i> Under Review
+                                                </span>
+
+                                              {% elif app.status == "SHORTLISTED" %}
+                                                <span class="badge badge-pending">
+                                                    <i class="fas fa-check"></i> Shortlisted
+                                                </span>
+
+                                            {% elif app.status == "INTERVIEW" %}
+                                                <span class="badge badge-info">
+                                                    <i class="fas fa-user-clock"></i> Interview
+                                                </span>
+                                                
+                                            {% elif app.status == "SELECTED" %}
+                                                <span class="badge badge-selected">
+                                                    <i class="fas fa-check-circle"></i> Selected
+                                                </span>
+
+                                            {% elif app.status == "REJECTED" %}
+                                                <span class="badge badge-rejected">
+                                                    <i class="fas fa-times-circle"></i> Rejected
+                                                </span>
+                                            {% endif %}
+                                          
+                                        </td>                                        
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary view-application-details btn-hover-ripple" 
+                                                data-job-title="{{ app.job.job_title }}"
+                                                data-company="{{ app.job.company.company_name }}"
+                                                data-status="{{ app.status }}">
+                                                View Details
+                                            </button>
+                                        </td>
                                     </tr>
+                                    {% empty %}
                                     <tr>
-                                        <td>Frontend Developer</td>
-                                        <td>Innovate Ltd</td>
-                                        <td>21 Jan 2024</td>
-                                        <td><span class="badge badge-pending"><i class="fas fa-clock"></i> Under Review</span></td>
-                                        <td><button class="btn btn-sm btn-outline-primary view-application-details btn-hover-ripple" data-job-title="Frontend Developer" data-company="Innovate Ltd" data-status="Under Review">View Details</button></td>
+                                        <td colspan="5" class="text-center text-muted">
+                                            No applications yet
+                                        </td>
                                     </tr>
-                                    <tr>
-                                        <td>Backend Developer</td>
-                                        <td>Cloud Solutions</td>
-                                        <td>19 Jan 2024</td>
-                                        <td><span class="badge badge-pending"><i class="fas fa-search"></i> Under Review</span></td>
-                                        <td><button class="btn btn-sm btn-outline-primary view-application-details btn-hover-ripple" data-job-title="Backend Developer" data-company="Cloud Solutions" data-status="Under Review">View Details</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Python Developer</td>
-                                        <td>Data Labs</td>
-                                        <td>22 Jan 2024</td>
-                                        <td><span class="badge badge-selected"><i class="fas fa-check-circle"></i> Selected</span></td>
-                                        <td><button class="btn btn-sm btn-outline-primary view-application-details btn-hover-ripple" data-job-title="Python Developer" data-company="Data Labs" data-status="Selected">View Details</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Full Stack Developer</td>
-                                        <td>Digital Innovations</td>
-                                        <td>18 Jan 2024</td>
-                                        <td><span class="badge badge-rejected"><i class="fas fa-times-circle"></i> Rejected</span></td>
-                                        <td><button class="btn btn-sm btn-outline-primary view-application-details btn-hover-ripple" data-job-title="Full Stack Developer" data-company="Digital Innovations" data-status="Rejected">View Details</button></td>
-                                    </tr>
+                                    {% endfor %}
                                 </tbody>
                             </table>
                         </div>
+                        {% comment %} <div class="d-flex justify-content-center mt-3">
+    <ul class="pagination">
+
+        {% if applications.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ applications.previous_page_number }}">Previous</a>
+            </li>
+        {% endif %}
+
+        <li class="page-item active">
+            <span class="page-link">
+                Page {{ applications.number }} of {{ applications.paginator.num_pages }}
+            </span>
+        </li>
+
+        {% if applications.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ applications.next_page_number }}">Next</a>
+            </li>
+        {% endif %}
+
+    </ul>
+</div> {% endcomment %}
                     </div>
                 </div>
             </div>

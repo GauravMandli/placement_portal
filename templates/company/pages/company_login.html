@@ -75,7 +75,7 @@
                                 <input type="checkbox" class="form-check-input" id="rememberMe">
                                 <label class="form-check-label" for="rememberMe">Remember me</label>
                             </div>
-                            <a href="#" class="text-decoration-none">Forgot Password?</a>
+                            <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#companyForgotPasswordModal">Forgot Password?</a>
                         </div>
                         <button type="submit" class="btn btn-success w-100 mb-3">
                             <i class="fas fa-sign-in-alt me-2"></i>Login
@@ -89,6 +89,8 @@
         </div>
     </div>
 </div>
+
+{% include "models/passmodels.html" %}
 
 
 

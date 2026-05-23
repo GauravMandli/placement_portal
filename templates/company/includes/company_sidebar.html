@@ -32,6 +32,11 @@
                         </a>
                     </li>
                     <li>
+                        <a href="{% url 'companies:interview_shortlisted' %}" class="nav-link-dashboard {% if active_page == 'interview' %}active{% endif %}" >
+                            <i class="fas fa-users"></i>Interview Shortlisted
+                        </a>
+                    </li>
+                    <li>
                         <a href="{% url 'companies:selected_students' %}" class="nav-link-dashboard {% if active_page == 'selected' %}active{% endif %}" >
                           <i class="fas fa-user-check"></i>Selected Students
                         </a>
@@ -52,7 +57,7 @@
             <div class="sidebar-footer">
                 <ul class="sidebar-menu">
                     <li>
-                        <a href="company-login.html"><i class="fas fa-sign-out-alt"></i>Logout</a>
+                        <a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i>Logout</a>
                     </li>
                 </ul>
             </div>

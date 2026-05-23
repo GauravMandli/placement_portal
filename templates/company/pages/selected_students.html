@@ -20,21 +20,25 @@
                     <th>Student Name</th>
                     <th>Email</th>
                     <th>Mobile</th>
+                    <th>Status</th>
                   </tr>
                 </thead>
                 <tbody>
+                  {% for app in applications %}
                   <tr>
-                    <td>Python Developer</td>
-                    <td>Rahul Sharma</td>
-                    <td>rahul@college.edu</td>
-                    <td>+91 98765 43210</td>
+                    <td>{{ app.job.job_title }}</td>
+                    <td>{{ app.student.user.get_full_name }}</td>
+                    <td>{{ app.student.user.email }}</td>
+                    <td>{{ app.student.phone }}</td>
+                    <td>
+                      {% if app.status == "SELECTED" %}
+                        <span class="badge badge-success">
+                            <i class="fas fa-trophy me-1"></i> Selected
+                        </span>
+                      {% endif %}    
+                    </td>
                   </tr>
-                  <tr>
-                    <td>Frontend Developer</td>
-                    <td>Neha Patel</td>
-                    <td>neha@college.edu</td>
-                    <td>+91 91234 56789</td>
-                  </tr>
+                  {% endfor %}
                 </tbody>
               </table>
             </div>

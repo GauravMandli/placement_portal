@@ -1,0 +1,58 @@
+{% extends "student/student_base.html" %}
+ {% load static %}
+ {% block content %}
+
+
+      <div class="container-fluid py-4">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="mb-0"><i class="fas fa-history me-2"></i>Old Requirements (Closed)</h5>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover align-middle">
+                <thead>
+                  <tr>
+                    <th>Job Title</th>
+                    <th>Company Name</th>
+                    <th>Job Type</th>
+                    <th>Posted Date</th>
+                    <th>Last Date
+                    <th>Vacancies</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                   {% for job in expired_jobs %}
+                  <tr>
+                    <td>{{ job.job_title }}</td>
+                    <td>{{ job.company.company_name }}</td>
+                    <td>{{ job.job_type }}</td>
+                    <td>{{ job.created_at|date:"d M Y" }}</td>
+                    <td>{{ job.last_date|date:"d M Y" }}</td>
+                    <td>{{ job.vacancies }}</td>
+
+                    <td><span class="badge bg-danger">{{ job.dynamic_status}}</span></td>
+                    <td>
+                      <button class="btn btn-sm btn-outline-primary flex-grow-1 view-company-details btn-hover-ripple" data-slug="{{ job.company.slug }}">View Company Details</button>
+                      <button class="btn btn-sm btn-outline-dark flex-fill-2 view-job-details btn-hover-ripple" data-id="{{ job.id }}">View Job Details</button>
+                    </td>
+                  </tr>
+                  {% empty %}
+                  <tr>
+                    <td colspan="8" class="text-center text-muted">
+                      No closed jobs available
+                    </td>
+                    <tr>
+                      {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+{% endblock content %}

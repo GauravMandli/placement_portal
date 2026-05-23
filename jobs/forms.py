@@ -1,4 +1,5 @@
 from django import forms
+from django.utils import timezone
 from .models import JobRequirement
 
 
@@ -17,6 +18,7 @@ class JobRequirementForm(forms.ModelForm):
             "vacancies",
             "location",
             "selection_process",
+            "start_date",
             "last_date",
             "job_pdf",
         ]
@@ -31,6 +33,7 @@ class JobRequirementForm(forms.ModelForm):
             "vacancies": "Number of Vacancies",
             "location": "Job Location",
             "selection_process": "Selection Process",
+            "start_date": "Application Start",
             "last_date": "Application Deadline",
             "job_pdf": "Upload Job Description PDF",
         }
@@ -84,6 +87,11 @@ class JobRequirementForm(forms.ModelForm):
                 "rows": 3
             }),
 
+            "start_date": forms.DateInput(attrs={
+                "class": "form-control",
+                "type": "date"
+            }),
+
             "last_date": forms.DateInput(attrs={
                 "class": "form-control",
                 "type": "date"
@@ -93,3 +101,27 @@ class JobRequirementForm(forms.ModelForm):
                 "class": "form-control"
             }),
         }
+
+    #✅ optional banavvu
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["start_date"].required = False
+
+    def clean_start_date(self):   # ✅ correct
+        start_date = self.cleaned_data.get("start_date")
+
+        if not start_date:
+            return timezone.now().date()
+
+        return start_date
+
+    # ✅ validation
+    def clean(self):
+        cleaned_data = super().clean()
+        start = cleaned_data.get("start_date")
+        last = cleaned_data.get("last_date")
+
+        if start and last and start > last:
+            raise forms.ValidationError("Start date cannot be after last date")
+
+        return cleaned_data

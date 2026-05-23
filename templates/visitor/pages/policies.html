@@ -1,0 +1,124 @@
+{% extends "visitor/visitor_base.html" %}
+{% load static %}
+{% block content %}
+
+
+
+    <!-- Page Header -->
+    <section class="bg-primary text-white py-5">
+        <div class="container">
+            <h1 class="mb-0">Placement Policies</h1>
+            <p class="mb-0 mt-2">Guidelines and procedures for the placement process</p>
+        </div>
+    </section>
+
+    <!-- Policies Content -->
+<section class="py-5 mb-5">
+            <div class="container">
+            <div class="row">
+                <div class="col-lg-10 mx-auto">
+                    <!-- Eligibility Criteria -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h4 class="mb-0 policy-heading" ><i class="fas fa-check-circle me-2"></i>Eligibility Criteria</h4>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-unstyled">
+                                <li class="mb-3"><i class="fas fa-check text-success me-2"></i><strong>Academic Performance:</strong> Students must maintain a minimum CGPA of 6.0 (or equivalent percentage) or as per company criteria throughout their academic program.</li>
+                                
+                                <li class="mb-3"><i class="fas fa-check text-success me-2"></i><strong>Backlogs:</strong> Students with more than 2 active backlogs are not eligible for placement activities.</li>
+                                <li class="mb-3"><i class="fas fa-check text-success me-2"></i><strong>Attendance:</strong> Minimum 75% attendance is mandatory in all subjects.</li>
+                                <li class="mb-3"><i class="fas fa-check text-success me-2"></i><strong>Disciplinary Record:</strong> Students must have a clean disciplinary record with no pending disciplinary actions.</li>
+                                <li class="mb-3"><i class="fas fa-check text-success me-2"></i><strong>Documentation:</strong> All required documents including resume, academic transcripts, and certificates must be submitted on time.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Registration Process -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-success text-white">
+                            <h4 class="mb-0"><i class="fas fa-user-plus me-2"></i>Registration Process</h4>
+                        </div>
+                        <div class="card-body">
+                            <ol>
+                                <li class="mb-3"><strong>Online Registration:</strong> Students must register on the placement portal with accurate personal and academic information.</li>
+                                <li class="mb-3"><strong>Document Verification:</strong> Submit all required documents for verification by the placement cell.</li>
+                                <li class="mb-3"><strong>Profile Completion:</strong> Complete your profile including skills, projects, internships, and achievements.</li>
+                                <li class="mb-3"><strong>Resume Upload:</strong> Upload a well-formatted resume following the placement cell's template guidelines.</li>
+                                <li class="mb-3"><strong>Approval:</strong> Wait for approval from the placement cell before applying to companies.</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <!-- Application Guidelines -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-info text-white">
+                            <h4 class="mb-0"><i class="fas fa-file-alt me-2"></i>Application Guidelines</h4>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-unstyled">
+                                <li class="mb-3"><i class="fas fa-info-circle text-info me-2"></i>Students can apply to multiple companies but must follow the application deadlines strictly.</li>
+                                <li class="mb-3"><i class="fas fa-info-circle text-info me-2"></i>Once shortlisted, students must attend all selection rounds (aptitude test, technical interview, HR interview) as scheduled.</li>
+                                <li class="mb-3"><i class="fas fa-info-circle text-info me-2"></i>Withdrawal from the selection process after accepting an offer is not permitted without valid reasons and prior approval.</li>
+                                <li class="mb-3"><i class="fas fa-info-circle text-info me-2"></i>Students must maintain professional conduct throughout the placement process.</li>
+                                <li class="mb-3"><i class="fas fa-info-circle text-info me-2"></i>Any misrepresentation of information will lead to disqualification from the placement process.</li>
+                                <li class="mb-3"><i class="fas fa-info-circle text-info me-2"></i>Submission of false or misleading information will result in immediate disqualification from the placement process.</li>
+
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Offer Acceptance Policy -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-warning text-dark">
+                            <h4 class="mb-0"><i class="fas fa-handshake me-2"></i>Offer Acceptance Policy</h4>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-unstyled">
+                                <li class="mb-3"><i class="fas fa-exclamation-triangle text-warning me-2"></i>Students receiving job offers must respond within the specified deadline (typically 48-72 hours).</li>
+                                <li class="mb-3"><i class="fas fa-exclamation-triangle text-warning me-2"></i>Accepting an offer is a binding commitment. Students cannot participate in further placement activities after accepting an offer.</li>
+                                <li class="mb-3"><i class="fas fa-exclamation-triangle text-warning me-2"></i>If a student receives multiple offers, they must choose one and inform the placement cell immediately.</li>
+                                <li class="mb-3"><i class="fas fa-exclamation-triangle text-warning me-2"></i>Rejection of an offer after acceptance may result in disciplinary action and barring from further placement activities.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Dress Code & Conduct -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-secondary text-white">
+                            <h4 class="mb-0"><i class="fas fa-tshirt me-2"></i>Dress Code & Conduct</h4>
+                        </div>
+                        <div class="card-body">
+                            <h6 class="mb-3">Dress Code:</h6>
+                            <ul class="list-unstyled mb-4">
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Formal attire is mandatory for all placement activities (interviews, group discussions, etc.)</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Men: Formal shirt, trousers, tie, and formal shoes</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Women: Formal shirt/blouse with formal trousers/skirt or saree/salwar kameez</li>
+                            </ul>
+                            <h6 class="mb-3">Code of Conduct:</h6>
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Maintain punctuality for all placement activities</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Respect company representatives and placement cell coordinators</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>No use of mobile phones during interviews or tests</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Maintain confidentiality of placement-related information</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Important Notes -->
+                    <div class="alert alert-info no-fade mt-5 mb-5">
+                        <h5><i class="fas fa-lightbulb me-2"></i>Important Notes</h5>
+                        <ul class="mb-0">
+                            <li>All placement-related communications will be sent through the official placement portal and registered email.</li>
+                            <li>Students must regularly check the portal for updates and announcements.</li>
+                            <li>The placement cell reserves the right to modify these policies as per institutional requirements.</li>
+                            <li>Submission of fake documents or incorrect information will lead to strict disciplinary action.</li>
+                            <li>For any queries or clarifications, contact the placement cell office during working hours.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock content %}

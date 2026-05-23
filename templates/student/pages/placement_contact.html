@@ -1,6 +1,32 @@
 {% extends "student/student_base.html" %}
 {% load static %}
 {% block content %}
+
+
+<!-- Toast Container -->
+<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+
+  {% for message in messages %}
+    <div class="toast align-items-center text-white 
+      {% if message.tags == 'success' %}bg-success
+      {% elif message.tags == 'error' %}bg-danger
+      {% elif message.tags == 'warning' %}bg-warning text-dark
+      {% else %}bg-info
+      {% endif %}
+      border-0 show mb-2" role="alert">
+
+      <div class="d-flex">
+        <div class="toast-body">
+          {{ message }}
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto"
+                data-bs-dismiss="toast"></button>
+      </div>
+    </div>
+  {% endfor %}
+
+</div>
+
   <!-- ========== PLACEMENT CELL CONTACT PAGE ========== -->
 <div id="page-placement-contact" class="dashboard-page">
     <div class="card mb-4">
@@ -66,35 +92,35 @@
                 </h5>
               </div>
               <div class="card-body">
-                <form id="placementContactForm">
-  
+                <form method="POST" action="{% url 'placement_contact' %}">
+                  {% csrf_token %}
                   <div class="row">
                     <div class="col-md-6 mb-3">
                       <label class="form-label">
                         Your Name <span class="text-danger">*</span>
                       </label>
-                      <input type="text" class="form-control" placeholder="Enter your name" required>
+                      <input type="text" name="name" class="form-control" value="{{ user.get_full_name }}" placeholder="Enter your name" required>
                     </div>
   
                     <div class="col-md-6 mb-3">
                       <label class="form-label">
                         Email Address <span class="text-danger">*</span>
                       </label>
-                      <input type="email" class="form-control" placeholder="Enter your email" required>
+                      <input type="email" name="email" class="form-control" value="{{ user.email }}" placeholder="Enter your email" required>
                     </div>
                   </div>
   
                   <div class="row">
                     <div class="col-md-6 mb-3">
                       <label class="form-label">Phone Number</label>
-                      <input type="tel" class="form-control" placeholder="Enter your phone number">
+                      <input type="tel" name="phone" class="form-control" value="{{ profile.phone }}" placeholder="Enter your phone number">
                     </div>
   
                     <div class="col-md-6 mb-3">
                       <label class="form-label">
                         Subject <span class="text-danger">*</span>
                       </label>
-                      <select class="form-select" required>
+                      <select name="subject" class="form-select" required>
                         <option value="">Select subject</option>
                         <option>Placement Query</option>
                         <option>Interview Issue</option>
@@ -108,13 +134,20 @@
                     <label class="form-label">
                       Message <span class="text-danger">*</span>
                     </label>
-                    <textarea class="form-control" rows="4"
+                    <textarea name="message" class="form-control" rows="4"
                       placeholder="Write your message..." required></textarea>
                   </div>
-  
+
+                  <div class="mb-3 form-check">
+                    <input type="checkbox" name="agree" class="form-check-input" id="agreeContact" required>
+                    <label class="form-check-label" for="agreeContact">
+                      I agree to share my contact information for communication purposes.
+                    </label>
+                  </div>
+                     
                   <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-paper-plane me-2"></i>Send Message
-                  </button>
+                          <i class="fas fa-paper-plane me-2"></i>Send Message
+                        </button>
   
                 </form>
               </div>

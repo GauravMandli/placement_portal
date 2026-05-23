@@ -9,66 +9,39 @@
           <i class="fas fa-calendar-check me-2"></i>Shortlisted Companies
         </h5>
       </div>
-      <div class="card-body">
-        <p class="text-muted mb-4">
-          Companies where you are shortlisted for interviews.
-        </p>
-  
+      <div class="card-body">  
         <div class="table-responsive">
           <table class="table table-hover align-middle">
             <thead>
               <tr>
                 <th>Company Name</th>
                 <th>Job Requirement</th>
-                <th>Interview Date & Time</th>
-                <th>Interview Mode</th>
+                <th>Eligibility</th>
+                <th>Required Skills</th>
+                
                 <th>Status</th>
               </tr>
             </thead>
             <tbody>
+              {% for app in applications %}
               <tr>
-                <td>Innovate Ltd</td>
-                <td>Frontend Developer</td>
-                <td>28 Jan 2024, 10:00 AM</td>
-                <td>
-                  <span class="badge badge-info">
-                    <i class="fas fa-video me-1"></i>Online
-                  </span>
-                </td>
+                <td>{{ app.job.company.company_name }}</td>
+                <td>{{ app.job.job_title }}</td>
+                <td>{{ app.job.eligibility }}</td>
+                <td>{{ app.job.skills }}</td>
                 <td>
                   <span class="badge badge-pending">
-                    <i class="fas fa-clock me-1"></i>Interview Scheduled
+                    <i class="fas fa-check"></i>Shortlisted
                   </span>
                 </td>
               </tr>
-  
+              {% empty %} 
               <tr>
-                <td>Tech Corp</td>
-                <td>Software Engineer</td>
-                <td>30 Jan 2024, 11:30 AM</td>
-                <td>
-                  <span class="badge badge-primary">
-                    <i class="fas fa-building me-1"></i>Offline
-                  </span>
-                </td>
-                <td>
-                  <span class="badge badge-applied">
-                    <i class="fas fa-check me-1"></i>Shortlisted
-                  </span>
-                </td>
+                  <td colspan="4" class="text-center text-muted">
+                      No shortlisted companies yet.
+                  </td>
               </tr>
-  
-              <tr>
-                <td>Data Labs</td>
-                <td>Python Developer</td>
-                <td>—</td>
-                <td>—</td>
-                <td>
-                  <span class="badge badge-selected">
-                    <i class="fas fa-check-circle me-1"></i>Selected
-                  </span>
-                </td>
-              </tr>
+            {% endfor %}
             </tbody>
           </table>
         </div>

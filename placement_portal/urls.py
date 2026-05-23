@@ -19,9 +19,19 @@ from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.conf.urls import handler404, handler500
+from placement_portal import views
+
 
 
 urlpatterns = [
+
+    path('', views.home, name='home'),  # 👈 MAIN PAGE
+
+    path('policies/', views.policies, name='policies'),
+    path('team/', views.team, name='team'),
+    path('contact/', views.contact_view, name='contact'),
+
+
     path('admin/', admin.site.urls),
     path('students/',include('students.urls')),
     path('company/',include('companies.urls')),

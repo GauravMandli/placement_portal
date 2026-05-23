@@ -9,8 +9,8 @@
             <div class="auth-card">
                 <div class="auth-header">
                     <i class="fas fa-user-shield fa-3x mb-3"></i>
-                    <h3>Admin Login</h3>
-                    <p class="mb-0">Administrative access only</p>
+                    <h3>Placement Cell Login</h3>
+                    <p class="mb-0">Placement Cell access only</p>
                 </div>
                 <div class="card-body p-4">
                     <div class="admin-note">
@@ -78,15 +78,53 @@
 
     </div>
 </div>
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="rememberMe">
-                            <label class="form-check-label" for="rememberMe">Remember me</label>
+                        <div class="auth-form-field d-flex justify-content-between align-items-center">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="rememberMe">
+                                <label class="form-check-label" for="rememberMe">Remember me</label>
+                            </div>
+                            <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#pcForgotPasswordModal">Forgot Password?</a>
                         </div>
                         <button type="submit" class="btn btn-warning w-100 mb-3">
                             <i class="fas fa-sign-in-alt me-2"></i>Login as Admin
                         </button>
                         <div class="text-center">
                             <a href="contact.html" class="text-decoration-none">Need admin access? Contact us</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="pcForgotPasswordModal" tabindex="-1" aria-labelledby="pcForgotPasswordModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="pcForgotPasswordModalLabel">
+                        <i class="fas fa-key me-2"></i>Reset Placement Cell Password
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted small mb-3">Enter placement cell username to continue.</p>
+                    <form id="pcForgotPasswordAlternativeForm">
+                        <div class="mb-3">
+                            <label for="pcRecoveryUsername" class="form-label">Placement Cell Username</label>
+                            <input type="text" class="form-control" id="pcRecoveryUsername" placeholder="Enter username" required>
+                        </div>
+                        <button type="button" class="btn btn-warning w-100 mb-3" id="pcVerifyDetailsBtn">Verify Username</button>
+
+                        <div id="pcAlternativePasswordFields" class="d-none">
+                            <div class="mb-3">
+                                <label for="pcNewPasswordAlt" class="form-label">New Password</label>
+                                <input type="password" class="form-control" id="pcNewPasswordAlt" placeholder="Enter new password" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="pcConfirmPasswordAlt" class="form-label">Confirm Password</label>
+                                <input type="password" class="form-control" id="pcConfirmPasswordAlt" placeholder="Confirm new password" required>
+                            </div>
+                            <button type="submit" class="btn btn-warning w-100">Change Password</button>
                         </div>
                     </form>
                 </div>

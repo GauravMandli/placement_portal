@@ -675,20 +675,6 @@ function renderAppliedStudents(jobId, jobTitle) {
 //     });
 // });
 
-document.querySelectorAll('.view-applied-students').forEach(function (btn) {
-    btn.addEventListener('click', function (e) {
-        e.preventDefault();
-        const jobId = this.getAttribute('data-job-id');
-        const jobTitle = this.getAttribute('data-job-title') || 'Job Title';
-
-        appliedState.jobId = jobId;
-        appliedState.jobTitle = jobTitle;
-
-        renderAppliedStudents(jobId, jobTitle);
-        showPage('page-applied-students', { jobTitle: jobTitle });
-    });
-});
-
 if (interviewModeEl) {
     interviewModeEl.addEventListener('change', function () {
         toggleInterviewMode(this.value);
@@ -772,32 +758,6 @@ if (confirmScheduleBtn) {
 }
 
 document.addEventListener('click', function (e) {
-    const viewBtn = e.target.closest('.action-view-profile');
-    if (viewBtn) {
-        const name = viewBtn.getAttribute('data-student-name') || '—';
-        const cgpa = viewBtn.getAttribute('data-student-cgpa') || '—';
-        const branch = viewBtn.getAttribute('data-student-branch') || '—';
-        const skills = viewBtn.getAttribute('data-student-skills') || '—';
-        const email = viewBtn.getAttribute('data-student-email') || '—';
-        const phone = viewBtn.getAttribute('data-student-phone') || '—';
-        const resume = viewBtn.getAttribute('data-student-resume') || '#';
-
-        document.getElementById('profileStudentName').textContent = name;
-        document.getElementById('profileStudentEmail').textContent = email;
-        document.getElementById('profileStudentPhone').textContent = phone;
-        document.getElementById('profileStudentCgpa').textContent = cgpa;
-        document.getElementById('profileStudentBranch').textContent = branch;
-        document.getElementById('profileStudentSkills').textContent = skills;
-        const resumeLink = document.getElementById('profileStudentResumeLink');
-        resumeLink.href = resume;
-
-        if (window.bootstrap) {
-            const modal = new bootstrap.Modal(document.getElementById('studentProfileModal'));
-            modal.show();
-        }
-        return;
-    }
-
     const selectBtn = e.target.closest('.action-select-interview');
     if (selectBtn) {
         const studentId = selectBtn.getAttribute('data-student-id');
@@ -915,35 +875,38 @@ function addNewFileInput(input){
     if(input.files.length > 0){
 
         const list = document.getElementById("pdfFileList");
+        if (!list) return;
 
-        const row = document.createElement("div");
+        Array.from(input.files).forEach((file) => {
+            const row = document.createElement("div");
 
-        row.style.display = "flex";
-        row.style.alignItems = "center";
-        row.style.marginBottom = "5px";
+            row.style.display = "flex";
+            row.style.alignItems = "center";
+            row.style.marginBottom = "5px";
 
-        const name = document.createElement("span");
-        name.innerHTML = "📄 " + input.files[0].name;
-        name.style.background = "#f3f4f6";
-        name.style.padding = "5px 10px";
-        name.style.borderRadius = "5px";
+            const name = document.createElement("span");
+            name.innerHTML = "📄 " + file.name;
+            name.style.background = "#f3f4f6";
+            name.style.padding = "5px 10px";
+            name.style.borderRadius = "5px";
 
-        const remove = document.createElement("button");
-        remove.innerHTML = "❌";
-        remove.type = "button";
-        remove.style.marginLeft = "8px";
-        remove.style.border = "none";
-        remove.style.background = "transparent";
-        remove.style.cursor = "pointer";
+            const remove = document.createElement("button");
+            remove.innerHTML = "❌";
+            remove.type = "button";
+            remove.style.marginLeft = "8px";
+            remove.style.border = "none";
+            remove.style.background = "transparent";
+            remove.style.cursor = "pointer";
 
-        remove.onclick = function(){
-            row.remove();
-        };
+            remove.onclick = function(){
+                row.remove();
+            };
 
-        row.appendChild(name);
-        row.appendChild(remove);
+            row.appendChild(name);
+            row.appendChild(remove);
 
-        list.appendChild(row);
+            list.appendChild(row);
+        });
     }
 }
 

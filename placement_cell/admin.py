@@ -1,6 +1,10 @@
 from django.contrib import admin
-
+from .models import ContactMessage
 # Register your models here.
-from .models import JobApplication, ShortlistedStudent
-admin.site.register(JobApplication)
-admin.site.register(ShortlistedStudent)
+
+@admin.register(ContactMessage)
+class ContactMessageAdmin(admin.ModelAdmin):
+    list_display = ("name", "email", "role", "subject", "created_at")
+    list_filter = ("role", "created_at")
+    search_fields = ("name", "email", "subject", "message")
+    ordering = ("-created_at",)

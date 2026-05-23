@@ -16,7 +16,7 @@
         <ul class="nav nav-tabs admin-contact-tabs mb-4" role="tablist">
           <li class="nav-item">
             <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#contact-admin">
-              <i class="fas fa-user-shield me-1"></i> Admin
+              <i class="fas fa-user-shield me-1"></i> Company
             </button>
           </li>
           <li class="nav-item">
@@ -40,19 +40,40 @@
               <table class="table table-hover align-middle">
                 <thead>
                   <tr>
-                    <th>Name</th>
+                    <th>Company Name</th>
+                    <th>Contact Person Name</th>
                     <th>Email</th>
                     <th>Mobile</th>
+                    <th>Subject</th>
                     <th>Message</th>
+                    <th>Date</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Placement Officer</td>
-                    <td>admin@college.edu</td>
-                    <td>+91 98765 11111</td>
-                    <td>Regarding placement policy clarification.</td>
-                  </tr>
+                  {% for c in companies %}
+  <tr>
+    <td>
+  {% if c.company %}
+    {{ c.company.company_name }}
+  {% else %}
+    -
+  {% endif %}
+</td>
+
+
+    <td>{{ c.name }}</td>
+    <td>{{ c.email }}</td>
+    <td>{{ c.phone }}</td>
+    <td>{{ c.subject }}</td>
+    <td>{{ c.message }}</td>
+    <td>{{ c.created_at|date:"d M Y H:i" }}</td>
+
+  </tr>
+  {% empty %}
+  <tr>
+    <td colspan="6" class="text-center text-muted">No company messages</td>
+  </tr>
+  {% endfor %}
                 </tbody>
               </table>
             </div>
@@ -66,17 +87,26 @@
                   <tr>
                     <th>Name</th>
                     <th>Email</th>
-                    <th>Enrollment No</th>
+                    <th>Mobile</th>
+                    <th>Subject</th>
                     <th>Message</th>
-                  </tr>
+                    <th>Date</th>
+                    <tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td>Rahul Sharma</td>
-                    <td>rahul@college.edu</td>
-                    <td>CS2021-045</td>
-                    <td>Interview date related query.</td>
-                  </tr>
+             {% for c in students %}
+<tr>
+    <td>{{ c.name }}</td>
+    <td>{{ c.email }}</td>
+    <td>{{ c.phone }}</td>
+    <td>{{ c.subject }}</td>
+    <td>{{ c.message }}</td>
+    <td>{{ c.created_at|date:"d M Y H:i" }}</td>
+</tr>
+{% empty %}
+<tr>
+    <td colspan="6" class="text-center text-muted">No student messages</td>
+</tr>
+{% endfor %}
                 </tbody>
               </table>
             </div>
@@ -90,18 +120,29 @@
                   <tr>
                     <th>Name</th>
                     <th>Email</th>
-                    <th>Phone</th>
+                    <th>Mobile</th>
+                    <th>Subject</th>
                     <th>Message</th>
+                    <th>Date</th>
+                  </tr>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td>ABC HR</td>
-                    <td>hr@company.com</td>
-                    <td>+91 91234 56789</td>
-                    <td>Interested in campus recruitment.</td>
-                  </tr>
-                </tbody>
+              <tbody>
+{% for c in visitors %}
+<tr>
+    <td>{{ c.name }}</td>
+    <td>{{ c.email }}</td>
+    <td>{{ c.phone }}</td>
+    <td>{{ c.subject }}</td>
+    <td>{{ c.message }}</td>
+    <td>{{ c.created_at|date:"d M Y H:i" }}</td>
+</tr>
+{% empty %}
+<tr>
+    <td colspan="6" class="text-center text-muted">No visitor messages</td>
+</tr>
+{% endfor %}
+</tbody>
               </table>
             </div>
           </div>

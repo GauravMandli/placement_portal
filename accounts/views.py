@@ -8,6 +8,13 @@ from django.contrib.auth.decorators import login_required
 from accounts.models import User
 
 
+from datetime import datetime
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
+from students.models import StudentProfile
+import json
 
 # Create your views here.
 
@@ -54,6 +61,142 @@ def student_login(request):
 
     return render(request, "student/pages/student_login.html")
 
+#===================================
+#student forgot password 
+#==================================
+@require_POST
+def student_forgot_password(request):
+    try:
+        data = json.loads(request.body or "{}")
+
+        enroll_no = (data.get("enroll_no") or "").strip()
+        dob = data.get("dob")
+        new_password = data.get("new_password")
+        confirm_password = data.get("confirm_password")
+
+        if not enroll_no or not dob:
+            return JsonResponse({"success": False, "message": "Enrollment number and date of birth are required."}, status=400)
+
+        try:
+            dob_parsed = datetime.strptime(dob, "%Y-%m-%d").date()
+        except ValueError:
+            return JsonResponse({"success": False, "message": "Invalid date format."}, status=400)
+
+        student = StudentProfile.objects.filter(
+            enroll_number=enroll_no,
+            dob=dob_parsed
+        ).select_related("user").first()
+
+        if not student:
+            return JsonResponse({"success": False, "message": "Invalid enrollment number or date of birth."}, status=404)
+
+        if not new_password and not confirm_password:
+            return JsonResponse({"success": True, "verified": True, "message": "Details verified."})
+
+        if not new_password or not confirm_password:
+            return JsonResponse({"success": False, "message": "Both new password and confirm password are required."}, status=400)
+
+        if new_password != confirm_password:
+            return JsonResponse({"success": False, "message": "Passwords do not match."}, status=400)
+
+        try:
+            validate_password(new_password, user=student.user)
+        except ValidationError as err:
+            return JsonResponse({"success": False, "message": err.messages[0]}, status=400)
+
+        student.user.set_password(new_password)
+        student.user.save()
+
+        return JsonResponse({"success": True, "message": "Password changed successfully."})
+
+    except Exception as e:
+        print("ERROR:", e)
+        return JsonResponse({"success": False, "message": "Server error."}, status=500)
+
+
+@require_POST
+def company_forgot_password(request):
+    try:
+        data = json.loads(request.body or "{}")
+
+        company_email = (data.get("company_email") or "").strip().lower()
+        contact_person_email = (data.get("contact_person_email") or "").strip().lower()
+        new_password = data.get("new_password")
+        confirm_password = data.get("confirm_password")
+
+        if not company_email or not contact_person_email:
+            return JsonResponse({"success": False, "message": "Company email and contact person email are required."}, status=400)
+
+        company = CompanyProfile.objects.select_related("user").filter(
+            company_email__iexact=company_email,
+            cp_email__iexact=contact_person_email
+        ).first()
+
+        if not company:
+            return JsonResponse({"success": False, "message": "Invalid company details."}, status=404)
+
+        if not new_password and not confirm_password:
+            return JsonResponse({"success": True, "verified": True, "message": "Details verified."})
+
+        if not new_password or not confirm_password:
+            return JsonResponse({"success": False, "message": "Both new password and confirm password are required."}, status=400)
+
+        if new_password != confirm_password:
+            return JsonResponse({"success": False, "message": "Passwords do not match."}, status=400)
+
+        try:
+            validate_password(new_password, user=company.user)
+        except ValidationError as err:
+            return JsonResponse({"success": False, "message": err.messages[0]}, status=400)
+
+        company.user.set_password(new_password)
+        company.user.save()
+
+        return JsonResponse({"success": True, "message": "Password changed successfully."})
+
+    except Exception as e:
+        print("ERROR:", e)
+        return JsonResponse({"success": False, "message": "Server error."}, status=500)
+
+
+@require_POST
+def pc_forgot_password(request):
+    try:
+        data = json.loads(request.body or "{}")
+
+        username = (data.get("username") or "").strip()
+        new_password = data.get("new_password")
+        confirm_password = data.get("confirm_password")
+
+        if not username:
+            return JsonResponse({"success": False, "message": "Placement cell username is required."}, status=400)
+
+        user = User.objects.filter(username__iexact=username, role="placement_cell").first()
+        if not user:
+            return JsonResponse({"success": False, "message": "Invalid placement cell username."}, status=404)
+
+        if not new_password and not confirm_password:
+            return JsonResponse({"success": True, "verified": True, "message": "Username verified."})
+
+        if not new_password or not confirm_password:
+            return JsonResponse({"success": False, "message": "Both new password and confirm password are required."}, status=400)
+
+        if new_password != confirm_password:
+            return JsonResponse({"success": False, "message": "Passwords do not match."}, status=400)
+
+        try:
+            validate_password(new_password, user=user)
+        except ValidationError as err:
+            return JsonResponse({"success": False, "message": err.messages[0]}, status=400)
+
+        user.set_password(new_password)
+        user.save()
+
+        return JsonResponse({"success": True, "message": "Password changed successfully."})
+
+    except Exception as e:
+        print("ERROR:", e)
+        return JsonResponse({"success": False, "message": "Server error."}, status=500)
 
 # ==================================
 # COMPANY LOGIN
@@ -156,9 +299,16 @@ def pc_login(request):
 # LOGOUT
 # ==================================
 def logout_view(request):
+    user_role = getattr(request.user, "role", None) if request.user.is_authenticated else None
     logout(request)
     messages.success(request, "Logged out successfully.")
-    return redirect("student_login")
+    if user_role == "student":
+        return redirect("student_login")
+    if user_role == "company":
+        return redirect("company_login")
+    if user_role == "placement_cell":
+        return redirect("pc_login")
+    return redirect("home")
 
 
 
